@@ -1,0 +1,13 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Outer Circle -->
+    <circle cx="100" cy="100" r="90" fill="#FFD700" stroke="#E6A700" stroke-width="10"/>
+
+    <!-- Inner Circle -->
+    <circle cx="100" cy="100" r="70" fill="#FFA500"/>
+
+    <!-- "C" Symbol -->
+    <path d="M 120,60 A 40,40 0 1 0 120,140" fill="none" stroke="#F5C242" stroke-width="15"/>
+
+    <!-- Vertical Line for "C" -->
+    <rect x="90" y="50" width="15" height="100" fill="#F5C242"/>
+</svg>

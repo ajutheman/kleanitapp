@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+    <!-- Device with no signal -->
+    <rect x="60" y="90" width="80" height="110" rx="10" fill="#f0f0f0" stroke="#888888" stroke-width="2"/>
+    <rect x="65" y="100" width="70" height="85" rx="2" fill="#e0e0e0"/>
+    <circle cx="100" cy="195" r="5" fill="#888888"/>
+
+    <!-- Wi-Fi icon with cross -->
+    <g transform="translate(85, 50)">
+        <!-- Wi-Fi arcs -->
+        <path d="M0,40 C15,25 15,25 30,40" stroke="#bbbbbb" stroke-width="4" fill="none"/>
+        <path d="M5,30 C15,20 15,20 25,30" stroke="#bbbbbb" stroke-width="4" fill="none"/>
+        <path d="M10,20 C15,15 15,15 20,20" stroke="#bbbbbb" stroke-width="4" fill="none"/>
+
+        <!-- Red cross over Wi-Fi -->
+        <line x1="5" y1="5" x2="25" y2="45" stroke="#ff4444" stroke-width="4"/>
+        <line x1="25" y1="5" x2="5" y2="45" stroke="#ff4444" stroke-width="4"/>
+    </g>
+
+    <!-- Cloud -->
+    <path d="M55,40 C45,30 45,15 60,15 C75,5 95,5 105,20 C125,5 145,15 145,40 C145,40 145,40 145,40 C155,45 155,65 145,70 C145,70 55,70 55,70 C45,65 45,45 55,40" fill="#d0d0d0" stroke="#888888" stroke-width="2"/>
+
+    <!-- Sad face -->
+    <circle cx="100" cy="140" r="18" fill="#ff9966"/>
+    <circle cx="93" cy="135" r="2" fill="#444444"/>
+    <circle cx="107" cy="135" r="2" fill="#444444"/>
+    <path d="M92,150 C96,146 104,146 108,150" stroke="#444444" stroke-width="2" fill="none"/>
+</svg>
