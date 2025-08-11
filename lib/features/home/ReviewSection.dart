@@ -115,11 +115,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:kleanit/features/categories/modle/review_model.dart';
+import 'package:kleanitapp/features/categories/modle/review_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../categories/bloc/review/review_bloc.dart';
-import '../categories/respository/review_repository.dart';
 
 class ReviewSection extends StatefulWidget {
   final int secondCatId;
@@ -133,9 +132,7 @@ class ReviewSection extends StatefulWidget {
 class _ReviewSectionState extends State<ReviewSection> {
   @override
   void initState() {
-    context
-        .read<ReviewBloc>()
-        .add(LoadReviews(secondCatId: widget.secondCatId));
+    context.read<ReviewBloc>().add(LoadReviews(secondCatId: widget.secondCatId));
     super.initState();
   }
 
@@ -151,27 +148,14 @@ class _ReviewSectionState extends State<ReviewSection> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  'Customer Reviews',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 8), child: Text('Customer Reviews', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
               ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(16),
                 itemCount: reviews.length,
-                separatorBuilder: (context, index) => Divider(
-                  color: Colors.grey[200],
-                  height: 32,
-                ),
-                itemBuilder: (context, index) =>
-                    ReviewCard(review: reviews[index]),
+                separatorBuilder: (context, index) => Divider(color: Colors.grey[200], height: 32),
+                itemBuilder: (context, index) => ReviewCard(review: reviews[index]),
               ),
             ],
           );
@@ -196,51 +180,19 @@ class ReviewCard extends StatelessWidget {
       children: [
         Row(
           children: [
-            CircleAvatar(
-              backgroundColor: Colors.grey[200],
-              child: Text(
-                review.customer.name[0],
-                style: const TextStyle(
-                  color: Colors.black87,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            CircleAvatar(backgroundColor: Colors.grey[200], child: Text(review.customer.name[0], style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.bold))),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    review.customer.name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                    ),
-                  ),
+                  Text(review.customer.name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      ...List.generate(
-                        5,
-                        (index) => Icon(
-                          Icons.star,
-                          size: 16,
-                          color: index < review.rating
-                              ? Colors.amber
-                              : Colors.grey[300],
-                        ),
-                      ),
+                      ...List.generate(5, (index) => Icon(Icons.star, size: 16, color: index < review.rating ? Colors.amber : Colors.grey[300])),
                       const SizedBox(width: 8),
-                      Text(
-                        formatDateTimeHumanReadable(
-                            DateTime.tryParse(review.createdAt) ??
-                                DateTime.now()),
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 14,
-                        ),
-                      ),
+                      Text(formatDateTimeHumanReadable(DateTime.tryParse(review.createdAt) ?? DateTime.now()), style: TextStyle(color: Colors.grey[600], fontSize: 14)),
                     ],
                   ),
                 ],
@@ -249,14 +201,7 @@ class ReviewCard extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 12),
-        Text(
-          review.review,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.black87,
-            height: 1.4,
-          ),
-        ),
+        Text(review.review, style: const TextStyle(fontSize: 14, color: Colors.black87, height: 1.4)),
       ],
     );
   }

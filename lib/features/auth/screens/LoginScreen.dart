@@ -4,15 +4,15 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:kleanit/core/constants/Constant.dart';
-// import 'package:kleanit/core/theme/color_data.dart';
-// import 'package:kleanit/core/theme/resizer/fetch_pixels.dart';
-// import 'package:kleanit/core/theme/widget_utils.dart';
-// import 'package:kleanit/features/auth/bloc/auth/auth_bloc.dart';
-// import 'package:kleanit/features/auth/bloc/auth/auth_event.dart';
-// import 'package:kleanit/features/auth/bloc/auth/auth_state.dart';
-// import 'package:kleanit/routes/app_routes..dart';
-// import 'package:kleanit/services/auth_service.dart';
+// import 'package:kleanitapp/core/constants/Constant.dart';
+// import 'package:kleanitapp/core/theme/color_data.dart';
+// import 'package:kleanitapp/core/theme/resizer/fetch_pixels.dart';
+// import 'package:kleanitapp/core/theme/widget_utils.dart';
+// import 'package:kleanitapp/features/auth/bloc/auth/auth_bloc.dart';
+// import 'package:kleanitapp/features/auth/bloc/auth/auth_event.dart';
+// import 'package:kleanitapp/features/auth/bloc/auth/auth_state.dart';
+// import 'package:kleanitapp/routes/app_routes..dart';
+// import 'package:kleanitapp/services/auth_service.dart';
 //
 // class LoginScreen extends StatefulWidget {
 //   const LoginScreen({Key? key}) : super(key: key);
@@ -190,17 +190,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:kleanit/core/constants/Constant.dart';
-import 'package:kleanit/core/theme/color_data.dart';
-import 'package:kleanit/core/theme/resizer/fetch_pixels.dart';
-import 'package:kleanit/core/theme/widget_utils.dart';
-import 'package:kleanit/features/auth/bloc/auth/auth_bloc.dart';
-import 'package:kleanit/features/auth/bloc/auth/auth_event.dart';
-import 'package:kleanit/features/auth/bloc/auth/auth_state.dart';
-import 'package:kleanit/routes/app_routes..dart';
-import 'package:kleanit/services/auth_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kleanitapp/core/constants/Constant.dart';
+import 'package:kleanitapp/core/theme/color_data.dart';
+import 'package:kleanitapp/core/theme/resizer/fetch_pixels.dart';
+import 'package:kleanitapp/features/auth/bloc/auth/auth_bloc.dart';
+import 'package:kleanitapp/features/auth/bloc/auth/auth_event.dart';
+import 'package:kleanitapp/features/auth/bloc/auth/auth_state.dart';
+import 'package:kleanitapp/routes/app_routes..dart';
+import 'package:kleanitapp/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -209,8 +207,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
-    with SingleTickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
   void finishView() {
     Constant.closeApp();
   }
@@ -226,16 +223,8 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    );
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
-    );
+    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1200));
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeInOut));
     _animationController.forward();
   }
 
@@ -262,35 +251,28 @@ class _LoginScreenState extends State<LoginScreen>
             listener: (context, state) {
               if (state is AuthLoading) {
                 showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (_) => Center(
-                            child: Container(
+                  context: context,
+                  barrierDismissible: false,
+                  builder:
+                      (_) => Center(
+                        child: Container(
                           padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 15,
-                                    spreadRadius: 5)
-                              ]),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 15, spreadRadius: 5)],
+                          ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(primaryColor),
-                              ),
+                              CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(primaryColor)),
                               SizedBox(height: 15),
-                              Text("Logging in...",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black87))
+                              Text("Logging in...", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black87)),
                             ],
                           ),
-                        )));
+                        ),
+                      ),
+                );
               } else if (state is AuthFailure) {
                 Navigator.pop(context);
 
@@ -299,9 +281,7 @@ class _LoginScreenState extends State<LoginScreen>
                     content: Text("Login failed: ${state.error}"),
                     backgroundColor: Colors.redAccent,
                     behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
                 );
               }
@@ -320,11 +300,7 @@ class _LoginScreenState extends State<LoginScreen>
 
                 if (mobile == null || mobile.toString().isEmpty) {
                   // If mobile is missing, go to EditProfileScreen with flag
-                  Constant.sendToNextAndClear(
-                    context,
-                    Routes.editProfileScreenRoute,
-                    arguments: {"isFirstTimeGoogleLogin": true},
-                  );
+                  Constant.sendToNextAndClear(context, Routes.editProfileScreenRoute, arguments: {"isFirstTimeGoogleLogin": true});
                 } else {
                   // Else go to HomeScreen
                   Constant.sendToNextAndClear(context, Routes.homeScreenRoute);
@@ -335,22 +311,11 @@ class _LoginScreenState extends State<LoginScreen>
               return Container(
                 width: double.infinity,
                 height: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.white,
-                      Color(0xFFF5F9FF),
-                    ],
-                  ),
-                ),
+                decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Colors.white, Color(0xFFF5F9FF)])),
                 child: FadeTransition(
                   opacity: _fadeAnimation,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: FetchPixels.getDefaultHorSpace(context),
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: FetchPixels.getDefaultHorSpace(context)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -368,27 +333,10 @@ class _LoginScreenState extends State<LoginScreen>
                         SizedBox(height: FetchPixels.getPixelHeight(10)),
 
                         // Title and Subtitle
-                        Text(
-                          "Welcome to Kleanit",
-                          style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black87,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
+                        Text("Welcome to Kleanit", style: TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: Colors.black87, letterSpacing: 0.5)),
                         SizedBox(height: FetchPixels.getPixelHeight(10)),
-                        Text(
-                          "Glad to meet you again!",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black54,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        Text("Glad to meet you again!", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black54)),
+                        SizedBox(height: 10),
 
                         Image.asset(
                           'assets/icon/loginpng.png', // Make sure this asset exists
@@ -461,22 +409,17 @@ class _LoginScreenState extends State<LoginScreen>
                                 _isLoading = true;
                               });
                               try {
-                                UserCredential userCredential =
-                                await _authService.signInWithGoogle();
+                                UserCredential userCredential = await _authService.signInWithGoogle();
                                 final idToken = await userCredential.user!.getIdToken();
                                 log("idToken: $idToken");
-                                context.read<AuthBloc>().add(
-                                  GoogleLoginRequested(idToken: idToken.toString()),
-                                );
+                                context.read<AuthBloc>().add(GoogleLoginRequested(idToken: idToken.toString()));
                               } on PlatformException catch (e) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text("Google Sign-In failed: ${e.message}"),
                                     backgroundColor: Colors.redAccent,
                                     behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                   ),
                                 );
                               } catch (e) {
@@ -485,9 +428,7 @@ class _LoginScreenState extends State<LoginScreen>
                                     content: Text("Google Sign-In failed: $e"),
                                     backgroundColor: Colors.redAccent,
                                     behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                   ),
                                 );
                               } finally {
@@ -520,11 +461,7 @@ class _LoginScreenState extends State<LoginScreen>
                           child: Text(
                             "By continuing, you agree to our Terms of Service and Privacy Policy",
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black45,
-                              height: 1.5,
-                            ),
+                            style: TextStyle(fontSize: 12, color: Colors.black45, height: 1.5),
                           ),
                         ),
 
@@ -541,55 +478,27 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
-  Widget _buildLoginButton({
-    required String text,
-    required String icon,
-    required VoidCallback onPressed,
-    required Color backgroundColor,
-    required Color textColor,
-  }) {
+  Widget _buildLoginButton({required String text, required String icon, required VoidCallback onPressed, required Color backgroundColor, required Color textColor}) {
     return Container(
       width: double.infinity,
       height: FetchPixels.getPixelHeight(60),
       margin: EdgeInsets.symmetric(horizontal: 5),
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            spreadRadius: 0,
-            offset: Offset(0, 5),
-          ),
-        ],
-      ),
+      decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, spreadRadius: 0, offset: Offset(0, 5))]),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
           elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(FetchPixels.getPixelHeight(15)),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(FetchPixels.getPixelHeight(15))),
           padding: EdgeInsets.symmetric(horizontal: 20),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              'assets/images/$icon',
-              height: 24,
-              width: 24,
-            ),
+            SvgPicture.asset('assets/images/$icon', height: 24, width: 24),
             SizedBox(width: 12),
-            Text(
-              text,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: textColor,
-              ),
-            ),
+            Text(text, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: textColor)),
           ],
         ),
       ),

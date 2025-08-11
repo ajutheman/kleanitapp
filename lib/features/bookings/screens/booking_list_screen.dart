@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:kleanit/features/bookings/screens/booking_detail.dart';
-import 'package:kleanit/features/bookings/screens/widgets/booking_list_shimmer.dart';
-import 'package:kleanit/features/home/home_main.dart';
+import 'package:kleanitapp/features/bookings/screens/booking_detail.dart';
+import 'package:kleanitapp/features/bookings/screens/widgets/booking_list_shimmer.dart';
+import 'package:kleanitapp/features/home/home_main.dart';
 
 import '../../../core/theme/color_data.dart';
 import '../bloc/booking_bloc.dart';
@@ -39,10 +39,7 @@ class _BookingListState extends State<BookingList> {
       "Cancelled": "cancelled",
     };
 
-    context.read<BookingBloc>().add(FetchBookings(
-          page: currentPage,
-          status: statusMap[widget.filterTag] ?? "",
-        ));
+    context.read<BookingBloc>().add(FetchBookings(page: currentPage, status: statusMap[widget.filterTag] ?? ""));
   }
 
   @override
@@ -50,9 +47,10 @@ class _BookingListState extends State<BookingList> {
     return BlocBuilder<BookingBloc, BookingState>(
       builder: (context, state) {
         if (state is BookingLoading) {
-          return const Center(child: BookingListShimmer()
-              // CircularProgressIndicator()
-              );
+          return const Center(
+            child: BookingListShimmer(),
+            // CircularProgressIndicator()
+          );
         } else if (state is BookingError) {
           return Center(child: Text(state.message));
         } else if (state is BookingLoaded) {
@@ -83,27 +81,14 @@ class _BookingListState extends State<BookingList> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 15,
-            offset: const Offset(0, 8),
-          ),
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
+          BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 15, offset: const Offset(0, 8)),
+          BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 4, offset: const Offset(0, 2)),
         ],
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => BookingDetail(bookingId: booking.id),
-            ),
-          );
+          Navigator.push(context, MaterialPageRoute(builder: (_) => BookingDetail(bookingId: booking.id)));
         },
         child: Padding(
           padding: const EdgeInsets.all(15),
@@ -143,10 +128,7 @@ class _BookingListState extends State<BookingList> {
             'Booked ${booking.items.first.thirdCategoryName} ${booking.items.length <= 1 ? '' : '+${booking.items.length - 1}'}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
         const SizedBox(width: 10),
@@ -161,23 +143,11 @@ class _BookingListState extends State<BookingList> {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
-              "assets/icon/aed_symbol.png",
-              width: 16,
-              height: 16,
-              fit: BoxFit.contain,
-            ),
+            Image.asset("assets/icon/aed_symbol.png", width: 16, height: 16, fit: BoxFit.contain),
             const SizedBox(width: 4),
-            Text(
-              booking.total.toStringAsFixed(2),
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: primaryColor,
-              ),
-            ),
+            Text(booking.total.toStringAsFixed(2), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: primaryColor)),
           ],
-        )
+        ),
       ],
     );
   }
@@ -189,36 +159,20 @@ class _BookingListState extends State<BookingList> {
           children: [
             Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
             const SizedBox(width: 4),
-            Expanded(
-              child: Text(
-                DateFormat("d MMMM, y").format(booking.createdAt.toLocal()),
-                style: TextStyle(color: Colors.grey[600], fontSize: 14),
-              ),
-            ),
+            Expanded(child: Text(DateFormat("d MMMM, y").format(booking.createdAt.toLocal()), style: TextStyle(color: Colors.grey[600], fontSize: 14))),
           ],
         ),
         Row(
           children: [
-            Icon(
-              Icons.calendar_today,
-              size: 16,
-              color: primaryColor,
-            ),
+            Icon(Icons.calendar_today, size: 16, color: primaryColor),
             const SizedBox(width: 4),
             Expanded(
               child:
-                  // Text(
-                  //   DateFormat("d MMMM, y").format(booking.bookingDate.toLocal()),
-                  //   style: TextStyle(color: Colors.grey[600], fontSize: 14),
-                  // ),
-                  Text(
-                " Booked For: ${booking.bookingDate}",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: primaryColor,
-                ),
-              ),
+              // Text(
+              //   DateFormat("d MMMM, y").format(booking.bookingDate.toLocal()),
+              //   style: TextStyle(color: Colors.grey[600], fontSize: 14),
+              // ),
+              Text(" Booked For: ${booking.bookingDate}", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: primaryColor)),
             ),
           ],
         ),
@@ -253,16 +207,10 @@ class _BookingListState extends State<BookingList> {
     if (itemCount == 1) {
       summaryText = booking.items[0].thirdCategoryName;
     } else {
-      summaryText =
-          "${booking.items[0].thirdCategoryName} +${itemCount - 1} more";
+      summaryText = "${booking.items[0].thirdCategoryName} +${itemCount - 1} more";
     }
 
-    return Text(
-      summaryText,
-      style: const TextStyle(fontSize: 14),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    );
+    return Text(summaryText, style: const TextStyle(fontSize: 14), maxLines: 1, overflow: TextOverflow.ellipsis);
   }
 
   Widget _buildFooterRow(BookingModel booking) {
@@ -271,23 +219,13 @@ class _BookingListState extends State<BookingList> {
         // if (booking.hasSubscription)
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: Colors.blue[50],
-            borderRadius: BorderRadius.circular(8),
-          ),
+          decoration: BoxDecoration(color: Colors.blue[50], borderRadius: BorderRadius.circular(8)),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(Icons.repeat, size: 14, color: Colors.blue[600]),
               const SizedBox(width: 4),
-              Text(
-                booking.hasSubscription ? "Subscription" : 'Single',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.blue[600],
-                ),
-              ),
+              Text(booking.hasSubscription ? "Subscription" : 'Single', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.blue[600])),
             ],
           ),
         ),
@@ -401,23 +339,13 @@ class _BookingListState extends State<BookingList> {
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: chipColor,
-        borderRadius: BorderRadius.circular(8),
-      ),
+      decoration: BoxDecoration(color: chipColor, borderRadius: BorderRadius.circular(8)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(iconData, size: 12, color: textColor),
           const SizedBox(width: 4),
-          Text(
-            label,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          Text(label, style: TextStyle(color: textColor, fontSize: 12, fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -428,17 +356,11 @@ class _BookingListState extends State<BookingList> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.calendar_today_outlined,
-              size: 80, color: Colors.grey[400]),
+          Icon(Icons.calendar_today_outlined, size: 80, color: Colors.grey[400]),
           const SizedBox(height: 20),
-          Text('No Bookings Yet!',
-              style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey[800])),
+          Text('No Bookings Yet!', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.grey[800])),
           const SizedBox(height: 10),
-          Text('Book your first service now',
-              style: TextStyle(fontSize: 16, color: Colors.grey[600])),
+          Text('Book your first service now', style: TextStyle(fontSize: 16, color: Colors.grey[600])),
           const SizedBox(height: 30),
           ElevatedButton(
             onPressed: () {
@@ -449,8 +371,7 @@ class _BookingListState extends State<BookingList> {
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
               backgroundColor: primaryColor,
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
             child: const Text('Browse Services'),
           ),

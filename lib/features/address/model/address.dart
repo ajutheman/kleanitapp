@@ -142,8 +142,10 @@ class CustomerAddress {
       landmark: json['landmark'] ?? '',
       emirate: json['emirate'] ?? '',
       makaniNumber: json['makani_number'] ?? '',
-      latitude: json['latitude']?.toString(), // nullable string
-      longitude: json['longitude']?.toString(), // nullable string
+      latitude: json['latitude']?.toString(),
+      // nullable string
+      longitude: json['longitude']?.toString(),
+      // nullable string
       additionalDirections: json['additional_directions'] ?? '',
       isDefault: json['is_default'] ?? 0,
       isDeleted: json['is_deleted'] ?? 0,

@@ -5,19 +5,13 @@ class CategoryDetailResponse {
   final String message;
   final CategoryDetail data;
 
-  CategoryDetailResponse({
-    required this.success,
-    required this.message,
-    required this.data,
-  });
+  CategoryDetailResponse({required this.success, required this.message, required this.data});
 
   factory CategoryDetailResponse.fromJson(Map<String, dynamic> json) {
     return CategoryDetailResponse(
       success: json['success'] ?? false,
       message: json['message'] ?? '',
-      data: json.containsKey('data') && json['data'] != null
-          ? CategoryDetail.fromJson(json['data'])
-          : CategoryDetail.empty(),
+      data: json.containsKey('data') && json['data'] != null ? CategoryDetail.fromJson(json['data']) : CategoryDetail.empty(),
     );
   }
 }
@@ -29,13 +23,7 @@ class CategoryDetail {
   final String image;
   final List<FirstCategory> firstCategories;
 
-  CategoryDetail({
-    required this.id,
-    required this.name,
-    required this.status,
-    required this.image,
-    required this.firstCategories,
-  });
+  CategoryDetail({required this.id, required this.name, required this.status, required this.image, required this.firstCategories});
 
   factory CategoryDetail.fromJson(Map<String, dynamic> json) {
     return CategoryDetail(
@@ -43,21 +31,12 @@ class CategoryDetail {
       name: json['name'] ?? '',
       status: json['status'] ?? '',
       image: json['image'] ?? '',
-      firstCategories: json['first_categories'] != null
-          ? List<FirstCategory>.from((json['first_categories'] as List)
-              .map((x) => FirstCategory.fromJson(x)))
-          : [],
+      firstCategories: json['first_categories'] != null ? List<FirstCategory>.from((json['first_categories'] as List).map((x) => FirstCategory.fromJson(x))) : [],
     );
   }
 
   factory CategoryDetail.empty() {
-    return CategoryDetail(
-      id: 0,
-      name: '',
-      status: '',
-      image: '',
-      firstCategories: [],
-    );
+    return CategoryDetail(id: 0, name: '', status: '', image: '', firstCategories: []);
   }
 }
 
@@ -68,13 +47,7 @@ class FirstCategory {
   final String image;
   final List<SecondCategory> secondCategories;
 
-  FirstCategory({
-    required this.id,
-    required this.name,
-    required this.status,
-    required this.image,
-    required this.secondCategories,
-  });
+  FirstCategory({required this.id, required this.name, required this.status, required this.image, required this.secondCategories});
 
   factory FirstCategory.fromJson(Map<String, dynamic> json) {
     return FirstCategory(
@@ -82,10 +55,7 @@ class FirstCategory {
       name: json['name'] ?? '',
       status: json['status'] ?? '',
       image: json['image'] ?? '',
-      secondCategories: json['second_categories'] != null
-          ? List<SecondCategory>.from((json['second_categories'] as List)
-              .map((x) => SecondCategory.fromJson(x)))
-          : [],
+      secondCategories: json['second_categories'] != null ? List<SecondCategory>.from((json['second_categories'] as List).map((x) => SecondCategory.fromJson(x))) : [],
     );
   }
 }
@@ -98,14 +68,7 @@ class SecondCategory {
   final List<ThirdCategory> thirdCategories;
   final String encryptedId;
 
-  SecondCategory({
-    required this.id,
-    required this.name,
-    required this.status,
-    required this.image,
-    required this.thirdCategories,
-    required this.encryptedId,
-  });
+  SecondCategory({required this.id, required this.name, required this.status, required this.image, required this.thirdCategories, required this.encryptedId});
 
   factory SecondCategory.fromJson(Map<String, dynamic> json) {
     return SecondCategory(
@@ -113,10 +76,7 @@ class SecondCategory {
       name: json['name'] ?? '',
       status: json['status'] ?? '',
       image: json['image'] ?? '',
-      thirdCategories: json['third_categories'] != null
-          ? List<ThirdCategory>.from((json['third_categories'] as List)
-              .map((x) => ThirdCategory.fromJson(x)))
-          : [],
+      thirdCategories: json['third_categories'] != null ? List<ThirdCategory>.from((json['third_categories'] as List).map((x) => ThirdCategory.fromJson(x))) : [],
       encryptedId: json['encrypted_id'] ?? '',
     );
   }
@@ -239,9 +199,7 @@ class ThirdCategory {
 
   factory ThirdCategory.fromJson(Map<String, dynamic> json) {
     Map<String, dynamic>? scheduleMap;
-    if (json['schedule'] != null &&
-        json['schedule'] is String &&
-        (json['schedule'] as String).isNotEmpty) {
+    if (json['schedule'] != null && json['schedule'] is String && (json['schedule'] as String).isNotEmpty) {
       try {
         scheduleMap = jsonDecode(json['schedule']);
       } catch (_) {
@@ -270,10 +228,7 @@ class ThirdCategory {
       extraHrPrice: json['extra_hr_price']?.toString() ?? '',
       walletCoins: json['wallet_coins']?.toString() ?? '',
       schedule: scheduleMap,
-      materials: json['materials'] != null
-          ? List<MaterialItem>.from(
-              (json['materials'] as List).map((x) => MaterialItem.fromJson(x)))
-          : [],
+      materials: json['materials'] != null ? List<MaterialItem>.from((json['materials'] as List).map((x) => MaterialItem.fromJson(x))) : [],
     );
   }
 }
@@ -283,17 +238,9 @@ class MaterialItem {
   final String name;
   final String? comment;
 
-  MaterialItem({
-    required this.id,
-    required this.name,
-    this.comment,
-  });
+  MaterialItem({required this.id, required this.name, this.comment});
 
   factory MaterialItem.fromJson(Map<String, dynamic> json) {
-    return MaterialItem(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? '',
-      comment: json['comment']?.toString(),
-    );
+    return MaterialItem(id: json['id'] ?? 0, name: json['name'] ?? '', comment: json['comment']?.toString());
   }
 }

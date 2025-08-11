@@ -4,12 +4,7 @@ class WalletDetails {
   final String mobileLast4;
   final double walletAmount;
 
-  WalletDetails({
-    required this.name,
-    required this.profileUrl,
-    required this.mobileLast4,
-    required this.walletAmount,
-  });
+  WalletDetails({required this.name, required this.profileUrl, required this.mobileLast4, required this.walletAmount});
 
   factory WalletDetails.fromJson(Map<String, dynamic> json) {
     final data = json['data'] ?? {};

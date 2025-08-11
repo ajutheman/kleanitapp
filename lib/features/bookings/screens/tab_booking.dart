@@ -1,9 +1,9 @@
 // tab_booking.dart
 import 'package:flutter/material.dart';
-import '../../notification/screen/notification_screen.dart';
-import '../screens/booking_list_screen.dart';
 
 import '../../../../core/theme/color_data.dart';
+import '../../notification/screen/notification_screen.dart';
+import '../screens/booking_list_screen.dart';
 
 class TabBookings extends StatefulWidget {
   const TabBookings({Key? key}) : super(key: key);
@@ -12,8 +12,7 @@ class TabBookings extends StatefulWidget {
   State<TabBookings> createState() => _TabBookingsState();
 }
 
-class _TabBookingsState extends State<TabBookings>
-    with SingleTickerProviderStateMixin {
+class _TabBookingsState extends State<TabBookings> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final List<String> _tabs = ["All", "Completed", "Cancelled"];
 
@@ -31,13 +30,7 @@ class _TabBookingsState extends State<TabBookings>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildHeader(),
-        _buildTabBar(),
-        Expanded(child: _buildTabView()),
-      ],
-    );
+    return Column(children: [_buildHeader(), _buildTabBar(), Expanded(child: _buildTabView())]);
   }
 
   Widget _buildHeader() {
@@ -46,15 +39,11 @@ class _TabBookingsState extends State<TabBookings>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
-            'Bookings',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          ),
+          const Text('Bookings', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           IconButton(
             icon: const Icon(Icons.notifications_outlined, size: 28),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => NotificationListScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => NotificationListScreen()));
             },
           ),
         ],
@@ -68,21 +57,12 @@ class _TabBookingsState extends State<TabBookings>
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 10,
-          ),
-        ],
+        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 10)],
       ),
       child: TabBar(
         controller: _tabController,
         isScrollable: false,
-        indicator: ShapeDecoration(
-            color: primaryColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10))),
+        indicator: ShapeDecoration(color: primaryColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
         indicatorSize: TabBarIndicatorSize.tab,
         labelPadding: const EdgeInsets.symmetric(horizontal: 10),
         labelColor: Colors.white,
@@ -95,9 +75,6 @@ class _TabBookingsState extends State<TabBookings>
   }
 
   Widget _buildTabView() {
-    return TabBarView(
-      controller: _tabController,
-      children: _tabs.map((tab) => BookingList(filterTag: tab)).toList(),
-    );
+    return TabBarView(controller: _tabController, children: _tabs.map((tab) => BookingList(filterTag: tab)).toList());
   }
 }

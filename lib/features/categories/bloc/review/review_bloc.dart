@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:kleanit/features/categories/respository/review_repository.dart'
-    show ReviewRepository;
+import 'package:kleanitapp/features/categories/respository/review_repository.dart' show ReviewRepository;
 
 import '../../modle/review_model.dart';
 
@@ -15,8 +14,7 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
     on<LoadReviews>((event, emit) async {
       emit(ReviewLoading());
       try {
-        final reviewResponse =
-            await repository.fetchReviews(id: event.secondCatId);
+        final reviewResponse = await repository.fetchReviews(id: event.secondCatId);
         emit(ReviewLoaded(reviews: reviewResponse.data));
       } catch (e) {
         emit(ReviewError(message: e.toString()));
@@ -24,11 +22,7 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
     });
     on<SubmitReview>((event, emit) async {
       try {
-        final success = await repository.submitReview(
-          id: event.secondCatId,
-          review: event.review,
-          rating: event.rating,
-        );
+        final success = await repository.submitReview(id: event.secondCatId, review: event.review, rating: event.rating);
         if (success) {
           emit(ReviewSubmitted());
         } else {

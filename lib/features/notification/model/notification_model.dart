@@ -31,14 +31,7 @@ class NotificationModel {
   final DateTime? sentTime;
   final DateTime? createdAt;
 
-  NotificationModel({
-    required this.title,
-    required this.body,
-    this.image,
-    this.data,
-    this.sentTime,
-    this.createdAt,
-  });
+  NotificationModel({required this.title, required this.body, this.image, this.data, this.sentTime, this.createdAt});
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
     return NotificationModel(
@@ -46,12 +39,8 @@ class NotificationModel {
       body: json['body'] ?? '',
       image: json['image'],
       data: json['data'],
-      sentTime: json['sent_at'] != null
-          ? DateTime.tryParse(json['sent_at']!)?.toLocal()
-          : null,
-      createdAt: json['created_at'] != null
-          ? DateTime.tryParse(json['created_at']!)?.toLocal()
-          : null,
+      sentTime: json['sent_at'] != null ? DateTime.tryParse(json['sent_at']!)?.toLocal() : null,
+      createdAt: json['created_at'] != null ? DateTime.tryParse(json['created_at']!)?.toLocal() : null,
     );
   }
 

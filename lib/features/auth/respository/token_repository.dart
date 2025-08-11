@@ -21,13 +21,7 @@ class TokenRepository {
       final response = await dio.post(
         UrlResources.tokenUpdate,
         data: jsonEncode(payload),
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token",
-            "Accept": "application/json",
-          },
-        ),
+        options: Options(headers: {"Content-Type": "application/json", "Authorization": "Bearer $token", "Accept": "application/json"}),
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {

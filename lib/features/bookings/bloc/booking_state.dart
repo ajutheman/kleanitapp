@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import '../model/booking.dart';
 
 abstract class BookingState extends Equatable {
@@ -15,11 +16,7 @@ class BookingLoaded extends BookingState {
   final int currentPage;
   final int totalPages;
 
-  BookingLoaded({
-    required this.bookings,
-    required this.currentPage,
-    required this.totalPages,
-  });
+  BookingLoaded({required this.bookings, required this.currentPage, required this.totalPages});
 
   @override
   List<Object?> get props => [bookings, currentPage, totalPages];
@@ -27,6 +24,7 @@ class BookingLoaded extends BookingState {
 
 class BookingError extends BookingState {
   final String message;
+
   BookingError(this.message);
 
   @override

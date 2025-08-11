@@ -12,13 +12,11 @@ part 'categories_state.dart';
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   final CategoryRepository categoryRepository;
 
-  CategoriesBloc({required this.categoryRepository})
-      : super(CategoriesInitial()) {
+  CategoriesBloc({required this.categoryRepository}) : super(CategoriesInitial()) {
     on<LoadCategories>(_onLoadCategories);
   }
 
-  Future<void> _onLoadCategories(
-      LoadCategories event, Emitter<CategoriesState> emit) async {
+  Future<void> _onLoadCategories(LoadCategories event, Emitter<CategoriesState> emit) async {
     emit(CategoriesLoading());
     try {
       final categories = await categoryRepository.fetchCategories(event.type);

@@ -47,15 +47,7 @@ class CustomerModel {
   final String? latitude;
   final String? longitude;
 
-  CustomerModel({
-    required this.id,
-    this.name,
-    this.email,
-    this.mobile,
-    this.status,
-    this.latitude,
-    this.longitude,
-  });
+  CustomerModel({required this.id, this.name, this.email, this.mobile, this.status, this.latitude, this.longitude});
 
   factory CustomerModel.fromJson(Map<String, dynamic> json) {
     return CustomerModel(

@@ -13,9 +13,9 @@ class UrlResources {
   static const String scheduleDays = "${api}customer/weekly-schedule/list";
   static const String scheduleUpdate = "${api}customer/weekly-schedule/update";
 
-// static const String login = "${api}login";
-// static const String shopList = "${api}employee/shop/list";
-// static const String shopDetails = "${api}employee/shop/get-shop";
-// static const String ordersave = "${api}employee/order/save";
-// Add additional endpoints here.
+  // static const String login = "${api}login";
+  // static const String shopList = "${api}employee/shop/list";
+  // static const String shopDetails = "${api}employee/shop/get-shop";
+  // static const String ordersave = "${api}employee/order/save";
+  // Add additional endpoints here.
 }

@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kleanit/features/bookings/repo/booking_repository.dart';
+import 'package:kleanitapp/features/bookings/repo/booking_repository.dart';
 
 import 'booking_detail_event.dart';
 import 'booking_detail_state.dart';
@@ -11,8 +11,7 @@ class BookingDetailBloc extends Bloc<BookingDetailEvent, BookingDetailState> {
     on<FetchBookingDetail>((event, emit) async {
       emit(BookingDetailLoading());
       try {
-        final booking =
-            await repository.getOrderDetails(event.encryptedOrderId);
+        final booking = await repository.getOrderDetails(event.encryptedOrderId);
         emit(BookingDetailLoaded(booking));
       } catch (e) {
         emit(BookingDetailError(e.toString()));

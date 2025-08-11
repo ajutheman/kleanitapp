@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:kleanit/core/constants/url_resources.dart';
+import 'package:kleanitapp/core/constants/url_resources.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../core/constants/pref_resources.dart';
 import '../model/address.dart';
 
@@ -19,10 +20,7 @@ class AddressRepository {
     if (token == null) throw Exception("Unauthorized: Access token not found");
 
     try {
-      final response = await dio.get(
-        UrlResources.addressList,
-        options: Options(headers: {"Authorization": "Bearer $token"}),
-      );
+      final response = await dio.get(UrlResources.addressList, options: Options(headers: {"Authorization": "Bearer $token"}));
       print("📦 Address List Response: ${response.data}");
 
       if (response.statusCode == 200 && response.data['success'] == true) {
@@ -42,11 +40,7 @@ class AddressRepository {
     if (token == null) throw Exception("Unauthorized: Access token not found");
 
     try {
-      final response = await dio.post(
-        UrlResources.addAddress,
-        data: payload,
-        options: Options(headers: {"Authorization": "Bearer $token"}),
-      );
+      final response = await dio.post(UrlResources.addAddress, data: payload, options: Options(headers: {"Authorization": "Bearer $token"}));
       print("✅ Save Address Response: ${response.data}");
 
       if (response.statusCode != 200 && response.statusCode != 201) {
@@ -58,17 +52,12 @@ class AddressRepository {
     }
   }
 
-  Future<void> updateAddress(
-      String encryptedId, Map<String, dynamic> payload) async {
+  Future<void> updateAddress(String encryptedId, Map<String, dynamic> payload) async {
     final token = await _getAccessToken();
     if (token == null) throw Exception("Unauthorized: Access token not found");
 
     try {
-      final response = await dio.post(
-        "${UrlResources.updateAddress}/$encryptedId",
-        data: payload,
-        options: Options(headers: {"Authorization": "Bearer $token"}),
-      );
+      final response = await dio.post("${UrlResources.updateAddress}/$encryptedId", data: payload, options: Options(headers: {"Authorization": "Bearer $token"}));
       print("🔄 Update Address Response: ${response.data}");
 
       if (response.statusCode != 200 || response.data['success'] != true) {
@@ -96,14 +85,7 @@ class AddressRepository {
         url,
         data: {"isDeleted": true}, // 👈 boolean true, not int 1
 
-        options: Options(
-          method: 'GET',
-          headers: {
-            "Authorization": "Bearer $token",
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-          },
-        ),
+        options: Options(method: 'GET', headers: {"Authorization": "Bearer $token", "Accept": "application/json", "Content-Type": "application/json"}),
       );
 
       print("🧾 Delete Address Response: ${response.data}");

@@ -180,8 +180,10 @@
 //   }
 // }
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../core/constants/pref_resources.dart';
 import '../../../core/constants/url_resources.dart';
 import '../model/order_calculation.dart';
@@ -202,17 +204,11 @@ class OrderRepository {
     print("🌐 Base URL: ${dio.options.baseUrl}");
   }
 
-  Future<OrderCalculation> calculateOrder(List<String> cartIds, String coupon,
-      {int? subscriptionFrequency}) async {
+  Future<OrderCalculation> calculateOrder(List<String> cartIds, String coupon, {int? subscriptionFrequency}) async {
     final token = await _getAccessToken();
     if (token == null) throw Exception("Unauthorized: Access token not found");
 
-    final payload = {
-      "cart_ids": cartIds,
-      "coupon": coupon,
-      if (subscriptionFrequency != null)
-        "subscription_frequency": subscriptionFrequency,
-    };
+    final payload = {"cart_ids": cartIds, "coupon": coupon, if (subscriptionFrequency != null) "subscription_frequency": subscriptionFrequency};
     // final body = {"cart_ids": cartIds, 'coupon_code': coupon};
     print("--------------------------");
     logApiCall("POST", UrlResources.calculateOrder, body: payload);
@@ -221,12 +217,7 @@ class OrderRepository {
       UrlResources.calculateOrder,
       data: jsonEncode(payload),
       // data: jsonEncode(body),
-      options: Options(
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $token",
-        },
-      ),
+      options: Options(headers: {"Content-Type": "application/json", "Authorization": "Bearer $token"}),
     );
     print("--------------------------");
     print("🌐 Base URL 1: ${dio.options.baseUrl}");
@@ -301,12 +292,7 @@ class OrderRepository {
         // data: jsonEncode(body),
         data: body,
 
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token",
-          },
-        ),
+        options: Options(headers: {"Content-Type": "application/json", "Authorization": "Bearer $token"}),
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -316,9 +302,7 @@ class OrderRepository {
       }
     } on DioException catch (e) {
       print("❌ Error: ${e.response?.data}");
-      throw e.response?.data['error'] ??
-          e.response?.data['message'] ??
-          "Failed to place order";
+      throw e.response?.data['error'] ?? e.response?.data['message'] ?? "Failed to place order";
     }
   }
 
@@ -331,12 +315,7 @@ class OrderRepository {
     final response = await dio.get(
       UrlResources.getScheduleList,
       queryParameters: {'date': date},
-      options: Options(
-        headers: {
-          "Authorization": "Bearer $token",
-          "Content-Type": "application/json",
-        },
-      ),
+      options: Options(headers: {"Authorization": "Bearer $token", "Content-Type": "application/json"}),
     );
     print("🌐 response data: ${response.data}");
     if (response.statusCode == 200) {
@@ -357,12 +336,7 @@ class OrderRepository {
     final response = await dio.post(
       UrlResources.validateCoupon,
       data: jsonEncode(body),
-      options: Options(
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $token",
-        },
-      ),
+      options: Options(headers: {"Content-Type": "application/json", "Authorization": "Bearer $token"}),
     );
 
     if (response.statusCode == 200) {

@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kleanit/features/auth/bloc/auth/auth_bloc.dart';
-import 'package:kleanit/features/auth/bloc/auth/auth_event.dart';
-import 'package:kleanit/features/auth/bloc/auth/auth_state.dart';
+import 'package:kleanitapp/features/auth/bloc/auth/auth_bloc.dart';
+import 'package:kleanitapp/features/auth/bloc/auth/auth_event.dart';
+import 'package:kleanitapp/features/auth/bloc/auth/auth_state.dart';
 
 import '../../../core/constants/Constant.dart';
 import '../../../core/theme/color_data.dart';
@@ -18,8 +18,7 @@ import '../bloc/token/token_event.dart';
 class OTPVerificationScreen extends StatefulWidget {
   final String mobile;
 
-  const OTPVerificationScreen({Key? key, required this.mobile})
-      : super(key: key);
+  const OTPVerificationScreen({Key? key, required this.mobile}) : super(key: key);
 
   @override
   State<OTPVerificationScreen> createState() => _OTPVerificationScreenState();
@@ -165,12 +164,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
           child: BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is AuthLoading) {
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (_) =>
-                      const Center(child: CircularProgressIndicator()),
-                );
+                showDialog(context: context, barrierDismissible: false, builder: (_) => const Center(child: CircularProgressIndicator()));
               } else {
                 Navigator.pop(context);
                 setState(() => _isLoading = false);
@@ -187,53 +181,26 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
 
               if (state is OTPVerificationSuccess) {
                 context.read<TokenBloc>().add(UpdateToken());
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(state.message)));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
                 Constant.sendToNextAndClear(context, Routes.homeScreenRoute);
               }
             },
             builder: (context, state) {
               return Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: FetchPixels.getDefaultHorSpace(context)),
+                padding: EdgeInsets.symmetric(horizontal: FetchPixels.getDefaultHorSpace(context)),
                 child: ListView(
                   children: [
                     const SizedBox(height: 20),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios,
-                            color: Colors.black),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ),
+                    Align(alignment: Alignment.topLeft, child: IconButton(icon: const Icon(Icons.arrow_back_ios, color: Colors.black), onPressed: () => Navigator.pop(context))),
                     getVerSpace(FetchPixels.getPixelHeight(50)),
                     getVerSpace(FetchPixels.getPixelHeight(70)),
                     Padding(
                       padding: const EdgeInsets.all(38.0),
-                      child: Image.asset(
-                        "assets/icon/logo_light.png",
-                        width: FetchPixels.getPixelWidth(100),
-                        height: FetchPixels.getPixelHeight(100),
-                      ),
+                      child: Image.asset("assets/icon/logo_light.png", width: FetchPixels.getPixelWidth(100), height: FetchPixels.getPixelHeight(100)),
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: getCustomFont(
-                          "OTP Verification", 24, Colors.black, 1,
-                          fontWeight: FontWeight.w800),
-                    ),
+                    Align(alignment: Alignment.center, child: getCustomFont("OTP Verification", 24, Colors.black, 1, fontWeight: FontWeight.w800)),
                     getVerSpace(FetchPixels.getPixelHeight(20)),
-                    Align(
-                      alignment: Alignment.center,
-                      child: getCustomFont(
-                        "Enter OTP Code sent to +971 ${widget.mobile}",
-                        16,
-                        Colors.black,
-                        1,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                    Align(alignment: Alignment.center, child: getCustomFont("Enter OTP Code sent to +971 ${widget.mobile}", 16, Colors.black, 1, fontWeight: FontWeight.w400)),
                     getVerSpace(FetchPixels.getPixelHeight(30)),
                     // getDefaultTextFiledWithLabel(
                     //   context,
@@ -254,10 +221,10 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                       isEnable: true,
                       withprefix: true,
                       image: "otp.svg",
-                      keyboardType: TextInputType.number, // Show number pad
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly
-                      ], // Only digits
+                      keyboardType: TextInputType.number,
+                      // Show number pad
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      // Only digits
                       maxLength: 4, // Limit to 4 digits
                     ),
 
@@ -268,23 +235,13 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         margin: const EdgeInsets.only(bottom: 12),
-                        decoration: BoxDecoration(
-                          color: Colors.red.shade100,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.red.shade300),
-                        ),
+                        decoration: BoxDecoration(color: Colors.red.shade100, borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.red.shade300)),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Icon(Icons.error_outline, color: Colors.red),
                             const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                _errorMessage,
-                                style: const TextStyle(
-                                    color: Colors.red, fontSize: 14),
-                              ),
-                            ),
+                            Expanded(child: Text(_errorMessage, style: const TextStyle(color: Colors.red, fontSize: 14))),
                           ],
                         ),
                       ),
@@ -295,39 +252,22 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 50),
                       child: Row(
                         children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: getCustomFont(
-                              "Didn’t Receive OTP ?",
-                              16,
-                              Colors.black,
-                              1,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
+                          Align(alignment: Alignment.center, child: getCustomFont("Didn’t Receive OTP ?", 16, Colors.black, 1, fontWeight: FontWeight.w400)),
                           TextButton(
-                            onPressed: _resendCooldown == 0
-                                ? () {
-                                    context.read<AuthBloc>().add(
-                                        OTPLoginRequested(
-                                            mobile: widget.mobile));
-                                    _startResendCooldown();
-                                    setState(() {
-                                      _showError = false;
-                                      _errorMessage = '';
-                                    });
-                                  }
-                                : null,
+                            onPressed:
+                                _resendCooldown == 0
+                                    ? () {
+                                      context.read<AuthBloc>().add(OTPLoginRequested(mobile: widget.mobile));
+                                      _startResendCooldown();
+                                      setState(() {
+                                        _showError = false;
+                                        _errorMessage = '';
+                                      });
+                                    }
+                                    : null,
                             child: Text(
-                              _resendCooldown > 0
-                                  ? 'Resend OTP in $_resendCooldown sec'
-                                  : 'Resend OTP',
-                              style: TextStyle(
-                                color: _resendCooldown == 0
-                                    ? primaryColor
-                                    : Colors.grey,
-                                fontWeight: FontWeight.w500,fontSize: 12
-                              ),
+                              _resendCooldown > 0 ? 'Resend OTP in $_resendCooldown sec' : 'Resend OTP',
+                              style: TextStyle(color: _resendCooldown == 0 ? primaryColor : Colors.grey, fontWeight: FontWeight.w500, fontSize: 12),
                             ),
                           ),
                         ],
@@ -354,18 +294,12 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           _isLoading = true;
                         });
 
-                        context.read<AuthBloc>().add(
-                              OTPVerificationRequested(
-                                mobile: widget.mobile,
-                                otp: otp,
-                              ),
-                            );
+                        context.read<AuthBloc>().add(OTPVerificationRequested(mobile: widget.mobile, otp: otp));
                       },
                       18,
                       weight: FontWeight.w600,
                       buttonHeight: FetchPixels.getPixelHeight(60),
-                      borderRadius:
-                          BorderRadius.circular(FetchPixels.getPixelHeight(15)),
+                      borderRadius: BorderRadius.circular(FetchPixels.getPixelHeight(15)),
                     ),
 
                     getVerSpace(FetchPixels.getPixelHeight(20)),

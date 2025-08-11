@@ -94,14 +94,7 @@ class TimeSchedule {
   final bool available;
   final int totalSchedules;
 
-  TimeSchedule({
-    required this.ids,
-    required this.scheduleTime,
-    required this.scheduleTimeRaw,
-    required this.availableSlots,
-    required this.available,
-    required this.totalSchedules,
-  });
+  TimeSchedule({required this.ids, required this.scheduleTime, required this.scheduleTimeRaw, required this.availableSlots, required this.available, required this.totalSchedules});
 
   factory TimeSchedule.fromJson(Map<String, dynamic> json) {
     return TimeSchedule(

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:kleanit/core/constants/url_resources.dart';
+import 'package:kleanitapp/core/constants/url_resources.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/constants/pref_resources.dart';
@@ -29,13 +29,7 @@ class ReviewRepository {
       print("URL: $url");
       final response = await dio.get(
         "${UrlResources.reviewList}/$id",
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token",
-            "Accept": "application/json",
-          },
-        ),
+        options: Options(headers: {"Content-Type": "application/json", "Authorization": "Bearer $token", "Accept": "application/json"}),
       );
 
       // ✅ Print the entire raw response data
@@ -54,8 +48,7 @@ class ReviewRepository {
       print("=== Fetch Reviews DioException ===");
       print("URL: $url");
       print("Error Response: ${jsonEncode(e.response?.data)}");
-      throw Exception(
-          e.response?.data?['message'] ?? "Failed to fetch reviews");
+      throw Exception(e.response?.data?['message'] ?? "Failed to fetch reviews");
     } catch (e) {
       print("=== Fetch Reviews General Error ===");
       print(e.toString());
@@ -63,8 +56,7 @@ class ReviewRepository {
     }
   } // ✅ Fetch Reviews
 
-  Future<bool> submitReview(
-      {required int id, required String review, required int rating}) async {
+  Future<bool> submitReview({required int id, required String review, required int rating}) async {
     final url = "${UrlResources.reviewUpdate}/$id";
     final payload = {'review': review, 'rating': rating};
 
@@ -80,13 +72,7 @@ class ReviewRepository {
       final response = await dio.post(
         "${UrlResources.reviewUpdate}/$id",
         data: jsonEncode({'review': review, 'rating': rating}),
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token",
-            "Accept": "application/json",
-          },
-        ),
+        options: Options(headers: {"Content-Type": "application/json", "Authorization": "Bearer $token", "Accept": "application/json"}),
       );
 
       // ✅ Print the entire raw response data
@@ -105,9 +91,7 @@ class ReviewRepository {
       print("URL: $url");
       print("Payload: ${jsonEncode(payload)}");
       print("Error Response: ${jsonEncode(e.response?.data)}");
-      throw Exception(e.response?.data?['message'] ??
-          e.response?.data?['error'] ??
-          "Failed to add reviews");
+      throw Exception(e.response?.data?['message'] ?? e.response?.data?['error'] ?? "Failed to add reviews");
     } catch (e) {
       print("=== Submit Review General Error ===");
       print(e.toString());

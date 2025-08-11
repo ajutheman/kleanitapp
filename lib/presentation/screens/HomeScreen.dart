@@ -2,10 +2,10 @@
 // import 'dart:convert';
 //
 // import 'package:flutter/material.dart';
-// import 'package:kleanit/core/constants/Constant.dart';
-// import 'package:kleanit/core/theme/resizer/fetch_pixels.dart';
-// import 'package:kleanit/core/theme/widget_utils.dart';
-// import 'package:kleanit/routes/app_routes..dart';
+// import 'package:kleanitapp/core/constants/Constant.dart';
+// import 'package:kleanitapp/core/theme/resizer/fetch_pixels.dart';
+// import 'package:kleanitapp/core/theme/widget_utils.dart';
+// import 'package:kleanitapp/routes/app_routes..dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 //
 // class HomeScreen extends StatefulWidget {

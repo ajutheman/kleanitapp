@@ -126,7 +126,8 @@ class SubAdvertisement {
   factory SubAdvertisement.fromJson(Map<String, dynamic> json) {
     return SubAdvertisement(
       id: json['id'],
-      position: json['position'] ?? 0, // ✅ Extract position
+      position: json['position'] ?? 0,
+      // ✅ Extract position
       name: json['name'],
       status: json['status'],
       image: json['image'],

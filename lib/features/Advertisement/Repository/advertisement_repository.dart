@@ -47,18 +47,14 @@ import 'package:http/http.dart' as http;
 import '../model/advertisement_model.dart';
 
 class AdvertisementRepository {
-  final String baseUrl =
-      "https://backend.kleanit.ae/api/customer/advertisements/main";
+  final String baseUrl = "https://backend.kleanit.ae/api/customer/advertisements/main";
+
   // "https://kleanit.planetprouae.com/api/customer/advertisements/main";
 
   Future<List<Advertisement>> fetchAdvertisements(String token) async {
     final url = Uri.parse(baseUrl);
 
-    final headers = {
-      "Accept": "application/json",
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $token",
-    };
+    final headers = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer $token"};
 
     log("fetchAdvertisements: Request URL: $url");
     log("fetchAdvertisements: Request Headers: $headers");
@@ -73,9 +69,7 @@ class AdvertisementRepository {
       final data = jsonDecode(response.body);
       if (data['status'] == true) {
         final List<dynamic> advertisementsData = data['data'];
-        return advertisementsData
-            .map((json) => Advertisement.fromJson(json))
-            .toList();
+        return advertisementsData.map((json) => Advertisement.fromJson(json)).toList();
       } else {
         throw Exception("Failed to load advertisements: ${data['message']}");
       }

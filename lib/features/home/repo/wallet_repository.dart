@@ -1,7 +1,7 @@
 // import 'package:dio/dio.dart';
-// import 'package:kleanit/core/constants/pref_resources.dart';
-// import 'package:kleanit/core/constants/url_resources.dart';
-// import 'package:kleanit/features/home/repo/exceptions.dart' show BadRequestException, UnauthorizedException;
+// import 'package:kleanitapp/core/constants/pref_resources.dart';
+// import 'package:kleanitapp/core/constants/url_resources.dart';
+// import 'package:kleanitapp/features/home/repo/exceptions.dart' show BadRequestException, UnauthorizedException;
 // import 'package:shared_preferences/shared_preferences.dart';
 // import '../modle/wallet_details.dart';
 // import 'WalletTransaction.dart';
@@ -143,11 +143,11 @@
 //   }
 // }
 import 'package:dio/dio.dart';
-import 'package:kleanit/core/constants/pref_resources.dart';
-import 'package:kleanit/core/constants/url_resources.dart';
-import 'package:kleanit/features/home/repo/exceptions.dart'
-    show BadRequestException, UnauthorizedException;
+import 'package:kleanitapp/core/constants/pref_resources.dart';
+import 'package:kleanitapp/core/constants/url_resources.dart';
+import 'package:kleanitapp/features/home/repo/exceptions.dart' show BadRequestException, UnauthorizedException;
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../modle/wallet_details.dart';
 import 'WalletTransaction.dart';
 
@@ -159,14 +159,7 @@ class WalletRepository {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString(PrefResources.USER_ACCESS_TOCKEN) ?? '';
 
-      final response = await dio.get(
-        UrlResources.getWalletBalance,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
+      final response = await dio.get(UrlResources.getWalletBalance, options: Options(headers: {'Authorization': 'Bearer $token'}));
       print("🔵 [Wallet Balance]");
       print("➡️ URL: $UrlResources");
       print("➡️ URL: $UrlResources.getWalletBalance");
@@ -193,20 +186,13 @@ class WalletRepository {
     }
   }
 
-// ✅ New function — added safely
+  // ✅ New function — added safely
   Future<WalletDetails> fetchWalletDetails() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString(PrefResources.USER_ACCESS_TOCKEN) ?? '';
 
-      final response = await dio.get(
-        UrlResources.getWalletwalletdetails,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
+      final response = await dio.get(UrlResources.getWalletwalletdetails, options: Options(headers: {'Authorization': 'Bearer $token'}));
 
       print("[log] Wallet API url: ${UrlResources.getWalletwalletdetails}");
       print("[log] Wallet API response status: ${response.statusCode}");
@@ -227,8 +213,7 @@ class WalletRepository {
       }
     } on DioException catch (e) {
       print("[log] ❌ Wallet API error: ${e.response?.data}");
-      throw Exception(
-          e.response?.data?['message'] ?? "Failed to fetch wallet details");
+      throw Exception(e.response?.data?['message'] ?? "Failed to fetch wallet details");
     } catch (e) {
       print("[log] ❌ Unknown Wallet API error: $e");
       throw Exception('Error: ${e.toString()}');
@@ -250,9 +235,7 @@ class WalletRepository {
     print("✅ Status Code: ${response.statusCode}");
     print("🟢 Response Body: ${response.data}");
     if (response.statusCode == 200 && response.data['success']) {
-      return (response.data['data'] as List)
-          .map((json) => WalletTransaction.fromJson(json, isReceived: true))
-          .toList();
+      return (response.data['data'] as List).map((json) => WalletTransaction.fromJson(json, isReceived: true)).toList();
     } else if (response.statusCode == 401) {
       throw UnauthorizedException("Session expired. Please log in again.");
     } else if (response.statusCode == 400) {
@@ -266,19 +249,14 @@ class WalletRepository {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(PrefResources.USER_ACCESS_TOCKEN) ?? '';
 
-    final response = await dio.get(
-      "https://backend.kleanit.ae/api/customer/profile/transactions/sent",
-      options: Options(headers: {'Authorization': 'Bearer $token'}),
-    );
+    final response = await dio.get("https://backend.kleanit.ae/api/customer/profile/transactions/sent", options: Options(headers: {'Authorization': 'Bearer $token'}));
     print("🔵 [Sent Transactions]");
     print("➡️ URL: $UrlResources");
     print("➡️ Headers: Authorization: Bearer $token");
     print("✅ Status Code: ${response.statusCode}");
     print("🟢 Response Body: ${response.data}");
     if (response.statusCode == 200 && response.data['success']) {
-      return (response.data['data'] as List)
-          .map((json) => WalletTransaction.fromJson(json, isReceived: false))
-          .toList();
+      return (response.data['data'] as List).map((json) => WalletTransaction.fromJson(json, isReceived: false)).toList();
     } else {
       throw Exception("Failed to fetch sent transactions");
     }

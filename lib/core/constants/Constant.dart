@@ -32,11 +32,9 @@ class Constant {
     }
   }
 
-  static sendToNextAndClear(BuildContext context, String route,
-      {Object? arguments}) {
+  static sendToNextAndClear(BuildContext context, String route, {Object? arguments}) {
     if (arguments != null) {
-      Navigator.pushNamedAndRemoveUntil(context, route, (predict) => false,
-          arguments: arguments);
+      Navigator.pushNamedAndRemoveUntil(context, route, (predict) => false, arguments: arguments);
     } else {
       Navigator.pushNamedAndRemoveUntil(context, route, (predict) => false);
     }
@@ -51,9 +49,7 @@ class Constant {
   }
 
   static sendToScreen(Widget widget, BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => widget,
-    ));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => widget));
   }
 
   static backToFinish(BuildContext context) {

@@ -12,10 +12,7 @@ class TokenBloc extends Bloc<TokenEvent, TokenState> {
     on<UpdateToken>(_onRefreshTokenRequested);
   }
 
-  Future<void> _onRefreshTokenRequested(
-    UpdateToken event,
-    Emitter<TokenState> emit,
-  ) async {
+  Future<void> _onRefreshTokenRequested(UpdateToken event, Emitter<TokenState> emit) async {
     emit(TokenRefreshing());
     try {
       String? token = await FirebaseMessaging.instance.getToken();

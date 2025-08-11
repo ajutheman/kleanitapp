@@ -22,8 +22,7 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(),
       body: SafeArea(
         child: Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: FetchPixels.getPixelWidth(20)),
+          padding: EdgeInsets.symmetric(horizontal: FetchPixels.getPixelWidth(20)),
           child: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
               if (state is ProfileLoading) {
@@ -34,12 +33,7 @@ class ProfileScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     getVerSpace(FetchPixels.getPixelHeight(20)),
-                    withoutleftIconToolbar(context,
-                        istext: true,
-                        title: "Profile",
-                        weight: FontWeight.w800,
-                        fontsize: 24,
-                        textColor: Colors.black),
+                    withoutleftIconToolbar(context, istext: true, title: "Profile", weight: FontWeight.w800, fontsize: 24, textColor: Colors.black),
                     getVerSpace(FetchPixels.getPixelHeight(30)),
                     profilePicture(context),
                     getVerSpace(FetchPixels.getPixelHeight(40)),
@@ -81,11 +75,7 @@ class ProfileScreen extends StatelessWidget {
           shape: BoxShape.circle,
           color: Colors.grey.shade200, // Optional background color
         ),
-        child: Icon(
-          Icons.person,
-          size: FetchPixels.getPixelHeight(60),
-          color: Colors.grey,
-        ),
+        child: Icon(Icons.person, size: FetchPixels.getPixelHeight(60), color: Colors.grey),
       ),
     );
   }
@@ -94,15 +84,19 @@ class ProfileScreen extends StatelessWidget {
     return Container(
       color: backGroundColor,
       padding: EdgeInsets.only(left: 20, right: 20, bottom: 30),
-      child: getButton(context, primaryColor, "Edit Profile", Colors.white, () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => EditProfileScreen()),
-        );
-      }, 18,
-          weight: FontWeight.w600,
-          buttonHeight: 60,
-          borderRadius: BorderRadius.circular(14)),
+      child: getButton(
+        context,
+        primaryColor,
+        "Edit Profile",
+        Colors.white,
+        () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => EditProfileScreen()));
+        },
+        18,
+        weight: FontWeight.w600,
+        buttonHeight: 60,
+        borderRadius: BorderRadius.circular(14),
+      ),
     );
   }
 }

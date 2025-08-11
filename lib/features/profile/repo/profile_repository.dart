@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:kleanit/core/constants/pref_resources.dart';
-import 'package:kleanit/core/constants/url_resources.dart';
+import 'package:kleanitapp/core/constants/pref_resources.dart';
+import 'package:kleanitapp/core/constants/url_resources.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/customer_model.dart';
@@ -21,10 +21,7 @@ class ProfileRepository {
     print("➡️ URL: $url");
     print("➡️ Headers: Authorization: Bearer $token");
 
-    final response = await dio.get(
-      UrlResources.fetchProfile,
-      options: Options(headers: {"Authorization": "Bearer $token"}),
-    );
+    final response = await dio.get(UrlResources.fetchProfile, options: Options(headers: {"Authorization": "Bearer $token"}));
     print("✅ Response: ${response.statusCode}");
     print("🟢 Response Body: ${response.data}");
 
@@ -48,11 +45,7 @@ class ProfileRepository {
       print("➡️ Headers: Authorization: Bearer $token");
       print("➡️ Request Body: $requestBody");
 
-      final response = await dio.post(
-        UrlResources.updateProfile,
-        data: customer.toJson(),
-        options: Options(headers: {"Authorization": "Bearer $token"}),
-      );
+      final response = await dio.post(UrlResources.updateProfile, data: customer.toJson(), options: Options(headers: {"Authorization": "Bearer $token"}));
       print("🟢 [Profile Update] Full Response: ${response.data}");
       print("✅ Response: ${response.statusCode}");
       print("🟢 Response Body: ${response.data}");
@@ -63,9 +56,7 @@ class ProfileRepository {
     } on DioException catch (e) {
       print("🔴 [Profile Update Error] ${e.response?.data}");
 
-      throw Exception(e.response?.data["message"] ??
-          e.response?.data["error"] ??
-          "Failed to Update profile");
+      throw Exception(e.response?.data["message"] ?? e.response?.data["error"] ?? "Failed to Update profile");
     }
   }
 }

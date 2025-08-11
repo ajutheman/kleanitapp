@@ -48,19 +48,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
         if (state is ProfileError) {
           setState(() => errorMessage = state.message);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text("Failed: ${state.message}"),
-                backgroundColor: Colors.red),
-          );
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed: ${state.message}"), backgroundColor: Colors.red));
         }
 
         if (state is ProfileLoaded) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text("Profile updated successfully"),
-                backgroundColor: Colors.green),
-          );
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Profile updated successfully"), backgroundColor: Colors.green));
           Navigator.pop(context);
         }
       },
@@ -69,33 +61,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         bottomNavigationBar: saveButton(context),
         body: SafeArea(
           child: Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: FetchPixels.getPixelWidth(20)),
+            padding: EdgeInsets.symmetric(horizontal: FetchPixels.getPixelWidth(20)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 getVerSpace(20),
                 gettoolbarMenu(
-                    context, "back.svg", () => Constant.backToPrev(context),
-                    istext: true,
-                    title: "Edit Profile",
-                    weight: FontWeight.w800,
-                    fontsize: 24,
-                    textColor: Colors.black),
+                  context,
+                  "back.svg",
+                  () => Constant.backToPrev(context),
+                  istext: true,
+                  title: "Edit Profile",
+                  weight: FontWeight.w800,
+                  fontsize: 24,
+                  textColor: Colors.black,
+                ),
                 getVerSpace(30),
                 profilePictureEdit(context),
                 getVerSpace(40),
-                getDefaultTextFiledWithLabel(
-                    context, "Name", nameController, Colors.grey,
-                    isEnable: true, withprefix: true, image: "profile.svg"),
+                getDefaultTextFiledWithLabel(context, "Name", nameController, Colors.grey, isEnable: true, withprefix: true, image: "profile.svg"),
                 getVerSpace(20),
-                getDefaultTextFiledWithLabel(
-                    context, "Email", emailController, Colors.grey,
-                    isEnable: true, withprefix: true, image: "message.svg"),
+                getDefaultTextFiledWithLabel(context, "Email", emailController, Colors.grey, isEnable: true, withprefix: true, image: "message.svg"),
                 getVerSpace(20),
-                getDefaultTextFiledWithLabel(
-                    context, "Phone", phoneController, Colors.grey,
-                    isEnable: true, withprefix: true, image: "call.svg"),
+                getDefaultTextFiledWithLabel(context, "Phone", phoneController, Colors.grey, isEnable: true, withprefix: true, image: "call.svg"),
               ],
             ),
           ),
@@ -132,11 +120,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           shape: BoxShape.circle,
           color: Colors.grey.shade200, // Optional background color
         ),
-        child: Icon(
-          Icons.person,
-          size: FetchPixels.getPixelHeight(60),
-          color: Colors.grey,
-        ),
+        child: Icon(Icons.person, size: FetchPixels.getPixelHeight(60), color: Colors.grey),
       ),
     );
   }

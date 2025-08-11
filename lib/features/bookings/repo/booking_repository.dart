@@ -1,9 +1,9 @@
 // import 'dart:convert';
 //
 // import 'package:dio/dio.dart';
-// import 'package:kleanit/core/constants/pref_resources.dart';
-// import 'package:kleanit/core/utils/url_resources.dart';
-// import 'package:kleanit/features/bookings/model/weekly_schedule.dart';
+// import 'package:kleanitapp/core/constants/pref_resources.dart';
+// import 'package:kleanitapp/core/utils/url_resources.dart';
+// import 'package:kleanitapp/features/bookings/model/weekly_schedule.dart';
 // import 'package:open_file/open_file.dart';
 // import 'package:path_provider/path_provider.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -174,9 +174,9 @@
 // import 'dart:convert';
 // import 'package:dio/dio.dart';
 // import 'package:flutter/foundation.dart';
-// import 'package:kleanit/core/constants/pref_resources.dart';
-// import 'package:kleanit/core/utils/url_resources.dart';
-// import 'package:kleanit/features/bookings/model/weekly_schedule.dart';
+// import 'package:kleanitapp/core/constants/pref_resources.dart';
+// import 'package:kleanitapp/core/utils/url_resources.dart';
+// import 'package:kleanitapp/features/bookings/model/weekly_schedule.dart';
 // import 'package:open_file/open_file.dart';
 // import 'package:path_provider/path_provider.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -382,15 +382,17 @@
 //   }
 // }
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:kleanit/core/constants/pref_resources.dart';
-import 'package:kleanit/core/utils/url_resources.dart';
-import 'package:kleanit/core/utils/auth_helper.dart'; // 👈 added
-import 'package:kleanit/features/bookings/model/weekly_schedule.dart';
+import 'package:kleanitapp/core/constants/pref_resources.dart';
+import 'package:kleanitapp/core/utils/auth_helper.dart'; // 👈 added
+import 'package:kleanitapp/core/utils/url_resources.dart';
+import 'package:kleanitapp/features/bookings/model/weekly_schedule.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../model/book_detail.dart';
 import '../model/booking.dart';
 
@@ -402,8 +404,7 @@ class BookingRepository {
     return prefs.getString(PrefResources.USER_ACCESS_TOCKEN);
   }
 
-  Future<Map<String, dynamic>> fetchBookings(
-      {int page = 1, String status = "All"}) async {
+  Future<Map<String, dynamic>> fetchBookings({int page = 1, String status = "All"}) async {
     try {
       final token = await _getAccessToken();
       if (token == null) {
@@ -413,21 +414,12 @@ class BookingRepository {
 
       final url = "${UrlResources.bookingList}?page=$page&status=$status";
       debugPrint("📥 [GET $url] ");
-      final response = await dio.get(
-        url,
-        options: Options(headers: {"Authorization": "Bearer $token"}),
-      );
+      final response = await dio.get(url, options: Options(headers: {"Authorization": "Bearer $token"}));
 
       if (response.statusCode == 200) {
         final data = response.data;
-        final List<BookingModel> bookings = (data['orders'] as List)
-            .map((e) => BookingModel.fromJson(e))
-            .toList();
-        return {
-          'bookings': bookings,
-          'currentPage': data['pagination']['current_page'],
-          'totalPages': data['pagination']['last_page'],
-        };
+        final List<BookingModel> bookings = (data['orders'] as List).map((e) => BookingModel.fromJson(e)).toList();
+        return {'bookings': bookings, 'currentPage': data['pagination']['current_page'], 'totalPages': data['pagination']['last_page']};
       } else if (response.statusCode == 401) {
         await handleUnauthorized();
         throw Exception("Session expired");
@@ -436,8 +428,7 @@ class BookingRepository {
       }
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) await handleUnauthorized();
-      throw Exception(
-          e.response?.data?['message'] ?? "Error fetching bookings");
+      throw Exception(e.response?.data?['message'] ?? "Error fetching bookings");
     }
   }
 
@@ -450,10 +441,7 @@ class BookingRepository {
       }
 
       final url = "${UrlResources.orderDetails}/$orderId";
-      final response = await dio.get(
-        url,
-        options: Options(headers: {"Authorization": "Bearer $token"}),
-      );
+      final response = await dio.get(url, options: Options(headers: {"Authorization": "Bearer $token"}));
 
       if (response.statusCode == 200) {
         return BookingDetails.fromJson(response.data['order']);
@@ -465,8 +453,7 @@ class BookingRepository {
       }
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) await handleUnauthorized();
-      throw Exception(
-          "Error fetching order details: ${e.response?.data?['message'] ?? e.toString()}");
+      throw Exception("Error fetching order details: ${e.response?.data?['message'] ?? e.toString()}");
     }
   }
 
@@ -479,10 +466,7 @@ class BookingRepository {
       }
 
       final url = "${UrlResources.scheduleDays}/$orderId";
-      final response = await dio.get(
-        url,
-        options: Options(headers: {"Authorization": "Bearer $token"}),
-      );
+      final response = await dio.get(url, options: Options(headers: {"Authorization": "Bearer $token"}));
 
       if (response.statusCode == 200) {
         final data = response.data['weekly_schedules'] as List;
@@ -495,8 +479,7 @@ class BookingRepository {
       }
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) await handleUnauthorized();
-      throw Exception(
-          "Error fetching schedule days: ${e.response?.data?['message'] ?? e.toString()}");
+      throw Exception("Error fetching schedule days: ${e.response?.data?['message'] ?? e.toString()}");
     }
   }
 
@@ -518,17 +501,10 @@ class BookingRepository {
           {"day": "thursday", "enabled": days.thursday ? "yes" : "no"},
           {"day": "friday", "enabled": days.friday ? "yes" : "no"},
           {"day": "saturday", "enabled": days.saturday ? "yes" : "no"},
-        ]
+        ],
       };
 
-      final response = await dio.put(
-        url,
-        data: jsonEncode(body),
-        options: Options(headers: {
-          "Authorization": "Bearer $token",
-          "Content-Type": "application/json",
-        }),
-      );
+      final response = await dio.put(url, data: jsonEncode(body), options: Options(headers: {"Authorization": "Bearer $token", "Content-Type": "application/json"}));
 
       if (response.statusCode == 401) {
         await handleUnauthorized();
@@ -540,8 +516,7 @@ class BookingRepository {
       }
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) await handleUnauthorized();
-      throw Exception(
-          "Update schedule failed: ${e.response?.data?['message'] ?? e.toString()}");
+      throw Exception("Update schedule failed: ${e.response?.data?['message'] ?? e.toString()}");
     }
   }
 
@@ -556,11 +531,7 @@ class BookingRepository {
       final url = "${UrlResources.cancelOrder}/$orderId";
       final body = {"cancellation_reason": reason};
 
-      final response = await dio.post(
-        url,
-        data: jsonEncode(body),
-        options: Options(headers: {"Authorization": "Bearer $token"}),
-      );
+      final response = await dio.post(url, data: jsonEncode(body), options: Options(headers: {"Authorization": "Bearer $token"}));
 
       if (response.statusCode == 401) {
         await handleUnauthorized();
@@ -572,9 +543,7 @@ class BookingRepository {
       }
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) await handleUnauthorized();
-      throw Exception(e.response?.data?['message'] ??
-          e.response?.data?['error'] ??
-          "Failed to cancel order");
+      throw Exception(e.response?.data?['message'] ?? e.response?.data?['error'] ?? "Failed to cancel order");
     }
   }
 
@@ -586,21 +555,11 @@ class BookingRepository {
         throw Exception("Unauthorized");
       }
 
-      final url =
-          "https://backend.kleanit.ae/api/customer/orders/invoice/$encryptedInvoiceId";
+      final url = "https://backend.kleanit.ae/api/customer/orders/invoice/$encryptedInvoiceId";
       final directory = await getApplicationDocumentsDirectory();
       final filePath = "${directory.path}/invoice_$encryptedInvoiceId.pdf";
 
-      final response = await dio.download(
-        url,
-        filePath,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            "Accept": "application/pdf",
-          },
-        ),
-      );
+      final response = await dio.download(url, filePath, options: Options(headers: {"Authorization": "Bearer $token", "Accept": "application/pdf"}));
 
       if (response.statusCode == 401) {
         await handleUnauthorized();

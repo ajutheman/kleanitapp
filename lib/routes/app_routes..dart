@@ -7,6 +7,7 @@ class Routes {
   static const String otpVerificationRoute = '/otp_verification';
   static const String categoryDetail = '/categoryDetail';
   static const String categoryDetailAdd = '/CategoryDetailScreenforadd';
+
   // ✅ Add this for Edit Profile with special login flow
   static const String editProfileScreenRoute = '/edit_profile';
 }

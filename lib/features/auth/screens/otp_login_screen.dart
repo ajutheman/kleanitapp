@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kleanit/features/auth/bloc/auth/auth_bloc.dart';
-import 'package:kleanit/features/auth/bloc/auth/auth_event.dart';
-import 'package:kleanit/features/auth/bloc/auth/auth_state.dart';
+import 'package:kleanitapp/features/auth/bloc/auth/auth_bloc.dart';
+import 'package:kleanitapp/features/auth/bloc/auth/auth_event.dart';
+import 'package:kleanitapp/features/auth/bloc/auth/auth_state.dart';
 
 import '../../../core/constants/Constant.dart';
 import '../../../core/theme/color_data.dart';
@@ -152,59 +152,33 @@ class _OTPLoginScreenState extends State<OTPLoginScreen> {
           child: BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is AuthLoading) {
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (_) =>
-                      const Center(child: CircularProgressIndicator()),
-                );
+                showDialog(context: context, barrierDismissible: false, builder: (_) => const Center(child: CircularProgressIndicator()));
               } else {
                 Navigator.pop(context); // dismiss loader
                 setState(() => _isLoading = false);
               }
 
               if (state is AuthFailure) {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text("❌ ${state.error}")));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("❌ ${state.error}")));
               }
 
               if (state is OTPLoginSuccess) {
-                Constant.sendToNext(
-                  context,
-                  Routes.otpVerificationRoute,
-                  arguments: phoneController.text.trim(),
-                );
+                Constant.sendToNext(context, Routes.otpVerificationRoute, arguments: phoneController.text.trim());
               }
             },
             builder: (context, state) {
               return Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: FetchPixels.getDefaultHorSpace(context)),
+                padding: EdgeInsets.symmetric(horizontal: FetchPixels.getDefaultHorSpace(context)),
                 child: ListView(
                   children: [
                     const SizedBox(height: 20),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.black),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ),
+                    Align(alignment: Alignment.topLeft, child: IconButton(icon: const Icon(Icons.arrow_back, color: Colors.black), onPressed: () => Navigator.pop(context))),
                     getVerSpace(FetchPixels.getPixelHeight(70)),
                     Padding(
                       padding: const EdgeInsets.all(38.0),
-                      child: Image.asset(
-                        "assets/icon/logo_light.png",
-                        width: FetchPixels.getPixelWidth(100),
-                        height: FetchPixels.getPixelHeight(100),
-                      ),
+                      child: Image.asset("assets/icon/logo_light.png", width: FetchPixels.getPixelWidth(100), height: FetchPixels.getPixelHeight(100)),
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: getCustomFont(
-                          "Enter Your Mobile Number", 18, Colors.black, 1,
-                          fontWeight: FontWeight.w800),
-                    ),
+                    Align(alignment: Alignment.center, child: getCustomFont("Enter Your Mobile Number", 18, Colors.black, 1, fontWeight: FontWeight.w800)),
                     getVerSpace(FetchPixels.getPixelHeight(40)),
                     // Row(
                     //   children: [
@@ -240,16 +214,9 @@ class _OTPLoginScreenState extends State<OTPLoginScreen> {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 12),
                           height: FetchPixels.getPixelHeight(60),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                          decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(10)),
                           alignment: Alignment.center,
-                          child: const Text(
-                            "+971",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w500),
-                          ),
+                          child: const Text("+971", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
@@ -263,9 +230,8 @@ class _OTPLoginScreenState extends State<OTPLoginScreen> {
                             withprefix: true,
                             image: "phone.svg",
                             keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ], // ✅ Only numbers
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            // ✅ Only numbers
                             maxLength: 9, // ✅ Limit to 9 digits
                           ),
                         ),
@@ -299,33 +265,22 @@ class _OTPLoginScreenState extends State<OTPLoginScreen> {
                       () async {
                         final phone = phoneController.text.trim();
                         if (phone.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text("Please enter your phone number.")),
-                          );
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please enter your phone number.")));
                           return;
                         }
                         if (!isValidPhone(phone)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text(
-                                    "Please enter a valid 9-digit phone number.")),
-                          );
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please enter a valid 9-digit phone number.")));
                           return;
                         }
                         if (_isLoading) return;
 
                         setState(() => _isLoading = true);
-                        context
-                            .read<AuthBloc>()
-                            .add(OTPLoginRequested(mobile: phone));
+                        context.read<AuthBloc>().add(OTPLoginRequested(mobile: phone));
                       },
                       18,
                       weight: FontWeight.w600,
                       buttonHeight: FetchPixels.getPixelHeight(60),
-                      borderRadius:
-                          BorderRadius.circular(FetchPixels.getPixelHeight(15)),
+                      borderRadius: BorderRadius.circular(FetchPixels.getPixelHeight(15)),
                     ),
                   ],
                 ),

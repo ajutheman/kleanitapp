@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import '../model/cart.dart';
 
 abstract class CartState extends Equatable {
@@ -29,8 +30,7 @@ class CartAddActionSuccess extends CartState {
   final int cartThirdId;
   final bool isDirectBooking;
 
-  CartAddActionSuccess(
-      {required this.cartThirdId, required this.isDirectBooking});
+  CartAddActionSuccess({required this.cartThirdId, required this.isDirectBooking});
 }
 
 class CartError extends CartState {

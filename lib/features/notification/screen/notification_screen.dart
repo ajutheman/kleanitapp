@@ -15,18 +15,14 @@ class NotificationListScreen extends StatefulWidget {
   State<NotificationListScreen> createState() => _NotificationListScreenState();
 }
 
-class _NotificationListScreenState extends State<NotificationListScreen>
-    with TickerProviderStateMixin {
+class _NotificationListScreenState extends State<NotificationListScreen> with TickerProviderStateMixin {
   late AnimationController _refreshIconController;
   int? expandedIndex; // <-- ADD THIS HERE
 
   @override
   void initState() {
     super.initState();
-    _refreshIconController = AnimationController(
-      duration: const Duration(seconds: 1),
-      vsync: this,
-    );
+    _refreshIconController = AnimationController(duration: const Duration(seconds: 1), vsync: this);
 
     // Fetch notifications when screen opens
     context.read<NotificationBloc>().add(FetchNotificationList());
@@ -53,24 +49,15 @@ class _NotificationListScreenState extends State<NotificationListScreen>
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: primaryColor,
-          ), // or your custom `icon`
+          icon: Icon(Icons.arrow_back_ios, color: primaryColor), // or your custom `icon`
         ),
-        title: Text(
-          'Notifications',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: Text('Notifications', style: TextStyle(fontWeight: FontWeight.bold)),
         elevation: 0,
         backgroundColor: Colors.white,
         actions: [
           RotationTransition(
             turns: Tween(begin: 0.0, end: 1.0).animate(_refreshIconController),
-            child: IconButton(
-              icon: Icon(Icons.refresh, color: primaryColor),
-              onPressed: _refreshNotifications,
-            ),
+            child: IconButton(icon: Icon(Icons.refresh, color: primaryColor), onPressed: _refreshNotifications),
           ),
         ],
       ),
@@ -98,28 +85,11 @@ class _NotificationListScreenState extends State<NotificationListScreen>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.notifications_off_outlined,
-              size: 80,
-              color: Colors.grey[400],
-            ),
+            Icon(Icons.notifications_off_outlined, size: 80, color: Colors.grey[400]),
             const SizedBox(height: 16),
-            Text(
-              'No notifications yet',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: Colors.grey[600],
-              ),
-            ),
+            Text('No notifications yet', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey[600])),
             const SizedBox(height: 8),
-            Text(
-              'Pull down to refresh',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[500],
-              ),
-            ),
+            Text('Pull down to refresh', style: TextStyle(fontSize: 14, color: Colors.grey[500])),
           ],
         ),
       );
@@ -245,14 +215,7 @@ class _NotificationListScreenState extends State<NotificationListScreen>
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 1,
-              blurRadius: 5,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 2))],
         ),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -266,60 +229,29 @@ class _NotificationListScreenState extends State<NotificationListScreen>
                   Container(
                     width: 50,
                     height: 50,
-                    decoration: BoxDecoration(
-                      color: primaryColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(
-                      Icons.notifications_active,
-                      color: primaryColor,
-                      size: 24,
-                    ),
+                    decoration: BoxDecoration(color: primaryColor.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                    child: Icon(Icons.notifications_active, color: primaryColor, size: 24),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          notification.title,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        Text(notification.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), maxLines: 1, overflow: TextOverflow.ellipsis),
                         const SizedBox(height: 4),
-                        Text(
-                          notification.body,
-                          style:
-                              TextStyle(color: Colors.grey[700], fontSize: 14),
-                        ),
-                        if (notification.data != null &&
-                            notification.data!.isNotEmpty) ...[
+                        Text(notification.body, style: TextStyle(color: Colors.grey[700], fontSize: 14)),
+                        if (notification.data != null && notification.data!.isNotEmpty) ...[
                           const SizedBox(height: 4),
-                          Text(
-                            'Data: ${notification.data}',
-                            style: TextStyle(
-                                color: Colors.grey[500], fontSize: 13),
-                          ),
+                          Text('Data: ${notification.data}', style: TextStyle(color: Colors.grey[500], fontSize: 13)),
                         ],
                         const SizedBox(height: 6),
                         Row(
                           children: [
-                            if (notification.sentTime != null)
-                              Text(
-                                'Sent: ${timeago.format(notification.sentTime!)}',
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.grey[500]),
-                              ),
+                            if (notification.sentTime != null) Text('Sent: ${timeago.format(notification.sentTime!)}', style: TextStyle(fontSize: 12, color: Colors.grey[500])),
                             if (notification.createdAt != null) ...[
                               const SizedBox(width: 8),
-                              Text(
-                                'Created: ${timeago.format(notification.createdAt!)}',
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.grey[400]),
-                              ),
-                            ]
+                              Text('Created: ${timeago.format(notification.createdAt!)}', style: TextStyle(fontSize: 10, color: Colors.grey[400])),
+                            ],
                           ],
                         ),
                       ],
@@ -329,19 +261,9 @@ class _NotificationListScreenState extends State<NotificationListScreen>
               ),
 
               /// Expanded image below
-              if (isExpanded &&
-                  notification.image != null &&
-                  notification.image!.isNotEmpty) ...[
+              if (isExpanded && notification.image != null && notification.image!.isNotEmpty) ...[
                 const SizedBox(height: 12),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    notification.image!,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: 180,
-                  ),
-                ),
+                ClipRRect(borderRadius: BorderRadius.circular(8), child: Image.network(notification.image!, fit: BoxFit.cover, width: double.infinity, height: 180)),
               ],
             ],
           ),
@@ -355,40 +277,17 @@ class _NotificationListScreenState extends State<NotificationListScreen>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.error_outline,
-            size: 60,
-            color: Colors.red[300],
-          ),
+          Icon(Icons.error_outline, size: 60, color: Colors.red[300]),
           const SizedBox(height: 16),
-          Text(
-            'Oops! Something went wrong',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-              color: Colors.grey[800],
-            ),
-          ),
+          Text('Oops! Something went wrong', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey[800])),
           const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Text(
-              message,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-              ),
-            ),
-          ),
+          Padding(padding: const EdgeInsets.symmetric(horizontal: 32), child: Text(message, textAlign: TextAlign.center, style: TextStyle(fontSize: 14, color: Colors.grey[600]))),
           const SizedBox(height: 24),
           ElevatedButton.icon(
             onPressed: _refreshNotifications,
             icon: const Icon(Icons.refresh),
             label: const Text('Try Again'),
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
+            style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
           ),
         ],
       ),

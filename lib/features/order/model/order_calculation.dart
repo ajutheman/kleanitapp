@@ -80,22 +80,15 @@ class OrderCalculation {
     final orderJson = json['order_calculation'];
     return OrderCalculation(
       subtotal: double.tryParse(orderJson['subtotal'].toString()) ?? 0.0,
-      couponDiscount:
-          double.tryParse(orderJson['coupon_discount'].toString()) ?? 0.0,
-      taxableAmount:
-          double.tryParse(orderJson['taxable_amount'].toString()) ?? 0.0,
+      couponDiscount: double.tryParse(orderJson['coupon_discount'].toString()) ?? 0.0,
+      taxableAmount: double.tryParse(orderJson['taxable_amount'].toString()) ?? 0.0,
       taxRate: double.tryParse(orderJson['tax_rate'].toString()) ?? 0.0,
       taxAmount: double.tryParse(orderJson['tax_amount'].toString()) ?? 0.0,
       grandTotal: double.tryParse(orderJson['grand_total'].toString()) ?? 0.0,
-      requiredAmount:
-          double.tryParse(orderJson['required_amount'].toString()) ?? 0.0,
-      walletAmount:
-          double.tryParse(orderJson['wallet_amount'].toString()) ?? 0.0,
-      walletCoin:
-          double.tryParse(orderJson['wallet_coins_sum'].toString()) ?? 0.0,
-      items: (orderJson['items'] as List)
-          .map((item) => OrderCalculationItem.fromJson(item))
-          .toList(),
+      requiredAmount: double.tryParse(orderJson['required_amount'].toString()) ?? 0.0,
+      walletAmount: double.tryParse(orderJson['wallet_amount'].toString()) ?? 0.0,
+      walletCoin: double.tryParse(orderJson['wallet_coins_sum'].toString()) ?? 0.0,
+      items: (orderJson['items'] as List).map((item) => OrderCalculationItem.fromJson(item)).toList(),
     );
   }
 }
@@ -138,12 +131,9 @@ class OrderCalculationItem {
       type: json['type'] ?? '',
       durationMonths: json['duration_months'],
       basePrice: double.tryParse(json['base_price'].toString()) ?? 0.0,
-      perMonthTotal: json['per_month_total'] != null
-          ? double.tryParse(json['per_month_total'].toString())
-          : null,
+      perMonthTotal: json['per_month_total'] != null ? double.tryParse(json['per_month_total'].toString()) : null,
       totalPrice: double.tryParse(json['total_price'].toString()) ?? 0.0,
-      additionalEmployeeCost:
-          double.tryParse(json['additional_employee_cost'].toString()) ?? 0.0,
+      additionalEmployeeCost: double.tryParse(json['additional_employee_cost'].toString()) ?? 0.0,
       offerDiscount: double.tryParse(json['offer_discount'].toString()) ?? 0.0,
       itemTotal: double.tryParse(json['item_total'].toString()) ?? 0.0,
     );

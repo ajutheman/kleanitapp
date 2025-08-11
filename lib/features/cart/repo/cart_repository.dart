@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:kleanit/core/constants/constants.dart';
+import 'package:kleanitapp/core/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/constants/pref_resources.dart';
@@ -25,15 +25,7 @@ class CartRepository {
       }
       final url = UrlResources.getCartList;
       print("➡️ GET: $url");
-      final response = await dio.get(
-        UrlResources.getCartList,
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token",
-          },
-        ),
-      );
+      final response = await dio.get(UrlResources.getCartList, options: Options(headers: {"Content-Type": "application/json", "Authorization": "Bearer $token"}));
       print("✅ Response [${response.statusCode}]: ${response.data}");
 
       if (response.statusCode == 200) {
@@ -47,12 +39,7 @@ class CartRepository {
   }
 
   // ✅ Add to Cart
-  Future<int> addToCart({
-    required int thirdCategoryId,
-    required int employeeCount,
-    required String type,
-    required int subscriptionFrequency,
-  }) async {
+  Future<int> addToCart({required int thirdCategoryId, required int employeeCount, required String type, required int subscriptionFrequency}) async {
     try {
       final token = await _getAccessToken();
       if (token == null) {
@@ -63,8 +50,7 @@ class CartRepository {
         "third_category_id": thirdCategoryId,
         "employee_count": employeeCount,
         "type": type,
-        if (type == SubscriptionType.SUBSCRIPTION)
-          "subscription_frequency": subscriptionFrequency,
+        if (type == SubscriptionType.SUBSCRIPTION) "subscription_frequency": subscriptionFrequency,
       };
       final url = UrlResources.addToCart;
       print("➡️ POST: $url");
@@ -72,13 +58,7 @@ class CartRepository {
       final response = await dio.post(
         UrlResources.addToCart,
         data: jsonEncode(payload),
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token",
-            "Accept": "application/json",
-          },
-        ),
+        options: Options(headers: {"Content-Type": "application/json", "Authorization": "Bearer $token", "Accept": "application/json"}),
       );
       print("✅ Response [${response.statusCode}]: ${response.data}");
 
@@ -96,37 +76,21 @@ class CartRepository {
   }
 
   // ✅ Update Cart
-  Future<void> updateCart({
-    required int cartId,
-    required int thirdCategoryId,
-    required int employeeCount,
-    required String type,
-    required int subscriptionFrequency,
-  }) async {
+  Future<void> updateCart({required int cartId, required int thirdCategoryId, required int employeeCount, required String type, required int subscriptionFrequency}) async {
     try {
       final token = await _getAccessToken();
       if (token == null) {
         throw Exception("Unauthorized: Access token not found");
       }
 
-      final payload = {
-        "third_category_id": thirdCategoryId,
-        "employee_count": employeeCount,
-        "type": type,
-        "subscription_frequency": subscriptionFrequency,
-      };
+      final payload = {"third_category_id": thirdCategoryId, "employee_count": employeeCount, "type": type, "subscription_frequency": subscriptionFrequency};
       final url = "${UrlResources.updateCart}/$cartId";
       print("➡️ PUT: $url");
       print("📦 Payload: $payload");
       final response = await dio.put(
         "${UrlResources.updateCart}/$cartId",
         data: jsonEncode(payload),
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token",
-          },
-        ),
+        options: Options(headers: {"Content-Type": "application/json", "Authorization": "Bearer $token"}),
       );
       print("✅ Response [${response.statusCode}]: ${response.data}");
       if (response.statusCode == 200) {
@@ -140,9 +104,7 @@ class CartRepository {
   }
 
   // ✅ Delete Cart
-  Future<void> deleteCart({
-    required String cartId,
-  }) async {
+  Future<void> deleteCart({required String cartId}) async {
     try {
       final token = await _getAccessToken();
       if (token == null) {
@@ -150,15 +112,7 @@ class CartRepository {
       }
       final url = "${UrlResources.removeCart}/$cartId";
       print("➡️ DELETE: $url");
-      final response = await dio.delete(
-        "${UrlResources.removeCart}/$cartId",
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token",
-          },
-        ),
-      );
+      final response = await dio.delete("${UrlResources.removeCart}/$cartId", options: Options(headers: {"Content-Type": "application/json", "Authorization": "Bearer $token"}));
       print("✅ Response [${response.statusCode}]: ${response.data}");
       if (response.statusCode == 200) {
         print("Cart delete successfully");

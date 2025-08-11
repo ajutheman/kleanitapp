@@ -6,8 +6,7 @@ import '../categories/modle/category_model.dart';
 class CleanerServiceSelectionScreen extends StatelessWidget {
   final MainCategory category;
 
-  const CleanerServiceSelectionScreen({Key? key, required this.category})
-      : super(key: key);
+  const CleanerServiceSelectionScreen({Key? key, required this.category}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,20 +15,9 @@ class CleanerServiceSelectionScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'Part-Time Cleaners',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.share_outlined, color: Colors.black),
-            onPressed: () {},
-          ),
-        ],
+        leading: IconButton(icon: const Icon(Icons.arrow_back, color: Colors.black), onPressed: () => Navigator.pop(context)),
+        title: const Text('Part-Time Cleaners', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500)),
+        actions: [IconButton(icon: const Icon(Icons.share_outlined, color: Colors.black), onPressed: () {})],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -45,23 +33,9 @@ class CleanerServiceSelectionScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
-                      Text(
-                        'We deliver\nspotless homes',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          height: 1.2,
-                        ),
-                      ),
+                      Text('We deliver\nspotless homes', style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold, height: 1.2)),
                       SizedBox(height: 12),
-                      Text(
-                        'Professionals trained\nfor 100+ hours',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
+                      Text('Professionals trained\nfor 100+ hours', style: TextStyle(color: Colors.white, fontSize: 16)),
                     ],
                   ),
                   // const Positioned(
@@ -79,16 +53,7 @@ class CleanerServiceSelectionScreen extends StatelessWidget {
             ),
 
             // Section title
-            const Padding(
-              padding: EdgeInsets.fromLTRB(16, 24, 16, 16),
-              child: Text(
-                'Choose your requirement',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            const Padding(padding: EdgeInsets.fromLTRB(16, 24, 16, 16), child: Text('Choose your requirement', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
 
             // Service options
             _buildServiceOption(
@@ -98,15 +63,7 @@ class CleanerServiceSelectionScreen extends StatelessWidget {
               description: 'Pay per service for\none-time cleaning needs',
               badge: null,
               onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  Routes.categoryDetail,
-                  arguments: {
-                    "main_category_id": category.id,
-                    "type": "single",
-                    "category": category,
-                  },
-                );
+                Navigator.pushNamed(context, Routes.categoryDetail, arguments: {"main_category_id": category.id, "type": "single", "category": category});
               },
             ),
 
@@ -120,15 +77,7 @@ class CleanerServiceSelectionScreen extends StatelessWidget {
               badge: 'RMD SPECIAL: 25% OFF',
               badgeColor: Colors.green[100]!,
               onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  Routes.categoryDetail,
-                  arguments: {
-                    "main_category_id": category.id,
-                    "type": "subscribe",
-                    "category": category,
-                  },
-                );
+                Navigator.pushNamed(context, Routes.categoryDetail, arguments: {"main_category_id": category.id, "type": "subscribe", "category": category});
               },
             ),
           ],
@@ -158,15 +107,8 @@ class CleanerServiceSelectionScreen extends StatelessWidget {
               width: 70,
               height: 70,
               padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Image.asset(
-                icon,
-                width: 50,
-                height: 50,
-              ),
+              decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(8)),
+              child: Image.asset(icon, width: 50, height: 50),
             ),
             const SizedBox(width: 16),
 
@@ -178,47 +120,19 @@ class CleanerServiceSelectionScreen extends StatelessWidget {
                   if (badge != null)
                     Container(
                       margin: const EdgeInsets.only(bottom: 6),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: badgeColor,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        badge,
-                        style: TextStyle(
-                          color: Colors.green[800],
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(color: badgeColor, borderRadius: BorderRadius.circular(4)),
+                      child: Text(badge, style: TextStyle(color: Colors.green[800], fontSize: 12, fontWeight: FontWeight.bold)),
                     ),
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                   const SizedBox(height: 4),
-                  Text(
-                    description,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[700],
-                      height: 1.3,
-                    ),
-                  ),
+                  Text(description, style: TextStyle(fontSize: 14, color: Colors.grey[700], height: 1.3)),
                 ],
               ),
             ),
 
             // Arrow
-            Icon(
-              Icons.chevron_right,
-              color: Colors.grey[400],
-              size: 24,
-            ),
+            Icon(Icons.chevron_right, color: Colors.grey[400], size: 24),
           ],
         ),
       ),

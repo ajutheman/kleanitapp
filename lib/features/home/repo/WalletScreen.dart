@@ -1,5 +1,5 @@
 // import 'package:flutter/material.dart';
-// import 'package:kleanit/features/home/repo/wallet_repository.dart';
+// import 'package:kleanitapp/features/home/repo/wallet_repository.dart';
 // import '../../../core/theme/color_data.dart';
 // import '../modle/wallet_details.dart';
 // import 'package:shimmer/shimmer.dart';
@@ -368,10 +368,11 @@
 // }
 //
 import 'package:flutter/material.dart';
-import 'package:kleanit/features/home/repo/wallet_repository.dart';
+import 'package:kleanitapp/features/home/repo/wallet_repository.dart';
+import 'package:shimmer/shimmer.dart';
+
 import '../../../core/theme/color_data.dart';
 import '../modle/wallet_details.dart';
-import 'package:shimmer/shimmer.dart';
 import 'WalletTransaction.dart';
 
 class WalletScreen extends StatefulWidget {
@@ -417,102 +418,72 @@ class _WalletScreenState extends State<WalletScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final transactions =
-        isCreditSelected ? receivedTransactions : sentTransactions;
+    final transactions = isCreditSelected ? receivedTransactions : sentTransactions;
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(Icons.arrow_back_ios, color: accentColor),
-        ),
+        leading: IconButton(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.arrow_back_ios, color: accentColor)),
         title: const Text("Wallet", style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
         elevation: 1,
       ),
       backgroundColor: Colors.white,
-      body: isLoading
-          ? _buildWalletCardShimmer()
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  _buildWalletCard(),
-                  const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(10),
+      body:
+          isLoading
+              ? _buildWalletCardShimmer()
+              : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    _buildWalletCard(),
+                    const SizedBox(height: 20),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(10)),
+                      child: Row(children: [Expanded(child: _buildTabButton("Credits", isCreditSelected)), Expanded(child: _buildTabButton("Debits", !isCreditSelected))]),
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child:
-                                _buildTabButton("Credits", isCreditSelected)),
-                        Expanded(
-                            child:
-                                _buildTabButton("Debits", !isCreditSelected)),
-                      ],
+                    const SizedBox(height: 20),
+                    Expanded(
+                      child:
+                          transactions.isEmpty
+                              ? const Center(child: Text("No transactions found"))
+                              : ListView.builder(
+                                itemCount: transactions.length,
+                                itemBuilder: (context, index) {
+                                  final txn = transactions[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                    child: Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 22,
+                                          backgroundImage: txn.userPhoto != null ? NetworkImage(txn.userPhoto!) : const AssetImage('assets/images/user.png') as ImageProvider,
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(txn.userName ?? "Unknown", style: const TextStyle(fontWeight: FontWeight.w600)),
+                                              Text("On ${txn.date}", style: const TextStyle(color: Colors.black54, fontSize: 13)),
+                                            ],
+                                          ),
+                                        ),
+                                        Text(
+                                          "${txn.type == "credit" ? "+ coins " : "- coins "}${txn.amount}",
+                                          style: TextStyle(fontWeight: FontWeight.bold, color: txn.type == "credit" ? accentColor : Colors.red),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: transactions.isEmpty
-                        ? const Center(child: Text("No transactions found"))
-                        : ListView.builder(
-                            itemCount: transactions.length,
-                            itemBuilder: (context, index) {
-                              final txn = transactions[index];
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 22,
-                                      backgroundImage: txn.userPhoto != null
-                                          ? NetworkImage(txn.userPhoto!)
-                                          : const AssetImage(
-                                                  'assets/images/user.png')
-                                              as ImageProvider,
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(txn.userName ?? "Unknown",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w600)),
-                                          Text("On ${txn.date}",
-                                              style: const TextStyle(
-                                                  color: Colors.black54,
-                                                  fontSize: 13)),
-                                        ],
-                                      ),
-                                    ),
-                                    Text(
-                                      "${txn.type == "credit" ? "+ coins " : "- coins "}${txn.amount}",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: txn.type == "credit"
-                                            ? accentColor
-                                            : Colors.red,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
     );
   }
 
@@ -525,19 +496,8 @@ class _WalletScreenState extends State<WalletScreen> {
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected ? accentColor : Colors.grey[200],
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(
-              color: isSelected ? Colors.white : Colors.black87,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
+        decoration: BoxDecoration(color: isSelected ? accentColor : Colors.grey[200], borderRadius: BorderRadius.circular(12)),
+        child: Center(child: Text(label, style: TextStyle(color: isSelected ? Colors.white : Colors.black87, fontWeight: FontWeight.w600))),
       ),
     );
   }
@@ -548,25 +508,12 @@ class _WalletScreenState extends State<WalletScreen> {
       padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        gradient: LinearGradient(
-          colors: [primaryColor, primaryColor.withOpacity(0.9)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 12,
-            offset: Offset(0, 6),
-          ),
-        ],
+        gradient: LinearGradient(colors: [primaryColor, primaryColor.withOpacity(0.9)], begin: Alignment.topLeft, end: Alignment.bottomRight),
+        boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 12, offset: Offset(0, 6))],
       ),
       child: Container(
         padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: primaryColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
+        decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(20)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -574,59 +521,32 @@ class _WalletScreenState extends State<WalletScreen> {
               children: [
                 CircleAvatar(
                   radius: 28,
-                  backgroundImage: (walletDetails != null &&
-                          walletDetails!.profileUrl.isNotEmpty &&
-                          !walletDetails!.profileUrl.contains('default-avatar'))
-                      ? NetworkImage(walletDetails!.profileUrl)
-                      : const AssetImage('assets/images/user.png')
-                          as ImageProvider,
+                  backgroundImage:
+                      (walletDetails != null && walletDetails!.profileUrl.isNotEmpty && !walletDetails!.profileUrl.contains('default-avatar'))
+                          ? NetworkImage(walletDetails!.profileUrl)
+                          : const AssetImage('assets/images/user.png') as ImageProvider,
                 ),
                 const SizedBox(width: 12),
-                Text(
-                  walletDetails?.name ?? '',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                Text(walletDetails?.name ?? '', style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w600)),
               ],
             ),
             const SizedBox(height: 16),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              decoration: BoxDecoration(
-                color: accentColor.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(16),
-              ),
+              decoration: BoxDecoration(color: accentColor.withOpacity(0.2), borderRadius: BorderRadius.circular(16)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("My Wallet",
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600)),
+                  const Text("My Wallet", style: TextStyle(color: Colors.black87, fontSize: 15, fontWeight: FontWeight.w600)),
                   const SizedBox(height: 6),
-                  Text(
-                    "Coins  : ${walletDetails?.walletAmount.toStringAsFixed(2) ?? '0.00'}",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text("Coins  : ${walletDetails?.walletAmount.toStringAsFixed(2) ?? '0.00'}", style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold)),
                   Row(
                     children: [
                       Text(
                         '* Note: ',
                         // '${walletDetails != null ? _getAedFromCoins(walletDetails!.walletAmount) : '0.00'} AED available',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          letterSpacing: 2,
-                        ),
+                        style: const TextStyle(color: Colors.white, fontSize: 12, letterSpacing: 2),
                       ),
                       Image.asset(
                         'assets/icon/aed_symbol.png',
@@ -638,11 +558,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       const SizedBox(width: 4),
                       Text(
                         '${walletDetails != null ? _getAedFromCoins(walletDetails!.walletAmount) : '0.00'} available',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          letterSpacing: 2,
-                        ),
+                        style: const TextStyle(color: Colors.white, fontSize: 12, letterSpacing: 2),
                       ),
                     ],
                   ),
@@ -652,28 +568,12 @@ class _WalletScreenState extends State<WalletScreen> {
             const SizedBox(height: 20),
             Text(
               '*** *** *** ${walletDetails?.mobileLast4?.isNotEmpty == true ? walletDetails!.mobileLast4 : '0000'}',
-              style: const TextStyle(
-                color: Colors.white70,
-                fontSize: 14,
-                letterSpacing: 2,
-              ),
+              style: const TextStyle(color: Colors.white70, fontSize: 14, letterSpacing: 2),
             ),
             Row(
               children: [
-                const Text(
-                  '* Note : 50 Coins = ',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    letterSpacing: 2,
-                  ),
-                ),
-                Image.asset(
-                  'assets/icon/aed_symbol.png',
-                  width: 14,
-                  height: 14,
-                  fit: BoxFit.contain,
-                ),
+                const Text('* Note : 50 Coins = ', style: TextStyle(color: Colors.black, fontSize: 12, letterSpacing: 2)),
+                Image.asset('assets/icon/aed_symbol.png', width: 14, height: 14, fit: BoxFit.contain),
               ],
             ),
           ],
@@ -691,18 +591,11 @@ class _WalletScreenState extends State<WalletScreen> {
         padding: const EdgeInsets.all(3),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          gradient: LinearGradient(
-            colors: [primaryColor, primaryColor],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          gradient: LinearGradient(colors: [primaryColor, primaryColor], begin: Alignment.topLeft, end: Alignment.bottomRight),
         ),
         child: Container(
           padding: const EdgeInsets.all(18),
-          decoration: BoxDecoration(
-            color: primaryColor,
-            borderRadius: BorderRadius.circular(20),
-          ),
+          decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(20)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -710,29 +603,17 @@ class _WalletScreenState extends State<WalletScreen> {
                 children: [
                   const CircleAvatar(radius: 28, backgroundColor: Colors.white),
                   const SizedBox(width: 12),
-                  Container(
-                      width: 100,
-                      height: 16,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8))),
+                  Container(width: 100, height: 16, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8))),
                 ],
               ),
               const SizedBox(height: 16),
               Container(
                 width: double.infinity,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                decoration: BoxDecoration(
-                    color: accentColor.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(16)),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                decoration: BoxDecoration(color: accentColor.withOpacity(0.2), borderRadius: BorderRadius.circular(16)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(width: 80, height: 14, color: Colors.white),
-                    const SizedBox(height: 8),
-                    Container(width: 120, height: 24, color: Colors.white),
-                  ],
+                  children: [Container(width: 80, height: 14, color: Colors.white), const SizedBox(height: 8), Container(width: 120, height: 24, color: Colors.white)],
                 ),
               ),
               const SizedBox(height: 20),

@@ -6,17 +6,9 @@ class WalletTransaction {
   final String? userName;
   final String? userPhoto;
 
-  WalletTransaction({
-    required this.id,
-    required this.amount,
-    required this.date,
-    required this.type,
-    this.userName,
-    this.userPhoto,
-  });
+  WalletTransaction({required this.id, required this.amount, required this.date, required this.type, this.userName, this.userPhoto});
 
-  factory WalletTransaction.fromJson(Map<String, dynamic> json,
-      {required bool isReceived}) {
+  factory WalletTransaction.fromJson(Map<String, dynamic> json, {required bool isReceived}) {
     return WalletTransaction(
       id: json['id'],
       amount: double.tryParse(json['amount'].toString()) ?? 0.0,

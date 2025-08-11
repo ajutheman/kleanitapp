@@ -15,6 +15,7 @@ class HomeLoading extends HomeState {}
 class HomeServiceAvailable extends HomeState {
   final String message;
   final Customer? customer;
+
   const HomeServiceAvailable(this.message, {this.customer});
 
   @override
@@ -24,6 +25,7 @@ class HomeServiceAvailable extends HomeState {
 class HomeServiceNotAvailable extends HomeState {
   final String message;
   final Customer? customer;
+
   const HomeServiceNotAvailable(this.message, {this.customer});
 
   @override
@@ -32,6 +34,7 @@ class HomeServiceNotAvailable extends HomeState {
 
 class HomeTokenExpired extends HomeState {
   final String message;
+
   const HomeTokenExpired(this.message);
 
   @override
@@ -40,6 +43,7 @@ class HomeTokenExpired extends HomeState {
 
 class HomeError extends HomeState {
   final String error;
+
   const HomeError(this.error);
 
   @override

@@ -20,8 +20,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<LoadHomeData>(_onLoadHomeData);
   }
 
-  Future<void> _onLoadHomeData(
-      LoadHomeData event, Emitter<HomeState> emit) async {
+  Future<void> _onLoadHomeData(LoadHomeData event, Emitter<HomeState> emit) async {
     emit(HomeLoading());
     try {
       // Retrieve token and customer data from SharedPreferences.
@@ -53,16 +52,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (permission == LocationPermission.deniedForever) {
         throw Exception("Location permissions are permanently denied.");
       }
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       double latitude = position.latitude;
       double longitude = position.longitude;
       print("latitude:$latitude");
       print("longitude:$longitude");
       print("token:$token");
       // Call the repository to update the location with real-time coordinates.
-      ServiceAvailabilityResponse response =
-          await repository.setLocation(latitude, longitude, token);
+      ServiceAvailabilityResponse response = await repository.setLocation(latitude, longitude, token);
 
       if (response.serviceAvailable == "yes") {
         emit(HomeServiceAvailable(response.message, customer: customer));

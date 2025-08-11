@@ -5,13 +5,7 @@ class WeeklySchedule {
   final DateTime startDate;
   final DateTime endDate;
 
-  WeeklySchedule({
-    required this.id,
-    required this.weekNumber,
-    required this.days,
-    required this.startDate,
-    required this.endDate,
-  });
+  WeeklySchedule({required this.id, required this.weekNumber, required this.days, required this.startDate, required this.endDate});
 
   factory WeeklySchedule.fromJson(Map<String, dynamic> json) {
     return WeeklySchedule(
@@ -56,15 +50,7 @@ class WeeklyScheduleDays {
   }
 
   /// ✅ Add this here
-  WeeklyScheduleDays copyWith({
-    bool? sunday,
-    bool? monday,
-    bool? tuesday,
-    bool? wednesday,
-    bool? thursday,
-    bool? friday,
-    bool? saturday,
-  }) {
+  WeeklyScheduleDays copyWith({bool? sunday, bool? monday, bool? tuesday, bool? wednesday, bool? thursday, bool? friday, bool? saturday}) {
     return WeeklyScheduleDays(
       sunday: sunday ?? this.sunday,
       monday: monday ?? this.monday,
@@ -82,18 +68,10 @@ class OrderDetails {
   final num total;
   final String? subscriptionFrequency;
 
-  OrderDetails({
-    required this.id,
-    required this.total,
-    this.subscriptionFrequency,
-  });
+  OrderDetails({required this.id, required this.total, this.subscriptionFrequency});
 
   factory OrderDetails.fromJson(Map<String, dynamic> json) {
-    return OrderDetails(
-      id: json['id'],
-      total: json['total'],
-      subscriptionFrequency: json['subscription_frequency'],
-    );
+    return OrderDetails(id: json['id'], total: json['total'], subscriptionFrequency: json['subscription_frequency']);
   }
 }
 
@@ -105,14 +83,7 @@ class TimeSchedule {
   final String updatedAt;
   final String encryptedId;
 
-  TimeSchedule({
-    required this.id,
-    required this.scheduleTime,
-    required this.status,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.encryptedId,
-  });
+  TimeSchedule({required this.id, required this.scheduleTime, required this.status, required this.createdAt, required this.updatedAt, required this.encryptedId});
 
   factory TimeSchedule.fromJson(Map<String, dynamic> json) {
     return TimeSchedule(

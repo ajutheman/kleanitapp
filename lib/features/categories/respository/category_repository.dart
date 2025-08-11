@@ -42,8 +42,7 @@ import '../modle/category_model.dart';
 //   }
 // }
 class CategoryRepository {
-  final String baseUrl =
-      "https://backend.kleanit.ae/api/customer/categorys/list-main-categories";
+  final String baseUrl = "https://backend.kleanit.ae/api/customer/categorys/list-main-categories";
 
   Future<List<MainCategory>> fetchCategories(String type) async {
     // final url = Uri.parse("$baseUrl?type=$type");  // 👈 appending type in URL
@@ -53,11 +52,7 @@ class CategoryRepository {
     final response = await http.post(
       // 👈 use GET because you are just fetching
       url,
-      headers: {
-        "Authorization": "Bearer $token",
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
+      headers: {"Authorization": "Bearer $token", "Content-Type": "application/json", "Accept": "application/json"},
     );
     log("url:$url");
     log("Category API response status: ${response.statusCode}");
@@ -68,9 +63,7 @@ class CategoryRepository {
       final data = jsonDecode(response.body);
       if (data["success"] == true && data["data"] != null) {
         List categoriesJson = data["data"];
-        return categoriesJson
-            .map<MainCategory>((json) => MainCategory.fromJson(json))
-            .toList();
+        return categoriesJson.map<MainCategory>((json) => MainCategory.fromJson(json)).toList();
       } else {
         throw Exception("Failed to fetch categories: ${data['message']}");
       }

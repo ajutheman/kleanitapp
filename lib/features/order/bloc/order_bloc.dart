@@ -14,13 +14,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     on<FetchSchedules>(_fetchSchedules);
   }
 
-  Future<void> _onCalculateOrder(
-      CalculateOrder event, Emitter<OrderState> emit) async {
+  Future<void> _onCalculateOrder(CalculateOrder event, Emitter<OrderState> emit) async {
     emit(OrderLoading());
     try {
-      final result = await orderRepository.calculateOrder(
-          event.cartIds, event.coupon,
-          subscriptionFrequency: event.subscriptionFrequency);
+      final result = await orderRepository.calculateOrder(event.cartIds, event.coupon, subscriptionFrequency: event.subscriptionFrequency);
       emit(OrderLoaded(orderCalculation: result));
     } catch (e) {
       emit(OrderError(message: e.toString()));
@@ -49,7 +46,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         checkOutTime: event.checkOutTime,
         doorAccessCode: event.doorAccessCode,
         date: DateFormat('yyyy-MM-dd').format(event.date),
-        coupon: event.coupon, typeOfCleaning: event.typeOfCleaning,
+        coupon: event.coupon,
+        typeOfCleaning: event.typeOfCleaning,
         nextGuestCheckInTime: event.nextGuestCheckInTime,
         wifiAccessCode: event.wifiAccessCode,
       );
@@ -59,12 +57,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     }
   }
 
-  Future<void> _fetchSchedules(
-      FetchSchedules event, Emitter<OrderState> emit) async {
+  Future<void> _fetchSchedules(FetchSchedules event, Emitter<OrderState> emit) async {
     emit(OrderLoading());
     try {
-      final schedules = await orderRepository.fetchSchedules(
-          date: DateFormat("yyyy-MM-dd").format(event.date));
+      final schedules = await orderRepository.fetchSchedules(date: DateFormat("yyyy-MM-dd").format(event.date));
       emit(ScheduleLoaded(schedules));
     } catch (e) {
       emit(OrderError(message: e.toString()));

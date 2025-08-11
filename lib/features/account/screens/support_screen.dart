@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kleanit/core/constants/legal_constants.dart';
+import 'package:kleanitapp/core/constants/legal_constants.dart';
 
 import 'legal_page_template.dart';
 
@@ -8,10 +8,6 @@ class SupportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LegalPageTemplate(
-      title: "Support",
-      iconPath: "back.svg",
-      content: supportContent,
-    );
+    return LegalPageTemplate(title: "Support", iconPath: "back.svg", content: supportContent);
   }
 }

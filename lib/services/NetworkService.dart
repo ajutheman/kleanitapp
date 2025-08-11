@@ -33,13 +33,11 @@ class NetworkService {
     );
   }
 
-  Future<Response> get(String endpoint,
-      {Map<String, dynamic>? queryParameters}) async {
+  Future<Response> get(String endpoint, {Map<String, dynamic>? queryParameters}) async {
     return await dio.get(endpoint, queryParameters: queryParameters);
   }
 
-  Future<Response> post(String endpoint, dynamic data,
-      {Options? options}) async {
+  Future<Response> post(String endpoint, dynamic data, {Options? options}) async {
     return await dio.post(endpoint, data: data, options: options);
   }
 }

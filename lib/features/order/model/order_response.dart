@@ -3,19 +3,13 @@ class OrderResponse {
   final OrderDetail order;
   final StripePaymentIntent? stripePaymentIntent;
 
-  OrderResponse({
-    required this.message,
-    required this.order,
-    required this.stripePaymentIntent,
-  });
+  OrderResponse({required this.message, required this.order, required this.stripePaymentIntent});
 
   factory OrderResponse.fromJson(Map<String, dynamic> json) => OrderResponse(
-        message: json['message'],
-        order: OrderDetail.fromJson(json['order']),
-        stripePaymentIntent: json['stripe_payment_intent'] != null
-            ? StripePaymentIntent.fromJson(json['stripe_payment_intent'])
-            : null,
-      );
+    message: json['message'],
+    order: OrderDetail.fromJson(json['order']),
+    stripePaymentIntent: json['stripe_payment_intent'] != null ? StripePaymentIntent.fromJson(json['stripe_payment_intent']) : null,
+  );
 }
 
 class OrderDetail {
@@ -25,21 +19,10 @@ class OrderDetail {
   final String paymentStatus;
   final bool hasSubscription;
 
-  OrderDetail({
-    required this.id,
-    required this.orderNumber,
-    required this.total,
-    required this.paymentStatus,
-    required this.hasSubscription,
-  });
+  OrderDetail({required this.id, required this.orderNumber, required this.total, required this.paymentStatus, required this.hasSubscription});
 
-  factory OrderDetail.fromJson(Map<String, dynamic> json) => OrderDetail(
-        id: json['id'],
-        orderNumber: json['order_number'],
-        total: json['total'],
-        paymentStatus: json['payment_status'],
-        hasSubscription: json['has_subscription'],
-      );
+  factory OrderDetail.fromJson(Map<String, dynamic> json) =>
+      OrderDetail(id: json['id'], orderNumber: json['order_number'], total: json['total'], paymentStatus: json['payment_status'], hasSubscription: json['has_subscription']);
 }
 
 class StripePaymentIntent {
@@ -48,9 +31,5 @@ class StripePaymentIntent {
 
   StripePaymentIntent({required this.id, required this.clientSecret});
 
-  factory StripePaymentIntent.fromJson(Map<String, dynamic> json) =>
-      StripePaymentIntent(
-        id: json['id'],
-        clientSecret: json['client_secret'],
-      );
+  factory StripePaymentIntent.fromJson(Map<String, dynamic> json) => StripePaymentIntent(id: json['id'], clientSecret: json['client_secret']);
 }

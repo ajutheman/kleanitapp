@@ -7,12 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../../main.dart';
 
 void showSnackBar(BuildContext context, {required String msg}) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(msg),
-      duration: Duration(seconds: 1),
-    ),
-  );
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg), duration: Duration(seconds: 1)));
 }
 
 Future<bool> isConnected() async {
@@ -36,14 +31,7 @@ void showFlutterNotification(RemoteMessage message) {
       notification.hashCode,
       notification.title,
       notification.body,
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          'default_channel',
-          'Default',
-          importance: Importance.max,
-          priority: Priority.high,
-        ),
-      ),
+      const NotificationDetails(android: AndroidNotificationDetails('default_channel', 'Default', importance: Importance.max, priority: Priority.high)),
     );
   }
 }

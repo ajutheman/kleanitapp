@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:kleanit/features/bookings/model/book_detail.dart';
+import 'package:kleanitapp/features/bookings/model/book_detail.dart';
 
 abstract class BookingDetailState extends Equatable {
   @override

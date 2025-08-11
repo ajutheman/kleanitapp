@@ -262,7 +262,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../core/constants/Constant.dart';
 import '../../../core/theme/color_data.dart';
 import '../../../core/theme/resizer/fetch_pixels.dart';
 import '../../../core/theme/widget_utils.dart';
@@ -315,21 +314,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
           if (state is ProfileError) {
             setState(() => errorMessage = state.message);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Failed: ${state.message}"),
-                backgroundColor: Colors.red,
-              ),
-            );
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed: ${state.message}"), backgroundColor: Colors.red));
           }
 
           if (state is ProfileLoaded) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("Profile updated successfully"),
-                backgroundColor: Colors.green,
-              ),
-            );
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Profile updated successfully"), backgroundColor: Colors.green));
 
             if (widget.isFirstTimeGoogleLogin) {
               Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
@@ -348,33 +337,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               onTap: () => FocusScope.of(context).unfocus(),
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                padding: EdgeInsets.symmetric(
-                    horizontal: FetchPixels.getPixelWidth(20)),
+                padding: EdgeInsets.symmetric(horizontal: FetchPixels.getPixelWidth(20)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     getVerSpace(20),
-                    Center(
-                      child: getCustomFont(
-                        "Edit Profile",
-                        26,
-                        Colors.black,
-                        1,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    Center(child: getCustomFont("Edit Profile", 26, Colors.black, 1, fontWeight: FontWeight.bold)),
                     getVerSpace(30),
                     Center(child: profilePictureEdit(context)),
-                    Center(
-                      child: Text(
-                        "Contact Information",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ),
+                    Center(child: Text("Contact Information", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black87))),
                     getVerSpace(40),
                     getVerSpace(20),
                     getDefaultTextFiledWithLabel(
@@ -382,7 +353,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       "Name",
                       nameController,
                       Colors.grey.shade600,
-                      isEnable:false,
+                      isEnable: false,
                       // !widget.isFirstTimeGoogleLogin,
                       withprefix: true,
                       image: "profile.svg",
@@ -393,7 +364,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       "Email",
                       emailController,
                       Colors.grey.shade600,
-                      isEnable:false,
+                      isEnable: false,
                       // !widget.isFirstTimeGoogleLogin,
                       withprefix: true,
                       image: "message.svg",
@@ -464,23 +435,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: isLoading ? Colors.grey : primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           minimumSize: const Size(double.infinity, 56),
           elevation: 4,
         ),
         onPressed: isLoading ? null : _saveProfile,
-        child: isLoading
-            ? const CircularProgressIndicator(color: Colors.white)
-            : const Text(
-          "Save",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        child:
+            isLoading ? const CircularProgressIndicator(color: Colors.white) : const Text("Save", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
       ),
     );
   }
@@ -495,28 +456,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Colors.grey.shade200,
-            image:
-            const DecorationImage(
-              image: AssetImage("assets/icon/default-avatar.png"),
-
-              fit: BoxFit.cover,
-            ),
+            image: const DecorationImage(image: AssetImage("assets/icon/default-avatar.png"), fit: BoxFit.cover),
           ),
         ),
         Positioned(
           bottom: 4,
           right: 4,
           child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: primaryColor,
-            ),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: primaryColor),
             padding: const EdgeInsets.all(6),
-            child: const Icon(
-              Icons.edit,
-              size: 16,
-              color: Colors.white,
-            ),
+            child: const Icon(Icons.edit, size: 16, color: Colors.white),
           ),
         ),
       ],
@@ -558,22 +507,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final email = emailController.text.trim();
 
     if (phone.length != 9) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Phone number must be exactly 9 digits."),
-          backgroundColor: Colors.red,
-        ),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Phone number must be exactly 9 digits."), backgroundColor: Colors.red));
       return;
     }
 
     if (name.isEmpty || email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Name and email must not be empty."),
-          backgroundColor: Colors.red,
-        ),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Name and email must not be empty."), backgroundColor: Colors.red));
       return;
     }
 
@@ -591,6 +530,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     context.read<ProfileBloc>().add(UpdateProfile(updatedCustomer));
   }
+
   void _setFormData(CustomerModel customer) {
     nameController.text = customer.name ?? "";
     emailController.text = customer.email ?? "";
@@ -606,6 +546,4 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       _setFormData(customer);
     }
   }
-
-
 }

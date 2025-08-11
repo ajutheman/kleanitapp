@@ -1,4 +1,4 @@
-import '../../order/model/time_schedule.dart';
+
 
 class BookingModel {
   final String id;
@@ -8,6 +8,7 @@ class BookingModel {
   final String orderStatus;
   final bool hasSubscription;
   final String schedule;
+
   // final TimeSchedule schedule;
   final String bookingDate; // 👈 NEW
   final int itemsCount; // 👈 NEW
@@ -43,8 +44,7 @@ class BookingModel {
       itemsCount: json['items_count'] ?? 0,
       schedule: json['scheduled_time']?.toString() ?? '',
 
-      items:
-          (json['items'] as List).map((e) => BookingItem.fromJson(e)).toList(),
+      items: (json['items'] as List).map((e) => BookingItem.fromJson(e)).toList(),
     );
   }
 }
@@ -53,15 +53,9 @@ class BookingItem {
   final String thirdCategoryName;
   final String type;
 
-  BookingItem({
-    required this.thirdCategoryName,
-    required this.type,
-  });
+  BookingItem({required this.thirdCategoryName, required this.type});
 
   factory BookingItem.fromJson(Map<String, dynamic> json) {
-    return BookingItem(
-      thirdCategoryName: json['third_category_name'],
-      type: json['type'],
-    );
+    return BookingItem(thirdCategoryName: json['third_category_name'], type: json['type']);
   }
 }

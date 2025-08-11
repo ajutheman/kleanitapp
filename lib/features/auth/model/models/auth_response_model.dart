@@ -5,26 +5,14 @@ class AuthResponse {
   final String token;
   final Customer customer;
 
-  AuthResponse({
-    required this.message,
-    required this.token,
-    required this.customer,
-  });
+  AuthResponse({required this.message, required this.token, required this.customer});
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) {
-    return AuthResponse(
-      message: json['message'] as String,
-      token: json['token'] as String,
-      customer: Customer.fromJson(json['customer'] as Map<String, dynamic>),
-    );
+    return AuthResponse(message: json['message'] as String, token: json['token'] as String, customer: Customer.fromJson(json['customer'] as Map<String, dynamic>));
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'message': message,
-      'token': token,
-      'customer': customer.toJson(),
-    };
+    return {'message': message, 'token': token, 'customer': customer.toJson()};
   }
 }
 

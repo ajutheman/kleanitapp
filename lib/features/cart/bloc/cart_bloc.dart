@@ -14,8 +14,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<DeleteCartItem>(_onDeleteCartItem);
   }
 
-  Future<void> _onFetchCartList(
-      FetchCartList event, Emitter<CartState> emit) async {
+  Future<void> _onFetchCartList(FetchCartList event, Emitter<CartState> emit) async {
     emit(CartLoading());
     try {
       final cartItems = await cartRepository.fetchCartList();
@@ -35,8 +34,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         subscriptionFrequency: event.subscriptionFrequency,
       );
       add(FetchCartList()); // Refresh cart after add
-      emit(CartAddActionSuccess(
-          isDirectBooking: event.isDirectBooking, cartThirdId: cartThirdId));
+      emit(CartAddActionSuccess(isDirectBooking: event.isDirectBooking, cartThirdId: cartThirdId));
     } catch (e) {
       emit(CartError(message: e.toString()));
     }
@@ -59,8 +57,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
-  Future<void> _onDeleteCartItem(
-      DeleteCartItem event, Emitter<CartState> emit) async {
+  Future<void> _onDeleteCartItem(DeleteCartItem event, Emitter<CartState> emit) async {
     emit(CartActionLoading());
     try {
       await cartRepository.deleteCart(cartId: event.cartId);

@@ -2,22 +2,13 @@ class ReviewResponse {
   final int currentPage;
   final List<Review> data;
   final int total;
+
   // Additional pagination fields can be added if needed.
 
-  ReviewResponse({
-    required this.currentPage,
-    required this.data,
-    required this.total,
-  });
+  ReviewResponse({required this.currentPage, required this.data, required this.total});
 
   factory ReviewResponse.fromJson(Map<String, dynamic> json) {
-    return ReviewResponse(
-      currentPage: json['current_page'],
-      data: (json['data'] as List)
-          .map((e) => Review.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      total: json['total'],
-    );
+    return ReviewResponse(currentPage: json['current_page'], data: (json['data'] as List).map((e) => Review.fromJson(e as Map<String, dynamic>)).toList(), total: json['total']);
   }
 }
 
@@ -61,17 +52,9 @@ class Customer {
   final String name;
   final String email;
 
-  Customer({
-    required this.id,
-    required this.name,
-    required this.email,
-  });
+  Customer({required this.id, required this.name, required this.email});
 
   factory Customer.fromJson(Map<String, dynamic> json) {
-    return Customer(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-    );
+    return Customer(id: json['id'], name: json['name'], email: json['email']);
   }
 }

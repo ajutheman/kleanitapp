@@ -7,6 +7,7 @@ abstract class OrderEvent extends Equatable {
 
 class FetchSchedules extends OrderEvent {
   final DateTime date;
+
   FetchSchedules({required this.date});
 }
 
@@ -15,11 +16,7 @@ class CalculateOrder extends OrderEvent {
   final String coupon;
   final int? subscriptionFrequency;
 
-  CalculateOrder({
-    required this.cartIds,
-    required this.coupon,
-    this.subscriptionFrequency,
-  });
+  CalculateOrder({required this.cartIds, required this.coupon, this.subscriptionFrequency});
 }
 
 class PlaceOrder extends OrderEvent {

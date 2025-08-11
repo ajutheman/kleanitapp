@@ -67,7 +67,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // for rootBundle
-import 'package:kleanit/core/constants/pref_resources.dart';
+import 'package:kleanitapp/core/constants/pref_resources.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/constants/Constant.dart';
@@ -93,8 +93,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _loadLoadingMessage() async {
     try {
-      String jsonString =
-          await rootBundle.loadString('assets/data/loading_message.json');
+      String jsonString = await rootBundle.loadString('assets/data/loading_message.json');
       final Map<String, dynamic> jsonData = jsonDecode(jsonString);
       setState(() {
         loadingMessage = jsonData['message'] ?? "Loading...";
@@ -139,9 +138,10 @@ class _SplashScreenState extends State<SplashScreen> {
       },
       child: Scaffold(
         body: Container(
-          decoration: BoxDecoration(color: Color.fromRGBO(0, 58, 69, 1)
-              // Color(0xFF077975),
-              ),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(0, 58, 69, 1),
+            // Color(0xFF077975),
+          ),
           child: Center(
             child: Container(
               color: Color.fromRGBO(0, 58, 69, 1),
@@ -160,6 +160,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     height: FetchPixels.getPixelHeight(200),
                   ),
                   SizedBox(height: FetchPixels.getPixelHeight(40)),
+
                   // Welcome text.
                   // Text(
                   //   "Welcome to Kleanit",
@@ -170,16 +171,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   //   ),
                   // ),
                   // SizedBox(height: FetchPixels.getPixelHeight(150)),
-
                   const Spacer(),
-                  Text(
-                    loadingMessage,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: FetchPixels.getPixelHeight(16),
-                      color: Colors.white,
-                    ),
-                  ),
+                  Text(loadingMessage, textAlign: TextAlign.center, style: TextStyle(fontSize: FetchPixels.getPixelHeight(16), color: Colors.white)),
                   SizedBox(height: FetchPixels.getPixelHeight(30)),
 
                   // Progress indicator.

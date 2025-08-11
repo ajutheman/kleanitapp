@@ -42,16 +42,14 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
-import 'package:kleanit/features/home/repo/exceptions.dart';
+import 'package:kleanitapp/features/home/repo/exceptions.dart';
 
 import 'service_response_model.dart';
 
 class HomeRepository {
-  final String baseUrl =
-      "https://backend.kleanit.ae/api/customer/locations/set-location";
+  final String baseUrl = "https://backend.kleanit.ae/api/customer/locations/set-location";
 
-  Future<ServiceAvailabilityResponse> setLocation(
-      double latitude, double longitude, String token) async {
+  Future<ServiceAvailabilityResponse> setLocation(double latitude, double longitude, String token) async {
     final url = Uri.parse(baseUrl);
     final response = await http.post(
       url,
@@ -60,10 +58,7 @@ class HomeRepository {
         "Content-Type": "application/json",
         "Accept": "application/json", // Added Accept header
       },
-      body: jsonEncode({
-        "latitude": latitude,
-        "longitude": longitude,
-      }),
+      body: jsonEncode({"latitude": latitude, "longitude": longitude}),
     );
     log("response.statusCode: ${response.statusCode}");
     log("response.body: ${response.body}");

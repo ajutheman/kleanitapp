@@ -4,8 +4,6 @@ import '../../core/theme/color_data.dart';
 import '../account/screens/account_screen.dart';
 import '../bookings/screens/tab_booking.dart';
 import '../cart/screens/carts_screen.dart';
-import '../profile/screens/profile_screen.dart';
-import '../wishlist/wishlist_screen.dart';
 import 'homescreen.dart';
 
 // Use ValueNotifier instead of global int
@@ -14,26 +12,11 @@ final ValueNotifier<int> currentHomeIndexNotifier = ValueNotifier<int>(0);
 class HomeMainView extends StatelessWidget {
   HomeMainView({super.key});
 
-  final List<IconData> _icons = [
-    Icons.home,
-    Icons.calendar_today,
-    Icons.shopping_cart,
-    Icons.account_circle,
-  ];
+  final List<IconData> _icons = [Icons.home, Icons.calendar_today, Icons.shopping_cart, Icons.account_circle];
 
-  final List<String> _labels = [
-    "Home",
-    "Bookings",
-    "Carts",
-    "Account",
-  ];
+  final List<String> _labels = ["Home", "Bookings", "Carts", "Account"];
 
-  final List<Widget> _screens = const [
-    HomeScreen(),
-    TabBookings(),
-    CartListScreen(),
-    TabProfile(),
-  ];
+  final List<Widget> _screens = const [HomeScreen(), TabBookings(), CartListScreen(), TabProfile()];
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +33,7 @@ class HomeMainView extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 10,
-                      offset: Offset(0, 5),
-                    )
-                  ],
+                  boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 5))],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -68,29 +45,13 @@ class HomeMainView extends StatelessWidget {
                       },
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 200),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 15),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? primaryColor.withOpacity(0.1)
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                        decoration: BoxDecoration(color: isSelected ? primaryColor.withOpacity(0.1) : Colors.transparent, borderRadius: BorderRadius.circular(10)),
                         child: Row(
                           children: [
-                            Icon(
-                              _icons[index],
-                              color: isSelected ? primaryColor : Colors.grey,
-                            ),
+                            Icon(_icons[index], color: isSelected ? primaryColor : Colors.grey),
                             const SizedBox(width: 5),
-                            if (isSelected)
-                              Text(
-                                _labels[index],
-                                style: TextStyle(
-                                    color: primaryColor,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14),
-                              ),
+                            if (isSelected) Text(_labels[index], style: TextStyle(color: primaryColor, fontWeight: FontWeight.w500, fontSize: 14)),
                           ],
                         ),
                       ),

@@ -1,12 +1,12 @@
 // // lib/data/repostories/auth_repository.dart
 // import 'package:dio/dio.dart';
 // import 'package:geolocator/geolocator.dart';
-// import 'package:kleanit/core/utils/url_resources.dart';
-// import 'package:kleanit/features/auth/model/models/auth_response_model.dart';
-// import 'package:kleanit/features/auth/model/models/location_response_model.dart';
-// import 'package:kleanit/features/auth/model/models/otp_login_response_model.dart';
-// import 'package:kleanit/features/auth/model/models/otp_verification_response_model.dart';
-// import 'package:kleanit/services/NetworkService.dart';
+// import 'package:kleanitapp/core/utils/url_resources.dart';
+// import 'package:kleanitapp/features/auth/model/models/auth_response_model.dart';
+// import 'package:kleanitapp/features/auth/model/models/location_response_model.dart';
+// import 'package:kleanitapp/features/auth/model/models/otp_login_response_model.dart';
+// import 'package:kleanitapp/features/auth/model/models/otp_verification_response_model.dart';
+// import 'package:kleanitapp/services/NetworkService.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 //
 // import '../../../core/constants/pref_resources.dart';
@@ -115,14 +115,14 @@
 //   }
 // }
 import 'dart:developer';
+
 import 'package:dio/dio.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:kleanit/core/utils/url_resources.dart';
-import 'package:kleanit/features/auth/model/models/auth_response_model.dart';
-import 'package:kleanit/features/auth/model/models/location_response_model.dart';
-import 'package:kleanit/features/auth/model/models/otp_login_response_model.dart';
-import 'package:kleanit/features/auth/model/models/otp_verification_response_model.dart';
-import 'package:kleanit/services/NetworkService.dart';
+import 'package:kleanitapp/core/utils/url_resources.dart';
+import 'package:kleanitapp/features/auth/model/models/auth_response_model.dart';
+import 'package:kleanitapp/features/auth/model/models/location_response_model.dart';
+import 'package:kleanitapp/features/auth/model/models/otp_login_response_model.dart';
+import 'package:kleanitapp/features/auth/model/models/otp_verification_response_model.dart';
+import 'package:kleanitapp/services/NetworkService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/constants/pref_resources.dart';
@@ -144,13 +144,10 @@ class AuthRepository {
 
       log("✅ Response [${response.statusCode}]: ${response.data}");
 
-      if (response.statusCode != null &&
-          response.statusCode! >= 200 &&
-          response.statusCode! < 300) {
+      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
         return AuthResponse.fromJson(response.data);
       } else {
-        throw Exception(
-            "Login failed: ${response.statusCode} - ${response.data}");
+        throw Exception("Login failed: ${response.statusCode} - ${response.data}");
       }
     } on DioException catch (dioError) {
       log("❌ DioException at $url\n${dioError.message}");
@@ -174,13 +171,10 @@ class AuthRepository {
 
       log("✅ Response [${response.statusCode}]: ${response.data}");
 
-      if (response.statusCode != null &&
-          response.statusCode! >= 200 &&
-          response.statusCode! < 300) {
+      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
         return OTPLoginResponse.fromJson(response.data);
       } else {
-        throw Exception(
-            "OTP login failed: ${response.statusCode} - ${response.data}");
+        throw Exception("OTP login failed: ${response.statusCode} - ${response.data}");
       }
     } on DioError catch (dioError) {
       log("❌ DioError at $url\n${dioError.message}");
@@ -204,13 +198,10 @@ class AuthRepository {
 
       log("✅ Response [${response.statusCode}]: ${response.data}");
 
-      if (response.statusCode != null &&
-          response.statusCode! >= 200 &&
-          response.statusCode! < 300) {
+      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
         return OTPVerificationResponse.fromJson(response.data);
       } else {
-        throw Exception(
-            "OTP verification failed: ${response.statusCode} - ${response.data}");
+        throw Exception("OTP verification failed: ${response.statusCode} - ${response.data}");
       }
     } on DioError catch (dioError) {
       log("❌ DioError at $url\n${dioError.message}");
@@ -222,8 +213,7 @@ class AuthRepository {
     }
   }
 
-  Future<LocationResponse> setLocation(
-      double latitude, double longitude) async {
+  Future<LocationResponse> setLocation(double latitude, double longitude) async {
     final url = UrlResources.setLocation;
     final token = await _getAccessToken();
     final data = {"latitude": latitude, "longitude": longitude};
@@ -235,21 +225,14 @@ class AuthRepository {
       log("📦 Body: $data");
       log("🔐 Headers: Bearer $token");
 
-      Response response = await networkService.dio.post(
-        url,
-        data: data,
-        options: Options(headers: {"Authorization": "Bearer $token"}),
-      );
+      Response response = await networkService.dio.post(url, data: data, options: Options(headers: {"Authorization": "Bearer $token"}));
 
       log("✅ Response [${response.statusCode}]: ${response.data}");
 
-      if (response.statusCode != null &&
-          response.statusCode! >= 200 &&
-          response.statusCode! < 300) {
+      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
         return LocationResponse.fromJson(response.data);
       } else {
-        throw Exception(
-            "Location update failed: ${response.statusCode} - ${response.data}");
+        throw Exception("Location update failed: ${response.statusCode} - ${response.data}");
       }
     } on DioException catch (dioError) {
       log("❌ DioError at $url\n${dioError.message}");

@@ -183,9 +183,10 @@
 //   }
 // }
 import 'package:flutter/material.dart';
-import 'package:kleanit/features/home/repo/FaqRepository.dart';
+import 'package:kleanitapp/features/home/repo/FaqRepository.dart';
 
 import 'modle/faq_item.dart';
+
 // import 'model/faq_item.dart';
 // import 'repository/faq_repository.dart';
 
@@ -245,20 +246,11 @@ class _FAQSectionState extends State<FAQSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 25),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            'Frequently Asked Questions',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-        ),
+        Padding(padding: const EdgeInsets.symmetric(horizontal: 10), child: Text('Frequently Asked Questions', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
         const SizedBox(height: 3),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            'Find answers to common questions about our app',
-            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-          ),
+          child: Text('Find answers to common questions about our app', style: TextStyle(fontSize: 14, color: Colors.grey[600])),
         ),
         const SizedBox(height: 10),
         if (_isLoading)
@@ -389,8 +381,7 @@ class FAQExpansionTile extends StatefulWidget {
   _FAQExpansionTileState createState() => _FAQExpansionTileState();
 }
 
-class _FAQExpansionTileState extends State<FAQExpansionTile>
-    with SingleTickerProviderStateMixin {
+class _FAQExpansionTileState extends State<FAQExpansionTile> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _iconTurns;
   late Animation<double> _heightFactor;
@@ -402,16 +393,10 @@ class _FAQExpansionTileState extends State<FAQExpansionTile>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
+    _controller = AnimationController(duration: const Duration(milliseconds: 300), vsync: this);
 
     _heightFactor = _controller.drive(CurveTween(curve: Curves.easeInOut));
-    _iconTurns = _controller.drive(
-      Tween<double>(begin: 0.0, end: 0.5)
-          .chain(CurveTween(curve: Curves.easeInOut)),
-    );
+    _iconTurns = _controller.drive(Tween<double>(begin: 0.0, end: 0.5).chain(CurveTween(curve: Curves.easeInOut)));
   }
 
   @override
@@ -447,21 +432,8 @@ class _FAQExpansionTileState extends State<FAQExpansionTile>
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
               child: Row(
                 children: [
-                  Expanded(
-                    child: Text(
-                      widget.faqItem.question,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: primaryColor,
-                      ),
-                    ),
-                  ),
-                  RotationTransition(
-                    turns: _iconTurns,
-                    child: Icon(Icons.keyboard_arrow_down,
-                        color: Colors.grey[700]),
-                  ),
+                  Expanded(child: Text(widget.faqItem.question, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: primaryColor))),
+                  RotationTransition(turns: _iconTurns, child: Icon(Icons.keyboard_arrow_down, color: Colors.grey[700])),
                 ],
               ),
             ),
@@ -470,29 +442,13 @@ class _FAQExpansionTileState extends State<FAQExpansionTile>
             child: AnimatedBuilder(
               animation: _controller,
               builder: (context, child) {
-                return Align(
-                  heightFactor: _heightFactor.value,
-                  child: child,
-                );
+                return Align(heightFactor: _heightFactor.value, child: child);
               },
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                decoration: BoxDecoration(
-                  color: answerBgColor,
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(14),
-                    bottomRight: Radius.circular(14),
-                  ),
-                ),
-                child: Text(
-                  widget.faqItem.answer,
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: 14.5,
-                    height: 1.5,
-                  ),
-                ),
+                decoration: BoxDecoration(color: answerBgColor, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(14), bottomRight: Radius.circular(14))),
+                child: Text(widget.faqItem.answer, style: TextStyle(color: Colors.grey[800], fontSize: 14.5, height: 1.5)),
               ),
             ),
           ),

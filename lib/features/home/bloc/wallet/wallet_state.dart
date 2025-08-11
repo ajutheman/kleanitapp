@@ -8,10 +8,12 @@ class WalletLoading extends WalletState {}
 
 class WalletLoaded extends WalletState {
   final double balance;
+
   WalletLoaded(this.balance);
 }
 
 class WalletError extends WalletState {
   final String message;
+
   WalletError(this.message);
 }

@@ -34,8 +34,7 @@ class FetchPixels {
   }
 
   static double getTextScale() {
-    double textScaleFactor =
-        (width > height) ? width / mockupWidth : height / mockupHeight;
+    double textScaleFactor = (width > height) ? width / mockupWidth : height / mockupHeight;
     if (DeviceUtil.isTablet) {
       textScaleFactor = height / mockupHeight;
     }
@@ -44,8 +43,7 @@ class FetchPixels {
   }
 
   static double getScale() {
-    double scale =
-        (width > height) ? mockupWidth / width : mockupHeight / height;
+    double scale = (width > height) ? mockupWidth / width : mockupHeight / height;
 
     if (DeviceUtil.isTablet) {
       scale = height / mockupHeight;

@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
+
   @override
   List<Object?> get props => [];
 }
@@ -34,7 +35,9 @@ class AuthFailure extends AuthState {
 class OTPLoginSuccess extends AuthState {
   final String message;
   final String mobile;
+
   const OTPLoginSuccess({required this.message, required this.mobile});
+
   @override
   List<Object?> get props => [message, mobile];
 }
@@ -44,11 +47,9 @@ class OTPVerificationSuccess extends AuthState {
   final String message;
   final String token;
   final int customerId;
-  const OTPVerificationSuccess({
-    required this.message,
-    required this.token,
-    required this.customerId,
-  });
+
+  const OTPVerificationSuccess({required this.message, required this.token, required this.customerId});
+
   @override
   List<Object?> get props => [message, token, customerId];
 }

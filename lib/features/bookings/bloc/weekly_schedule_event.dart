@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import '../model/weekly_schedule.dart';
 
 abstract class WeeklyScheduleEvent extends Equatable {

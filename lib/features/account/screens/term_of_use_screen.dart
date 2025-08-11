@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kleanit/core/constants/legal_constants.dart';
+import 'package:kleanitapp/core/constants/legal_constants.dart';
 
 import 'legal_page_template.dart';
 
@@ -8,10 +8,6 @@ class TermOfUseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LegalPageTemplate(
-      title: "Terms of Use",
-      iconPath: "back.svg",
-      content: termsOfUseContent,
-    );
+    return LegalPageTemplate(title: "Terms of Use", iconPath: "back.svg", content: termsOfUseContent);
   }
 }

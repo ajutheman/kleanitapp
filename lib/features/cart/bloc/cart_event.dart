@@ -14,13 +14,7 @@ class AddToCart extends CartEvent {
   final int subscriptionFrequency;
   final bool isDirectBooking;
 
-  AddToCart({
-    required this.thirdCategoryId,
-    required this.employeeCount,
-    required this.type,
-    required this.subscriptionFrequency,
-    this.isDirectBooking = false,
-  });
+  AddToCart({required this.thirdCategoryId, required this.employeeCount, required this.type, required this.subscriptionFrequency, this.isDirectBooking = false});
 }
 
 class UpdateCart extends CartEvent {
@@ -30,16 +24,11 @@ class UpdateCart extends CartEvent {
   final String type;
   final int subscriptionFrequency;
 
-  UpdateCart({
-    required this.cartId,
-    required this.thirdCategoryId,
-    required this.employeeCount,
-    required this.type,
-    required this.subscriptionFrequency,
-  });
+  UpdateCart({required this.cartId, required this.thirdCategoryId, required this.employeeCount, required this.type, required this.subscriptionFrequency});
 }
 
 class DeleteCartItem extends CartEvent {
   final String cartId;
+
   DeleteCartItem({required this.cartId});
 }

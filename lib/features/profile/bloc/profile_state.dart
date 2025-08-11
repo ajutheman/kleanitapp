@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import '../model/customer_model.dart';
 
 abstract class ProfileState extends Equatable {
@@ -12,6 +13,7 @@ class ProfileLoading extends ProfileState {}
 
 class ProfileLoaded extends ProfileState {
   final CustomerModel customer;
+
   ProfileLoaded(this.customer);
 
   @override
@@ -22,6 +24,7 @@ class ProfileUpdated extends ProfileState {}
 
 class ProfileError extends ProfileState {
   final String message;
+
   ProfileError(this.message);
 
   @override

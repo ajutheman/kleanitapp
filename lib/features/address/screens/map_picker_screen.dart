@@ -71,8 +71,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../core/theme/color_data.dart';
 
@@ -120,8 +120,7 @@ class _OsmPickerScreenState extends State<OsmPickerScreen> {
       return;
     }
 
-    final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    final position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     setState(() {
       pickedLocation = LatLng(position.latitude, position.longitude);
@@ -132,90 +131,67 @@ class _OsmPickerScreenState extends State<OsmPickerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Pick Location ',
-          style: const TextStyle(color: Colors.white),
-        ),
+        title: const Text('Pick Location ', style: const TextStyle(color: Colors.white)),
         backgroundColor: primaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: pickedLocation == null
-          ? const Center(child: CircularProgressIndicator())
-          : Stack(
-              children: [
-                FlutterMap(
-                  mapController: _mapController,
-                  options: MapOptions(
-                    center: pickedLocation,
-                    zoom: 15,
-                    onMapReady: () {
-                      if (pickedLocation != null) {
-                        _mapController.move(
-                            pickedLocation!, 15); // ✅ Now safe to move
-                      }
-                    },
-                    onTap: (tapPosition, latLng) {
-                      setState(() {
-                        pickedLocation = latLng;
-                      });
-                    },
-                  ),
-                  children: [
-                    // TileLayer(
-                    //   urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    //   subdomains: ['a', 'b', 'c'],
-                    // ),
-                    TileLayer(
-                      urlTemplate:
-                          "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                      userAgentPackageName:
-                          'com.spydo.kleanit', // optional but good to add your app id
+      body:
+          pickedLocation == null
+              ? const Center(child: CircularProgressIndicator())
+              : Stack(
+                children: [
+                  FlutterMap(
+                    mapController: _mapController,
+                    options: MapOptions(
+                      center: pickedLocation,
+                      zoom: 15,
+                      onMapReady: () {
+                        if (pickedLocation != null) {
+                          _mapController.move(pickedLocation!, 15); // ✅ Now safe to move
+                        }
+                      },
+                      onTap: (tapPosition, latLng) {
+                        setState(() {
+                          pickedLocation = latLng;
+                        });
+                      },
                     ),
+                    children: [
+                      // TileLayer(
+                      //   urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                      //   subdomains: ['a', 'b', 'c'],
+                      // ),
+                      TileLayer(
+                        urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        userAgentPackageName: 'com.spydo.kleanit', // optional but good to add your app id
+                      ),
 
-                    MarkerLayer(
-                      markers: pickedLocation != null
-                          ? [
-                              Marker(
-                                point: pickedLocation!,
-                                width: 80,
-                                height: 80,
-                                child: const Icon(Icons.location_pin,
-                                    size: 50, color: Colors.red),
-                              ),
-                            ]
-                          : [],
-                    ),
-                  ],
-                ),
-                Positioned(
-                  bottom: 20,
-                  left: 20,
-                  right: 20,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context, pickedLocation);
-                    },
-                    child: const Text(
-                      'Select This Location',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryColor,
-                      minimumSize: const Size.fromHeight(50),
+                      MarkerLayer(
+                        markers:
+                            pickedLocation != null
+                                ? [Marker(point: pickedLocation!, width: 80, height: 80, child: const Icon(Icons.location_pin, size: 50, color: Colors.red))]
+                                : [],
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    bottom: 20,
+                    left: 20,
+                    right: 20,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context, pickedLocation);
+                      },
+                      child: const Text('Select This Location', style: TextStyle(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(backgroundColor: primaryColor, minimumSize: const Size.fromHeight(50)),
                     ),
                   ),
-                )
-              ],
-            ),
+                ],
+              ),
     );
   }
 
   void _showLocationError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-      ),
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message), backgroundColor: Colors.red));
   }
 }

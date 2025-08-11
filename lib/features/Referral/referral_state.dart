@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:kleanit/features/Referral/referal_advertisement.dart';
+import 'package:kleanitapp/features/Referral/referal_advertisement.dart';
 
 abstract class ReferalAdvertisementState extends Equatable {
   const ReferalAdvertisementState();

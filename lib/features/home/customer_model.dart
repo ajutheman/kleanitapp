@@ -5,19 +5,9 @@ class Customer {
   final String email;
   final String mobile;
 
-  Customer({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.mobile,
-  });
+  Customer({required this.id, required this.name, required this.email, required this.mobile});
 
   factory Customer.fromJson(Map<String, dynamic> json) {
-    return Customer(
-      id: json["id"],
-      name: json["name"],
-      email: json["email"],
-      mobile: json["mobile"] ?? "",
-    );
+    return Customer(id: json["id"], name: json["name"], email: json["email"], mobile: json["mobile"] ?? "");
   }
 }

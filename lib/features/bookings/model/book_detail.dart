@@ -188,6 +188,7 @@ class BookingDetails {
   final String orderStatus;
   final bool hasSubscription;
   final Address address;
+
   // final ScheduledTime scheduledTime;
   final String scheduledTime;
   final List<BookingDetailsItem> items;
@@ -226,10 +227,7 @@ class BookingDetails {
       // scheduledTime: ScheduledTime.fromJson(json['scheduled_time'] ?? {}),
       scheduledTime: json['scheduled_time'] ?? '',
 
-      items: (json['items'] as List<dynamic>?)
-              ?.map((e) => BookingDetailsItem.fromJson(e))
-              .toList() ??
-          [],
+      items: (json['items'] as List<dynamic>?)?.map((e) => BookingDetailsItem.fromJson(e)).toList() ?? [],
     );
   }
 }
@@ -283,18 +281,10 @@ class ScheduledTime {
   final String scheduleTime;
   final String status;
 
-  ScheduledTime({
-    required this.id,
-    required this.scheduleTime,
-    required this.status,
-  });
+  ScheduledTime({required this.id, required this.scheduleTime, required this.status});
 
   factory ScheduledTime.fromJson(Map<String, dynamic> json) {
-    return ScheduledTime(
-      id: json['id'] ?? 0,
-      scheduleTime: json['schedule_time'] ?? '',
-      status: json['status'] ?? '',
-    );
+    return ScheduledTime(id: json['id'] ?? 0, scheduleTime: json['schedule_time'] ?? '', status: json['status'] ?? '');
   }
 }
 
@@ -324,9 +314,7 @@ class BookingDetailsItem {
       employeeCount: json['employee_count'] ?? 0,
       type: json['type'] ?? '',
       basePrice: double.tryParse(json['base_price']?.toString() ?? '0') ?? 0,
-      additionalEmployeeCost: double.tryParse(
-              json['additional_employee_cost']?.toString() ?? '0') ??
-          0,
+      additionalEmployeeCost: double.tryParse(json['additional_employee_cost']?.toString() ?? '0') ?? 0,
       itemTotal: double.tryParse(json['item_total']?.toString() ?? '0') ?? 0,
     );
   }
@@ -341,15 +329,7 @@ class ThirdCategory {
   final String image;
   final double price;
 
-  ThirdCategory({
-    required this.id,
-    required this.secondCatId,
-    required this.name,
-    required this.status,
-    required this.type,
-    required this.image,
-    required this.price,
-  });
+  ThirdCategory({required this.id, required this.secondCatId, required this.name, required this.status, required this.type, required this.image, required this.price});
 
   factory ThirdCategory.fromJson(Map<String, dynamic> json) {
     return ThirdCategory(

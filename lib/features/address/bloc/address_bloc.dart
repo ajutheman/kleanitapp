@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../repo/address_repository.dart';
 import 'address_event.dart';
 import 'address_state.dart';
-import '../repo/address_repository.dart';
 
 class AddressBloc extends Bloc<AddressEvent, AddressState> {
   final AddressRepository addressRepository;

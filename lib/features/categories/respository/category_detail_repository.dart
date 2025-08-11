@@ -7,19 +7,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../modle/category_detail_model.dart';
 
 class CategoryDetailRepository {
-  final String baseUrl =
-      "https://backend.kleanit.ae/api/customer/categorys/list-services";
+  final String baseUrl = "https://backend.kleanit.ae/api/customer/categorys/list-services";
 
   Future<String> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString("user_access_token") ?? "";
   }
 
-  Future<CategoryDetailResponse> fetchCategoryDetails(
-      int mainCategoryId, String type) async {
+  Future<CategoryDetailResponse> fetchCategoryDetails(int mainCategoryId, String type) async {
     // Build URL with query parameters as before.
-    final url =
-        Uri.parse("$baseUrl?type=$type&main_category_id=$mainCategoryId");
+    final url = Uri.parse("$baseUrl?type=$type&main_category_id=$mainCategoryId");
 
     String token = await _getToken();
     log('SHamil');
@@ -27,11 +24,7 @@ class CategoryDetailRepository {
     log(token);
     final response = await http.post(
       url,
-      headers: {
-        "Authorization": "Bearer $token",
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-      },
+      headers: {"Authorization": "Bearer $token", "Accept": "application/json", "Content-Type": "application/json"},
       // Send an empty JSON body; adjust if your API expects additional data.
       body: jsonEncode({}),
     );

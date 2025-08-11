@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:kleanit/core/theme/color_data.dart';
-import 'package:kleanit/core/utils/hepler.dart';
+import 'package:kleanitapp/core/theme/color_data.dart';
+import 'package:kleanitapp/core/utils/hepler.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../bloc/address_bloc.dart';
@@ -100,7 +100,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
     'Warsan First',
     'World Islands',
     'Za’abeel',
-    'Al raffa','Brudubai'
+    'Al raffa', 'Brudubai',
     // 'Zayed City', // ⚠️ Could refer to Abu Dhabi; remove if strictly Dubai
   ];
 
@@ -128,35 +128,20 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
   }
 
   void _initializeControllers() {
-    buildingNameController =
-        TextEditingController(text: widget.address?.buildingName ?? '');
-    flatNumberController =
-        TextEditingController(text: widget.address?.flatNumber ?? '');
-    floorNumberController =
-        TextEditingController(text: widget.address?.floorNumber ?? '');
-    streetNameController =
-        TextEditingController(text: widget.address?.streetName ?? '');
-    landmarkController =
-        TextEditingController(text: widget.address?.landmark ?? '');
-    selectedEmirate = emirates.any((e) => e == widget.address?.emirate)
-        ? widget.address?.emirate ?? ''
-        : null;
-    selectedArea = areas.any((e) => e == widget.address?.area)
-        ? widget.address?.area ?? ''
-        : null;
-    makaniNumberController =
-        TextEditingController(text: widget.address?.makaniNumber ?? '');
-    additionalDirectionsController =
-        TextEditingController(text: widget.address?.additionalDirections ?? '');
+    buildingNameController = TextEditingController(text: widget.address?.buildingName ?? '');
+    flatNumberController = TextEditingController(text: widget.address?.flatNumber ?? '');
+    floorNumberController = TextEditingController(text: widget.address?.floorNumber ?? '');
+    streetNameController = TextEditingController(text: widget.address?.streetName ?? '');
+    landmarkController = TextEditingController(text: widget.address?.landmark ?? '');
+    selectedEmirate = emirates.any((e) => e == widget.address?.emirate) ? widget.address?.emirate ?? '' : null;
+    selectedArea = areas.any((e) => e == widget.address?.area) ? widget.address?.area ?? '' : null;
+    makaniNumberController = TextEditingController(text: widget.address?.makaniNumber ?? '');
+    additionalDirectionsController = TextEditingController(text: widget.address?.additionalDirections ?? '');
     isDefault = widget.address?.isDefault == 1;
     // latitude = widget.address?.latitude as double?;
     // longitude = widget.address?.longitude as double?;
-    latitude = widget.address?.latitude != null
-        ? double.tryParse(widget.address!.latitude!)
-        : null;
-    longitude = widget.address?.longitude != null
-        ? double.tryParse(widget.address!.longitude!)
-        : null;
+    latitude = widget.address?.latitude != null ? double.tryParse(widget.address!.latitude!) : null;
+    longitude = widget.address?.longitude != null ? double.tryParse(widget.address!.longitude!) : null;
   }
 
   @override
@@ -177,76 +162,58 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ), // or your custom `icon`
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white), // or your custom `icon`
         ),
-        title: Text(
-          widget.address == null ? "Add New Address" : "Edit Address",
-          style: const TextStyle(color: Colors.white),
-        ),
+        title: Text(widget.address == null ? "Add New Address" : "Edit Address", style: const TextStyle(color: Colors.white)),
         backgroundColor: primaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: BlocConsumer<AddressBloc, AddressState>(listener: (ctx, state) {
-        if (state is AddressActionSuccess) {
-          context.read<AddressBloc>().add(FetchAddresses());
-          Navigator.pop(context);
-        } else if (state is AddressError) {
-          showSnackBar(context, msg: state.message);
-          context.read<AddressBloc>().add(FetchAddresses());
-        }
-      }, builder: (ctx, state) {
-        if (state is AddressLoading)
-          return Center(child: CircularProgressIndicator());
-        return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Container(
-            color: Colors.white,
-            child: Form(
-              key: _formKey,
-              child: ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  ..._buildFormFields(),
-                  _buildDefaultAddressToggle(),
-                  const SizedBox(height: 20),
-                  _buildSaveButton(),
-                ],
+      body: BlocConsumer<AddressBloc, AddressState>(
+        listener: (ctx, state) {
+          if (state is AddressActionSuccess) {
+            context.read<AddressBloc>().add(FetchAddresses());
+            Navigator.pop(context);
+          } else if (state is AddressError) {
+            showSnackBar(context, msg: state.message);
+            context.read<AddressBloc>().add(FetchAddresses());
+          }
+        },
+        builder: (ctx, state) {
+          if (state is AddressLoading) return Center(child: CircularProgressIndicator());
+          return GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: Container(
+              color: Colors.white,
+              child: Form(
+                key: _formKey,
+                child: ListView(padding: const EdgeInsets.all(16), children: [..._buildFormFields(), _buildDefaultAddressToggle(), const SizedBox(height: 20), _buildSaveButton()]),
               ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 
   List<Widget> _buildFormFields() {
     return [
-      _buildTextField(buildingNameController, 'building_name',
-          isRequired: true),
+      _buildTextField(buildingNameController, 'building_name', isRequired: true),
       _buildTextField(flatNumberController, 'flat_number', isRequired: true),
       _buildTextField(floorNumberController, 'floor_number', isRequired: true),
       _buildTextField(streetNameController, 'street_name', isRequired: true),
-      // SizedBox(height: 20),
 
-      _buildDropdownField('emirate', emirates, selectedEmirate,
-          (value) => setState(() => selectedEmirate = value)),
-      _buildDropdownField('area', areas, selectedArea,
-          (value) => setState(() => selectedArea = value)),
+      // SizedBox(height: 20),
+      _buildDropdownField('emirate', emirates, selectedEmirate, (value) => setState(() => selectedEmirate = value)),
+      _buildDropdownField('area', areas, selectedArea, (value) => setState(() => selectedArea = value)),
       _buildTextField(landmarkController, 'landmark', isRequired: false),
-      _buildTextField(makaniNumberController, 'makani_number',
-          isRequired: false),
-      _buildTextField(additionalDirectionsController, 'additional_directions',
-          isRequired: false),
+      _buildTextField(makaniNumberController, 'makani_number', isRequired: false),
+      _buildTextField(additionalDirectionsController, 'additional_directions', isRequired: false),
       _buildLocationPicker(),
       SizedBox(height: 20),
     ];
   }
 
-  Widget _buildTextField(TextEditingController controller, String key,
-      {required bool isRequired}) {
+  Widget _buildTextField(TextEditingController controller, String key, {required bool isRequired}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: TextFormField(
@@ -254,14 +221,8 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
         decoration: InputDecoration(
           labelText: _formatFieldName(key),
           prefixIcon: Icon(_getIconForField(key)),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide:
-                BorderSide(color: primaryColor.withOpacity(.4), width: 2),
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: primaryColor.withOpacity(.4), width: 2)),
         ),
         validator: (value) {
           if (!isRequired) return null;
@@ -274,30 +235,18 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
     );
   }
 
-  Widget _buildDropdownField(String key, List<String> items,
-      String? selectedValue, ValueChanged<String?> onChanged) {
+  Widget _buildDropdownField(String key, List<String> items, String? selectedValue, ValueChanged<String?> onChanged) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: DropdownButtonFormField<String>(
         value: selectedValue,
-        items: items
-            .map((item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(item),
-                ))
-            .toList(),
+        items: items.map((item) => DropdownMenuItem(value: item, child: Text(item))).toList(),
         onChanged: onChanged,
         decoration: InputDecoration(
           labelText: _formatFieldName(key),
           prefixIcon: Icon(_getIconForField(key)),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide:
-                BorderSide(color: primaryColor.withOpacity(.4), width: 2),
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: primaryColor.withOpacity(.4), width: 2)),
         ),
         validator: (value) {
           if (value == null || value.isEmpty) {
@@ -317,13 +266,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
           onPressed: _pickLocationFromMap,
           icon: Icon(Icons.map_outlined),
           label: Text('Pick Location on Map'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: primaryColor,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
+          style: ElevatedButton.styleFrom(backgroundColor: primaryColor, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
         ),
         // if (latitude != null && longitude != null)
         //   Padding(
@@ -333,23 +276,13 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
         //       style: TextStyle(color: Colors.black54),
         //     ),
         //   ),
-        if (latitude == null || longitude == null)
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Text(
-              '⚠ Location is required',
-              style: TextStyle(color: Colors.red),
-            ),
-          ),
+        if (latitude == null || longitude == null) Padding(padding: const EdgeInsets.only(top: 8), child: Text('⚠ Location is required', style: TextStyle(color: Colors.red))),
       ],
     );
   }
 
   void _pickLocationFromMap() async {
-    final result = await Navigator.push<LatLng>(
-      context,
-      MaterialPageRoute(builder: (_) => const OsmPickerScreen()),
-    );
+    final result = await Navigator.push<LatLng>(context, MaterialPageRoute(builder: (_) => const OsmPickerScreen()));
 
     if (result != null) {
       setState(() {
@@ -363,16 +296,9 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
   Widget _buildDefaultAddressToggle() {
     return Row(
       children: [
-        Switch(
-          value: isDefault,
-          activeColor: primaryColor,
-          onChanged: (val) => setState(() => isDefault = val),
-        ),
+        Switch(value: isDefault, activeColor: primaryColor, onChanged: (val) => setState(() => isDefault = val)),
         const SizedBox(width: 10),
-        const Text(
-          "Set as default address",
-          style: TextStyle(fontSize: 16),
-        ),
+        const Text("Set as default address", style: TextStyle(fontSize: 16)),
       ],
     );
   }
@@ -386,9 +312,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
         minimumSize: const Size.fromHeight(50),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
@@ -462,10 +386,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
       if (widget.address == null) {
         context.read<AddressBloc>().add(AddAddress(payload));
       } else {
-        context.read<AddressBloc>().add(UpdateAddress(
-              encryptedId: widget.address!.encryptedId,
-              payload: payload,
-            ));
+        context.read<AddressBloc>().add(UpdateAddress(encryptedId: widget.address!.encryptedId, payload: payload));
       }
     }
   }

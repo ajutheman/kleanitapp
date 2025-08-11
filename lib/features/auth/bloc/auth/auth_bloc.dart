@@ -4,7 +4,7 @@
 //
 // import 'package:bloc/bloc.dart';
 // import 'package:geolocator/geolocator.dart';
-// import 'package:kleanit/features/auth/respository/auth_repository.dart';
+// import 'package:kleanitapp/features/auth/respository/auth_repository.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 //
 // import 'auth_event.dart';
@@ -184,12 +184,12 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:kleanitapp/core/constants/pref_resources.dart';
+import 'package:kleanitapp/features/auth/respository/auth_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth_event.dart';
 import 'auth_state.dart';
-import 'package:kleanit/core/constants/pref_resources.dart';
-import 'package:kleanit/features/auth/respository/auth_repository.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
@@ -200,10 +200,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<OTPVerificationRequested>(_onOTPVerificationRequested);
   }
 
-  Future<void> _onGoogleLoginRequested(
-    GoogleLoginRequested event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onGoogleLoginRequested(GoogleLoginRequested event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
       final authResponse = await authRepository.loginWithGoogle(event.idToken);
@@ -228,16 +225,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _onOTPLoginRequested(
-    OTPLoginRequested event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onOTPLoginRequested(OTPLoginRequested event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
       final otpResponse = await authRepository.loginWithOtp(event.mobile);
       log("📨 OTP Sent: ${otpResponse.message} to ${otpResponse.mobile}");
-      emit(OTPLoginSuccess(
-          message: otpResponse.message, mobile: otpResponse.mobile));
+      emit(OTPLoginSuccess(message: otpResponse.message, mobile: otpResponse.mobile));
     } catch (e) {
       final errorMessage = _formatError(e);
       log("❌ OTP Login Failed: $errorMessage");
@@ -245,28 +238,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _onOTPVerificationRequested(
-    OTPVerificationRequested event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onOTPVerificationRequested(OTPVerificationRequested event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      final verifyResponse =
-          await authRepository.verifyOtp(event.mobile, event.otp);
+      final verifyResponse = await authRepository.verifyOtp(event.mobile, event.otp);
 
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(
-          PrefResources.USER_ACCESS_TOCKEN, verifyResponse.token);
+      await prefs.setString(PrefResources.USER_ACCESS_TOCKEN, verifyResponse.token);
 
       log("✅ OTP Verified. Token: ${verifyResponse.token}, Customer ID: ${verifyResponse.customerId}");
 
       await _updateLocation();
 
-      emit(OTPVerificationSuccess(
-        message: verifyResponse.message,
-        token: verifyResponse.token,
-        customerId: verifyResponse.customerId,
-      ));
+      emit(OTPVerificationSuccess(message: verifyResponse.message, token: verifyResponse.token, customerId: verifyResponse.customerId));
     }
     // catch (e)
     /*{
@@ -275,8 +259,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthFailure(error: errorMessage));
     }*/
     on DioError catch (dioError) {
-      final message =
-          dioError.response?.data['message'] ?? 'OTP verification failed';
+      final message = dioError.response?.data['message'] ?? 'OTP verification failed';
       // emit(AuthFailure(error: message));
       emit(AuthFailure(error: "OTP verification failed"));
     } catch (e) {
@@ -303,14 +286,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         throw Exception("Location permissions are permanently denied.");
       }
 
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-      final locationResponse = await authRepository.setLocation(
-        position.latitude,
-        position.longitude,
-      );
+      final locationResponse = await authRepository.setLocation(position.latitude, position.longitude);
       log("📍 Location Updated: ${locationResponse.message}, Service Available: ${locationResponse.serviceAvailable}");
     } catch (locationError) {
       log("⚠️ Location update skipped: $locationError");

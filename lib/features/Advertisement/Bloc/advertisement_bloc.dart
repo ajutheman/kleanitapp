@@ -8,8 +8,7 @@ class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState> {
   final AdvertisementRepository repository;
   final String token;
 
-  AdvertisementBloc({required this.repository, required this.token})
-      : super(AdvertisementInitial()) {
+  AdvertisementBloc({required this.repository, required this.token}) : super(AdvertisementInitial()) {
     on<LoadAdvertisements>((event, emit) async {
       emit(AdvertisementLoading());
       try {

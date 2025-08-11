@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import '../../categories/modle/category_detail_model.dart';
 
 class Cart {
@@ -10,14 +8,7 @@ class Cart {
   final String type;
   final String subscriptionFrequency;
 
-  Cart({
-    required this.id,
-    required this.thirdCategoryId,
-    required this.thirdCategory,
-    required this.employeeCount,
-    required this.type,
-    required this.subscriptionFrequency,
-  });
+  Cart({required this.id, required this.thirdCategoryId, required this.thirdCategory, required this.employeeCount, required this.type, required this.subscriptionFrequency});
 
   factory Cart.fromJson(Map<String, dynamic> json) {
     return Cart(

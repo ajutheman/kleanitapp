@@ -13,26 +13,21 @@ class CouponBloc extends Bloc<CouponEvent, CouponState> {
     on<ClearCoupon>(_onClearCoupon);
   }
 
-  Future<void> _onValidateCoupon(
-      ValidateCoupon event, Emitter<CouponState> emit) async {
+  Future<void> _onValidateCoupon(ValidateCoupon event, Emitter<CouponState> emit) async {
     emit(CouponValidationLoading());
 
     try {
       await orderRepository.validateCoupon(event.couponCode);
 
-      emit(CouponValidationSuccess(
-        couponCode: event.couponCode,
-      ));
+      emit(CouponValidationSuccess(couponCode: event.couponCode));
     } on DioException catch (e) {
-      emit(CouponValidationFailure(
-          e.response?.data['message'].toString() ?? "Invalid coupon"));
+      emit(CouponValidationFailure(e.response?.data['message'].toString() ?? "Invalid coupon"));
     } catch (e) {
       emit(CouponValidationFailure(e.toString()));
     }
   }
 
-  Future<void> _onClearCoupon(
-      ClearCoupon event, Emitter<CouponState> emit) async {
+  Future<void> _onClearCoupon(ClearCoupon event, Emitter<CouponState> emit) async {
     emit(CouponInitial());
   }
 }

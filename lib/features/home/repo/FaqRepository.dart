@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:kleanit/features/home/repo/exceptions.dart';
+import 'package:kleanitapp/features/home/repo/exceptions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../core/constants/url_resources.dart';
+
 import '../../../core/constants/pref_resources.dart';
-import '../faq_section.dart';
+import '../../../core/constants/url_resources.dart';
 import '../modle/faq_item.dart';
 // import '../model/faq_item.dart';
 
@@ -53,15 +53,7 @@ class FAQRepository {
     }
 
     try {
-      final response = await dio.get(
-        UrlResources.faqList,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $token",
-            "Content-Type": "application/json",
-          },
-        ),
-      );
+      final response = await dio.get(UrlResources.faqList, options: Options(headers: {"Authorization": "Bearer $token", "Content-Type": "application/json"}));
 
       if (response.statusCode == 200) {
         final decoded = response.data;

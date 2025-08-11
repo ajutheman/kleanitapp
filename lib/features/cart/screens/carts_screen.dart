@@ -3,11 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kleanit/core/constants/constants.dart';
-import 'package:kleanit/core/theme/color_data.dart';
-import 'package:kleanit/features/cart/screens/widgets/order_type_selector.dart';
-import 'package:kleanit/features/home/home_main.dart';
-import 'package:kleanit/features/order/presentation/order_screen.dart';
+import 'package:kleanitapp/core/constants/constants.dart';
+import 'package:kleanitapp/core/theme/color_data.dart';
+import 'package:kleanitapp/features/cart/screens/widgets/order_type_selector.dart';
+import 'package:kleanitapp/features/home/home_main.dart';
+import 'package:kleanitapp/features/order/presentation/order_screen.dart';
 
 import '../bloc/cart_bloc.dart';
 import '../bloc/cart_event.dart';
@@ -32,20 +32,9 @@ class _CartListScreenState extends State<CartListScreen> {
         child: BlocConsumer<CartBloc, CartState>(
           listener: (ctx, state) {
             if (state is CartActionSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Cart updated successfully'),
-                  duration: Duration(seconds: 2),
-                ),
-              );
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Cart updated successfully'), duration: Duration(seconds: 2)));
             } else if (state is CartError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: Colors.red,
-                  duration: Duration(seconds: 2),
-                ),
-              );
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message), backgroundColor: Colors.red, duration: Duration(seconds: 2)));
             }
           },
           builder: (ctx, state) {
@@ -54,37 +43,28 @@ class _CartListScreenState extends State<CartListScreen> {
               context.read<CartBloc>().add(FetchCartList());
               return const Center(child: CircularProgressIndicator());
             } else if (state is CartLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const Center(child: CircularProgressIndicator());
             } else if (state is CartLoaded) {
               final allCartItems = state.cartItems;
-              final filteredCartItems = allCartItems
-                  .where((e) => e.type == _selectedServiceType)
-                  .toList();
+              final filteredCartItems = allCartItems.where((e) => e.type == _selectedServiceType).toList();
 
               return Column(
                 children: [
                   _buildHeader(context),
-                  OrderTypeSelector(
-                    initialSelection: _selectedServiceType,
-                    onTypeSelected: _updateServiceType,
-                  ),
+                  OrderTypeSelector(initialSelection: _selectedServiceType, onTypeSelected: _updateServiceType),
                   Expanded(
-                    child: filteredCartItems.isEmpty
-                        ? _buildEmptyState(context)
-                        : ListView.builder(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            itemCount: filteredCartItems.length,
-                            itemBuilder: (context, index) {
-                              return _buildCartItem(
-                                  context, filteredCartItems[index]);
-                            },
-                          ),
+                    child:
+                        filteredCartItems.isEmpty
+                            ? _buildEmptyState(context)
+                            : ListView.builder(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              itemCount: filteredCartItems.length,
+                              itemBuilder: (context, index) {
+                                return _buildCartItem(context, filteredCartItems[index]);
+                              },
+                            ),
                   ),
-                  if (filteredCartItems.isNotEmpty &&
-                      _selectedServiceType == SubscriptionType.SINGLE)
-                    _buildCheckoutBar(context, filteredCartItems),
+                  if (filteredCartItems.isNotEmpty && _selectedServiceType == SubscriptionType.SINGLE) _buildCheckoutBar(context, filteredCartItems),
                 ],
               );
             } else if (state is CartError) {
@@ -92,25 +72,15 @@ class _CartListScreenState extends State<CartListScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.error_outline,
-                        size: 60, color: Colors.red),
+                    const Icon(Icons.error_outline, size: 60, color: Colors.red),
                     const SizedBox(height: 16),
-                    Text(
-                      'Error: ${state.message}',
-                      style: const TextStyle(fontSize: 16),
-                      textAlign: TextAlign.center,
-                    ),
+                    Text('Error: ${state.message}', style: const TextStyle(fontSize: 16), textAlign: TextAlign.center),
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
                         context.read<CartBloc>().add(FetchCartList());
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
+                      style: ElevatedButton.styleFrom(backgroundColor: primaryColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                       child: const Text('Try Again'),
                     ),
                   ],
@@ -132,10 +102,7 @@ class _CartListScreenState extends State<CartListScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
-            'My Cart',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          ),
+          const Text('My Cart', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           // IconButton(
           //   icon: const Icon(Icons.refresh, size: 28),
           //   onPressed: () {
@@ -180,19 +147,17 @@ class _CartListScreenState extends State<CartListScreen> {
     final formattedPrice = ' ${priceField.toInt()}';
 
     // Employee count text
-    final employeeText = cart.employeeCount > 1
-        ? '${cart.employeeCount} Employees'
-        : ' Employee';
+    final employeeText = cart.employeeCount > 1 ? '${cart.employeeCount} Employees' : ' Employee';
 
     // Service schedule extraction
     Map<String, dynamic> schedule = {};
     try {
       if (cart.thirdCategory.schedule != null) {
         schedule = Map<String, dynamic>.from(
-            cart.thirdCategory.schedule is String
-                ? Map<String, dynamic>.from(Map<String, dynamic>.from(
-                    jsonDecode(cart.thirdCategory.schedule as String)))
-                : cart.thirdCategory.schedule as Map<String, dynamic>);
+          cart.thirdCategory.schedule is String
+              ? Map<String, dynamic>.from(Map<String, dynamic>.from(jsonDecode(cart.thirdCategory.schedule as String)))
+              : cart.thirdCategory.schedule as Map<String, dynamic>,
+        );
       }
     } catch (e) {
       // Handle parsing error
@@ -229,13 +194,7 @@ class _CartListScreenState extends State<CartListScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 2))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -244,38 +203,29 @@ class _CartListScreenState extends State<CartListScreen> {
           Stack(
             children: [
               ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(16)),
-                child: cart.thirdCategory.image != null &&
-                        cart.thirdCategory.image!.isNotEmpty
-                    ? Image.network(
-                        cart.thirdCategory.image!,
-                        height: 180,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            height: 180,
-                            width: double.infinity,
-                            color: Colors.grey[200],
-                            child: const Icon(
-                              Icons.cleaning_services,
-                              size: 60,
-                              color: Colors.grey,
-                            ),
-                          );
-                        },
-                      )
-                    : Container(
-                        height: 180,
-                        width: double.infinity,
-                        color: primaryColor.withOpacity(.1),
-                        child: Icon(
-                          Icons.cleaning_services,
-                          size: 60,
-                          color: primaryColor.withOpacity(.4),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                child:
+                    cart.thirdCategory.image != null && cart.thirdCategory.image!.isNotEmpty
+                        ? Image.network(
+                          cart.thirdCategory.image!,
+                          height: 180,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              height: 180,
+                              width: double.infinity,
+                              color: Colors.grey[200],
+                              child: const Icon(Icons.cleaning_services, size: 60, color: Colors.grey),
+                            );
+                          },
+                        )
+                        : Container(
+                          height: 180,
+                          width: double.infinity,
+                          color: primaryColor.withOpacity(.1),
+                          child: Icon(Icons.cleaning_services, size: 60, color: primaryColor.withOpacity(.4)),
                         ),
-                      ),
               ),
               Positioned(
                 top: 12,
@@ -285,23 +235,13 @@ class _CartListScreenState extends State<CartListScreen> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 8, offset: const Offset(0, 2))],
                   ),
                   child: InkWell(
                     onTap: () {
                       _showDeleteConfirmation(context, cart);
                     },
-                    child: const Icon(
-                      Icons.delete_outline,
-                      color: Colors.red,
-                      size: 20,
-                    ),
+                    child: const Icon(Icons.delete_outline, color: Colors.red, size: 20),
                   ),
                 ),
               ),
@@ -317,37 +257,23 @@ class _CartListScreenState extends State<CartListScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Text(
-                        cart.thirdCategory.name ?? 'Unnamed Service',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                    Expanded(child: Text(cart.thirdCategory.name ?? 'Unnamed Service', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: primaryColor.withOpacity(.1),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(color: primaryColor.withOpacity(.1), borderRadius: BorderRadius.circular(20)),
                       child:
-                          // Row(
-                          //   children: [
-                          //     Text(
-                          //       formattedPrice,
-                          //       style: TextStyle(
-                          //         color: primaryColor,
-                          //         fontWeight: FontWeight.bold,
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          Row(
+                      // Row(
+                      //   children: [
+                      //     Text(
+                      //       formattedPrice,
+                      //       style: TextStyle(
+                      //         color: primaryColor,
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Image.asset(
@@ -360,10 +286,7 @@ class _CartListScreenState extends State<CartListScreen> {
                           const SizedBox(width: 4),
                           Text(
                             '${(double.tryParse(formattedPrice.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0).toInt()}',
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -373,16 +296,9 @@ class _CartListScreenState extends State<CartListScreen> {
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    Icon(Icons.people_outline,
-                        size: 18, color: Colors.grey[600]),
+                    Icon(Icons.people_outline, size: 18, color: Colors.grey[600]),
                     const SizedBox(width: 4),
-                    Text(
-                      employeeText,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    Text(employeeText, style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.w500)),
                     const SizedBox(width: 16),
                     // Icon(Icons.access_time, size: 18, color: Colors.grey[600]),
                     const SizedBox(width: 4),
@@ -395,42 +311,19 @@ class _CartListScreenState extends State<CartListScreen> {
                   ],
                 ),
                 const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Icon(Icons.repeat, size: 18, color: Colors.grey[600]),
-                    const SizedBox(width: 4),
-                    Text(
-                      frequencyText,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                  ],
-                ),
+                Row(children: [Icon(Icons.repeat, size: 18, color: Colors.grey[600]), const SizedBox(width: 4), Text(frequencyText, style: TextStyle(color: Colors.grey[700]))]),
                 const SizedBox(height: 12),
                 if (schedule.isNotEmpty) ...[
-                  Text(
-                    'Service Schedule:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[800],
-                    ),
-                  ),
+                  Text('Service Schedule:', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[800])),
                   const SizedBox(height: 4),
                   ...schedule.entries.map((entry) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 4),
                       child: Row(
                         children: [
-                          Icon(Icons.check_circle_outline,
-                              size: 16, color: Colors.green[600]),
+                          Icon(Icons.check_circle_outline, size: 16, color: Colors.green[600]),
                           const SizedBox(width: 4),
-                          Text(
-                            '${entry.key}: ${entry.value}',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                            ),
-                          ),
+                          Text('${entry.key}: ${entry.value}', style: TextStyle(color: Colors.grey[600])),
                         ],
                       ),
                     );
@@ -447,8 +340,7 @@ class _CartListScreenState extends State<CartListScreen> {
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           foregroundColor: primaryColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                           side: BorderSide(color: Colors.grey[300]!),
                         ),
                         child: const Text('Remove'),
@@ -465,9 +357,7 @@ class _CartListScreenState extends State<CartListScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           backgroundColor: primaryColor,
                           foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
                         child: const Text('Book Now'),
                       ),
@@ -487,28 +377,11 @@ class _CartListScreenState extends State<CartListScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.shopping_cart_outlined,
-            size: 80,
-            color: Colors.grey[400],
-          ),
+          Icon(Icons.shopping_cart_outlined, size: 80, color: Colors.grey[400]),
           const SizedBox(height: 16),
-          Text(
-            'Your Cart is Empty',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey[800],
-            ),
-          ),
+          Text('Your Cart is Empty', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.grey[800])),
           const SizedBox(height: 8),
-          Text(
-            'Add services to your cart',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey[600],
-            ),
-          ),
+          Text('Add services to your cart', style: TextStyle(fontSize: 16, color: Colors.grey[600])),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () {
@@ -517,15 +390,10 @@ class _CartListScreenState extends State<CartListScreen> {
               currentHomeIndexNotifier.value = 0;
             },
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 32,
-                vertical: 12,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
               backgroundColor: primaryColor,
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
             child: const Text('Explore Services'),
           ),
@@ -546,16 +414,7 @@ class _CartListScreenState extends State<CartListScreen> {
 
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, -5),
-          ),
-        ],
-      ),
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, -5))]),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -564,14 +423,7 @@ class _CartListScreenState extends State<CartListScreen> {
             children: [
               Row(
                 children: [
-                  Text(
-                    'Total: ',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[800],
-                    ),
-                  ),
+                  Text('Total: ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey[800])),
                   // Text(
                   //   'AED ${totalPrice.toInt()}',
                   //   style: TextStyle(
@@ -591,25 +443,12 @@ class _CartListScreenState extends State<CartListScreen> {
                         // color: primaryColor, // Optional: apply color tint
                       ),
                       const SizedBox(width: 4),
-                      Text(
-                        '${totalPrice.toInt()}',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: primaryColor,
-                        ),
-                      ),
+                      Text('${totalPrice.toInt()}', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: primaryColor)),
                     ],
                   ),
                 ],
               ),
-              Text(
-                '${cartItems.length} item${cartItems.length > 1 ? 's' : ''}',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              Text('${cartItems.length} item${cartItems.length > 1 ? 's' : ''}', style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.w500)),
             ],
           ),
           const SizedBox(height: 16),
@@ -623,18 +462,9 @@ class _CartListScreenState extends State<CartListScreen> {
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 backgroundColor: primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              child: const Text(
-                'Proceed to Checkout',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: const Text('Proceed to Checkout', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
             ),
           ),
         ],
@@ -653,10 +483,7 @@ class _CartListScreenState extends State<CartListScreen> {
         return Container();
       },
       transitionBuilder: (context, animation, secondaryAnimation, child) {
-        final curvedAnimation = CurvedAnimation(
-          parent: animation,
-          curve: Curves.easeOutBack,
-        );
+        final curvedAnimation = CurvedAnimation(parent: animation, curve: Curves.easeOutBack);
 
         return ScaleTransition(
           scale: curvedAnimation,
@@ -665,46 +492,26 @@ class _CartListScreenState extends State<CartListScreen> {
             child: AlertDialog(
               backgroundColor: Colors.white,
               elevation: 8,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              title: Text(
-                'Remove from Cart',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              title: Text('Remove from Cart', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87)),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
                     padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.red.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Icon(
-                      Icons.remove_shopping_cart,
-                      color: Colors.red,
-                      size: 40,
-                    ),
+                    decoration: BoxDecoration(color: Colors.red.withOpacity(0.1), borderRadius: BorderRadius.circular(16)),
+                    child: Icon(Icons.remove_shopping_cart, color: Colors.red, size: 40),
                   ),
                   SizedBox(height: 16),
                   Text(
                     'Are you sure you want to remove "${cart.thirdCategory.name}" from your cart?',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black54,
-                    ),
+                    style: TextStyle(fontSize: 16, color: Colors.black54),
                   ),
                 ],
               ),
               contentPadding: EdgeInsets.fromLTRB(24, 20, 24, 0),
-              actionsPadding:
-                  EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              actionsPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               actions: [
                 Row(
                   children: [
@@ -713,18 +520,9 @@ class _CartListScreenState extends State<CartListScreen> {
                         onPressed: () => Navigator.pop(context),
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            side: BorderSide(color: Colors.grey.shade300),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: Colors.grey.shade300)),
                         ),
-                        child: Text(
-                          'Cancel',
-                          style: TextStyle(
-                            color: Colors.grey[700],
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                        child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.w600)),
                       ),
                     ),
                     SizedBox(width: 16),
@@ -736,16 +534,9 @@ class _CartListScreenState extends State<CartListScreen> {
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.symmetric(vertical: 12),
                           elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
-                        child: Text(
-                          'Remove',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                        child: Text('Remove', style: TextStyle(fontWeight: FontWeight.w600)),
                       ),
                     ),
                   ],
@@ -759,10 +550,7 @@ class _CartListScreenState extends State<CartListScreen> {
   }
 
   void _gotoBookScreen(BuildContext context, List<Cart> carts) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => OrderConfirmationScreen(carts: carts)));
+    Navigator.push(context, MaterialPageRoute(builder: (_) => OrderConfirmationScreen(carts: carts)));
   }
 
   void _deleteCart(BuildContext context, Cart cart) {
