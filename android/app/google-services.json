@@ -1,0 +1,402 @@
+{
+  "project_info": {
+    "project_number": "388401607033",
+    "project_id": "kleanit-c4f88",
+    "storage_bucket": "kleanit-c4f88.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388401607033:android:9009d752cf02434e787fa8",
+        "android_client_info": {
+          "package_name": "com.example.fix_store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388401607033-1u0lfilr31rb1d4d1hmasdlstfja80gs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fix_store",
+            "certificate_hash": "9e0104ab8be6e57150d81051d2e05a90a3b28b03"
+          }
+        },
+        {
+          "client_id": "388401607033-43r5l0jj9co30o8kkrpr0uarqetmgkup.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fix_store",
+            "certificate_hash": "787fd2745433d86b967f68cc3a4f651ce77f7b99"
+          }
+        },
+        {
+          "client_id": "388401607033-m1mfrmmmqtst72gtd99i82m27j1un8o6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fix_store",
+            "certificate_hash": "4dee571688e2a76ce353d19306e86ca846d58057"
+          }
+        },
+        {
+          "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp_cX1KLeV7ACn1EEJyTEuDXBAAFerAig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "388401607033-as0q168bp0070v0rarnp05if3u6bo4ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kleanit.kleanitemployeeapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388401607033:android:1219e24a057bc646787fa8",
+        "android_client_info": {
+          "package_name": "com.example.kleanit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388401607033-ms1df1155r90phf2nh52mvjnaag7lh13.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kleanit",
+            "certificate_hash": "4dee571688e2a76ce353d19306e86ca846d58057"
+          }
+        },
+        {
+          "client_id": "388401607033-ub7uva8tjbt8d1sd9mgp0f2efdjcdiao.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kleanit",
+            "certificate_hash": "787fd2745433d86b967f68cc3a4f651ce77f7b99"
+          }
+        },
+        {
+          "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp_cX1KLeV7ACn1EEJyTEuDXBAAFerAig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "388401607033-as0q168bp0070v0rarnp05if3u6bo4ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kleanit.kleanitemployeeapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388401607033:android:751bf86d6b20f246787fa8",
+        "android_client_info": {
+          "package_name": "com.kleanit.kleanit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388401607033-i1i9f8po7rlgbbo08o546vb9pah4qrij.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kleanit.kleanit",
+            "certificate_hash": "787fd2745433d86b967f68cc3a4f651ce77f7b99"
+          }
+        },
+        {
+          "client_id": "388401607033-p9qjm9h7u910erk81t5cbp3l97544db5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kleanit.kleanit",
+            "certificate_hash": "4dee571688e2a76ce353d19306e86ca846d58057"
+          }
+        },
+        {
+          "client_id": "388401607033-srp5svoqgrc4btvk7jop1mp8ng1h0kvt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kleanit.kleanit",
+            "certificate_hash": "609a09178d717b5ddf4cabff6bb6ba9f414b659e"
+          }
+        },
+        {
+          "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp_cX1KLeV7ACn1EEJyTEuDXBAAFerAig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "388401607033-as0q168bp0070v0rarnp05if3u6bo4ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kleanit.kleanitemployeeapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388401607033:android:797bec0fe3f7b28a787fa8",
+        "android_client_info": {
+          "package_name": "com.kleanit.kleanitadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp_cX1KLeV7ACn1EEJyTEuDXBAAFerAig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "388401607033-as0q168bp0070v0rarnp05if3u6bo4ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kleanit.kleanitemployeeapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388401607033:android:c4ffe904feb3c4e6787fa8",
+        "android_client_info": {
+          "package_name": "com.kleanit.kleanitadminpanel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388401607033-r2cobca8a1ah9sjbs79fdrcq2j98cs51.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kleanit.kleanitadminpanel",
+            "certificate_hash": "6d05b8db5595d1fa0305402396c27931661fd60b"
+          }
+        },
+        {
+          "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp_cX1KLeV7ACn1EEJyTEuDXBAAFerAig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "388401607033-as0q168bp0070v0rarnp05if3u6bo4ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kleanit.kleanitemployeeapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388401607033:android:1b7a31f34ee81bb9787fa8",
+        "android_client_info": {
+          "package_name": "com.kleanit.kleanitemployeeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp_cX1KLeV7ACn1EEJyTEuDXBAAFerAig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "388401607033-as0q168bp0070v0rarnp05if3u6bo4ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kleanit.kleanitemployeeapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388401607033:android:c1e8cf085a948e48787fa8",
+        "android_client_info": {
+          "package_name": "com.spydo.kleanit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388401607033-7n6njsfs2agog29jlpq2jsrmg4f3ujdt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spydo.kleanit",
+            "certificate_hash": "27233e22902627496486f28cbb34b3f8a34d51f1"
+          }
+        },
+        {
+          "client_id": "388401607033-bhmbc7btpkaslgodilbe64mvla97ovrq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spydo.kleanit",
+            "certificate_hash": "131acb888e8931e44625c8a686b190dad607dba8"
+          }
+        },
+        {
+          "client_id": "388401607033-dvuj6g4rrsqj5i976k0ejr9psvfj9ppq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spydo.kleanit",
+            "certificate_hash": "6d05b8db5595d1fa0305402396c27931661fd60b"
+          }
+        },
+        {
+          "client_id": "388401607033-oc436moqq9opo1017v1e38lkd4v87m27.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spydo.kleanit",
+            "certificate_hash": "787fd2745433d86b967f68cc3a4f651ce77f7b99"
+          }
+        },
+        {
+          "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp_cX1KLeV7ACn1EEJyTEuDXBAAFerAig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "388401607033-as0q168bp0070v0rarnp05if3u6bo4ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kleanit.kleanitemployeeapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388401607033:android:c2a5879d298559d9787fa8",
+        "android_client_info": {
+          "package_name": "com.spydo.kleanitcustomer.kleanitapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp_cX1KLeV7ACn1EEJyTEuDXBAAFerAig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "388401607033-as0q168bp0070v0rarnp05if3u6bo4ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kleanit.kleanitemployeeapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

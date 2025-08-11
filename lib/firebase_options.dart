@@ -52,7 +52,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDp_cX1KLeV7ACn1EEJyTEuDXBAAFerAig',
-    appId: '1:388401607033:android:751bf86d6b20f246787fa8',
+    appId: '1:388401607033:android:c2a5879d298559d9787fa8',
     messagingSenderId: '388401607033',
     projectId: 'kleanit-c4f88',
     storageBucket: 'kleanit-c4f88.firebasestorage.app',
@@ -60,13 +60,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAbulKlglQTjQvm0yRvtnzcC7_b4E3rX4A',
-    appId: '1:388401607033:ios:bda37b8339e40a56787fa8',
+    appId: '1:388401607033:ios:7f1babdcd7080793787fa8',
     messagingSenderId: '388401607033',
     projectId: 'kleanit-c4f88',
     storageBucket: 'kleanit-c4f88.firebasestorage.app',
     androidClientId: '388401607033-1u0lfilr31rb1d4d1hmasdlstfja80gs.apps.googleusercontent.com',
-    iosClientId: '388401607033-i8ue8resaje112nor3019br5vgt5kqar.apps.googleusercontent.com',
-    iosBundleId: 'com.spydo.kleanitcustomer',
+    iosClientId: '388401607033-an0ebkia066pghvbeqk83qnsv8luhu1d.apps.googleusercontent.com',
+    iosBundleId: 'com.spydo.kleanitcustomer.kleanitapp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
