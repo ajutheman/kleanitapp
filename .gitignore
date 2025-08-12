@@ -43,3 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Force track these files
+!android/gradlew.bat
+!android/key.properties
+!android/gradlew
+!android/app/spydo.jks
