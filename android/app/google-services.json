@@ -363,12 +363,56 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:388401607033:android:2ff59142411c9ea9787fa8",
+        "android_client_info": {
+          "package_name": "com.spydo.kleanitcustomer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp_cX1KLeV7ACn1EEJyTEuDXBAAFerAig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "388401607033-an0ebkia066pghvbeqk83qnsv8luhu1d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.spydo.kleanitcustomer.kleanitapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:388401607033:android:c2a5879d298559d9787fa8",
         "android_client_info": {
           "package_name": "com.spydo.kleanitcustomer.kleanitapp"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "388401607033-kk8ka9kidasadp3utkldncc7irn04ir7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spydo.kleanitcustomer.kleanitapp",
+            "certificate_hash": "6d05b8db5595d1fa0305402396c27931661fd60b"
+          }
+        },
         {
           "client_id": "388401607033-i2ig8u7vnlb1363hogbdsae0lr4bg0gl.apps.googleusercontent.com",
           "client_type": 3
