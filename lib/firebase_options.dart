@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     storageBucket: 'kleanit-c4f88.firebasestorage.app',
     androidClientId: '388401607033-1u0lfilr31rb1d4d1hmasdlstfja80gs.apps.googleusercontent.com',
     iosClientId: '388401607033-an0ebkia066pghvbeqk83qnsv8luhu1d.apps.googleusercontent.com',
-    iosBundleId: 'com.spydo.kleanitcustomer.kleanitapp',
+    iosBundleId: 'com.spydo.kleanitcustomer',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

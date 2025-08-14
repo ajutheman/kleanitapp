@@ -18,7 +18,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.spydo.kleanitcustomer.kleanitapp"
+    namespace = "com.spydo.kleanitcustomer"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
@@ -33,7 +33,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.spydo.kleanitcustomer.kleanitapp"
+        applicationId = "com.spydo.kleanitcustomer"
         minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

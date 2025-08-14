@@ -2,6 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <!-- Identity (kept from your new project) -->
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -45,5 +46,57 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- URL schemes (from old project) -->
+      <key>CFBundleURLTypes</key>
+      <array>
+        <dict>
+          <key>CFBundleTypeRole</key>
+          <string>Editor</string>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <string>com.googleusercontent.apps.388401607033-fc3t6h5p24jb586p6qpeorcidcsji145</string>
+            <string>kleanit</string>
+            <string>com.googleusercontent.apps.388401607033-i8ue8resaje112nor3019br5vgt5kqar</string>
+          </array>
+        </dict>
+      </array>
+      <!-- Schemes you query with url_launcher/whatsapp -->
+        <key>LSApplicationQueriesSchemes</key>
+        <array>
+          <string>sms</string>
+          <string>tel</string>
+          <string>whatsapp</string>
+        </array>
+ <!-- Privacy permissions (from old project) -->
+  <key>NSCameraUsageDescription</key>
+  <string>This app uses the camera to allow users to take and upload photos for profiles or services.</string>
+
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>This app needs access to your photo library to upload service images.</string>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>This app needs access to save photos to your photo library.</string>
+
+  <key>NSMicrophoneUsageDescription</key>
+  <string>This app requires microphone access for voice messages and support calls.</string>
+
+  <!-- Use the modern Bluetooth key (iOS 13+) -->
+  <key>NSBluetoothAlwaysUsageDescription</key>
+  <string>This app uses Bluetooth to connect to nearby devices for enhanced service support.</string>
+
+  <!-- Location (both foreground and background like old project) -->
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>This app uses your location while in use to offer nearby service availability and accurate booking.</string>
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>This app uses your location even in the background to ensure smooth service delivery and cleaner tracking.</string>
+
+  <!-- Local network (useful during development) -->
+  <key>NSLocalNetworkUsageDescription</key>
+  <string>This app requires local network access to support development tools and communication.</string>
+  <key>NSBonjourServices</key>
+  <array>
+    <string>_dartobservatory._tcp</string>
+  </array>
+ <key>FirebaseAppDelegateProxyEnabled</key>
+  <true/>
 </dict>
 </plist>
