@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../repo/order_repository.dart';
+import '../repo/Apporder_repository.dart';
 import 'order_event.dart';
 import 'order_state.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
-  final OrderRepository orderRepository;
+  final AppOrderRepository orderRepository;
 
   OrderBloc({required this.orderRepository}) : super(OrderInitial()) {
     on<CalculateOrder>(_onCalculateOrder);

@@ -1,4 +1,4 @@
-class Routes {
+class AppRoutes {
   static const String forgotRoute = '/forgot';
   static const String signupRoute = '/signup';
   static const String homeScreenRoute = '/home';

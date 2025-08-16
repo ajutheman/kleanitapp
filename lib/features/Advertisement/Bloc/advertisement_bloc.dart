@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../Repository/advertisement_repository.dart';
+import '../Repository/Appadvertisement_repository.dart';
 import 'advertisement_event.dart';
 import 'advertisement_state.dart';
 
 class AdvertisementBloc extends Bloc<AdvertisementEvent, AdvertisementState> {
-  final AdvertisementRepository repository;
+  final AppAdvertisementRepository repository;
   final String token;
 
   AdvertisementBloc({required this.repository, required this.token}) : super(AdvertisementInitial()) {

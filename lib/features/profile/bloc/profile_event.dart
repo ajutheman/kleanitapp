@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../model/customer_model.dart';
+import '../model/Appcustomer_model.dart';
 
 abstract class ProfileEvent extends Equatable {
   @override
@@ -10,7 +10,7 @@ abstract class ProfileEvent extends Equatable {
 class FetchProfile extends ProfileEvent {}
 
 class UpdateProfile extends ProfileEvent {
-  final CustomerModel updatedCustomer;
+  final AppCustomerModel updatedCustomer;
 
   UpdateProfile(this.updatedCustomer);
 

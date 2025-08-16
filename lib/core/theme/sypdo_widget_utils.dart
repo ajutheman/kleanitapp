@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:kleanitapp/core/theme/resizer/fetch_pixels.dart';
+import 'package:kleanitapp/core/theme/resizer/sypdo_fetch_pixels.dart';
 
 // import 'package:flutter_svg/flutter_svg.dart';
 
-import '../constants/Constant.dart';
-import 'color_data.dart';
+import '../constants/Sypdo_Constant.dart';
+import 'sypd_color.dart';
 
 Widget getVerSpace(double verSpace) {
   return SizedBox(height: verSpace);
 }
 
 Widget getAssetImage(String image, double width, double height, {Color? color, BoxFit boxFit = BoxFit.fill}) {
-  return Image.asset(Constant.assetImagePath + image, color: color, width: width, height: height, fit: boxFit, scale: FetchPixels.getScale());
+  return Image.asset(AppConstant.assetImagePath + image, color: color, width: width, height: height, fit: boxFit, scale: FetchPixels.getScale());
 }
 
 Widget getSvgImage(String image, {double? width, double? height, Color? color, BoxFit boxFit = BoxFit.contain}) {
-  return SvgPicture.asset(Constant.assetImagePath + image, color: color, width: width, height: height, fit: boxFit);
+  return SvgPicture.asset(AppConstant.assetImagePath + image, color: color, width: width, height: height, fit: boxFit);
 }
 
 Widget getPaddingWidget(EdgeInsets edgeInsets, Widget widget) {
@@ -25,7 +25,7 @@ Widget getPaddingWidget(EdgeInsets edgeInsets, Widget widget) {
 }
 
 DecorationImage getDecorationAssetImage(BuildContext buildContext, String image, {BoxFit fit = BoxFit.contain}) {
-  return DecorationImage(image: AssetImage((Constant.assetImagePath) + image), fit: fit, scale: FetchPixels.getScale());
+  return DecorationImage(image: AssetImage((AppConstant.assetImagePath) + image), fit: fit, scale: FetchPixels.getScale());
 }
 
 Widget getCustomFont(
@@ -33,7 +33,7 @@ Widget getCustomFont(
   double fontSize,
   Color fontColor,
   int maxLine, {
-  String fontFamily = Constant.fontsFamily,
+  String fontFamily = AppConstant.fontsFamily,
   TextOverflow overflow = TextOverflow.ellipsis,
   TextDecoration decoration = TextDecoration.none,
   FontWeight fontWeight = FontWeight.normal,
@@ -55,7 +55,7 @@ Widget getMultilineCustomFont(
   String text,
   double fontSize,
   Color fontColor, {
-  String fontFamily = Constant.fontsFamily,
+  String fontFamily = AppConstant.fontsFamily,
   TextOverflow overflow = TextOverflow.ellipsis,
   TextDecoration decoration = TextDecoration.none,
   FontWeight fontWeight = FontWeight.normal,
@@ -126,7 +126,7 @@ Widget getButton(
         children: [
           (isIcon) ? getSvgImage(image!) : getHorSpace(0),
           (isIcon) ? getHorSpace(FetchPixels.getPixelWidth(10)) : getHorSpace(0),
-          getCustomFont(text, fontsize, textColor, 1, textAlign: TextAlign.center, fontWeight: weight, fontFamily: Constant.fontsFamily),
+          getCustomFont(text, fontsize, textColor, 1, textAlign: TextAlign.center, fontWeight: weight, fontFamily: AppConstant.fontsFamily),
         ],
       ),
     ),
@@ -158,7 +158,7 @@ Widget getButtonWithIcon(
   EdgeInsetsGeometry? insetsGeometrypadding,
   BorderRadius? borderRadius,
   double? borderWidth,
-  String fontFamily = Constant.fontsFamily,
+  String fontFamily = AppConstant.fontsFamily,
 }) {
   return InkWell(
     onTap: () {
@@ -394,13 +394,13 @@ Widget getDefaultTextFiledWithLabel(
                       // ✅
                       onSubmitted: onSubmitted,
                       // ✅
-                      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: Constant.fontsFamily),
+                      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: AppConstant.fontsFamily),
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.zero,
                         border: InputBorder.none,
                         counterText: "",
                         hintText: s,
-                        hintStyle: TextStyle(color: fontColor, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: Constant.fontsFamily),
+                        hintStyle: TextStyle(color: fontColor, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: AppConstant.fontsFamily),
                       ),
                     ),
                   ),
@@ -482,13 +482,13 @@ Widget getCardDateTextField(
                 onTap: () {
                   function();
                 },
-                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: Constant.fontsFamily),
+                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: AppConstant.fontsFamily),
                 // textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.zero,
                   border: InputBorder.none,
                   hintText: s,
-                  hintStyle: TextStyle(color: textColor, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: Constant.fontsFamily),
+                  hintStyle: TextStyle(color: textColor, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: AppConstant.fontsFamily),
                 ),
               ),
             ),
@@ -585,7 +585,7 @@ Widget getCardEditText(
                 onTap: () {
                   function();
                 },
-                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: Constant.fontsFamily),
+                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: AppConstant.fontsFamily),
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
                   counterText: "",
@@ -610,7 +610,7 @@ Widget getCardEditText(
                           : null,
                   border: InputBorder.none,
                   hintText: s,
-                  hintStyle: TextStyle(color: textColor, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: Constant.fontsFamily),
+                  hintStyle: TextStyle(color: textColor, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: AppConstant.fontsFamily),
                 ),
               ),
             ),
@@ -660,7 +660,7 @@ Widget getCountryTextField(
               getHorSpace(FetchPixels.getPixelWidth(18)),
               getAssetImage(image!, FetchPixels.getPixelHeight(24), FetchPixels.getPixelHeight(24)),
               getHorSpace(FetchPixels.getPixelWidth(12)),
-              getCustomFont(code, 16, Colors.black, 1, fontWeight: FontWeight.w400, fontFamily: Constant.fontsFamily),
+              getCustomFont(code, 16, Colors.black, 1, fontWeight: FontWeight.w400, fontFamily: AppConstant.fontsFamily),
               getSvgImage("down_arrow.svg"),
               getHorSpace(FetchPixels.getPixelWidth(20)),
               Expanded(
@@ -677,12 +677,12 @@ Widget getCountryTextField(
                     onTap: () {
                       function();
                     },
-                    style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: Constant.fontsFamily),
+                    style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: AppConstant.fontsFamily),
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.zero,
                       border: InputBorder.none,
                       hintText: s,
-                      hintStyle: TextStyle(color: textColor, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: Constant.fontsFamily),
+                      hintStyle: TextStyle(color: textColor, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: AppConstant.fontsFamily),
                     ),
                   ),
                 ),
@@ -741,9 +741,9 @@ Widget getSearchWidget(
                   isDense: true,
                   hintText: "Search...",
                   border: InputBorder.none,
-                  hintStyle: TextStyle(color: textColor, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: Constant.fontsFamily),
+                  hintStyle: TextStyle(color: textColor, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: AppConstant.fontsFamily),
                 ),
-                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: Constant.fontsFamily),
+                style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16, fontFamily: AppConstant.fontsFamily),
                 textAlign: TextAlign.start,
                 maxLines: 1,
               ),
@@ -766,7 +766,7 @@ Widget gettoolbarMenu(
   String? title,
   Color? textColor,
   FontWeight? weight,
-  String fontFamily = Constant.fontsFamily,
+  String fontFamily = AppConstant.fontsFamily,
   bool isrightimage = false,
   String? rightimage,
   Function? rightFunction,
@@ -802,7 +802,7 @@ Widget withoutleftIconToolbar(
   String? title,
   Color? textColor,
   FontWeight? weight,
-  String fontFamily = Constant.fontsFamily,
+  String fontFamily = AppConstant.fontsFamily,
   bool isrightimage = false,
   String? rightimage,
   Function? rightFunction,

@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../repo/cart_repository.dart';
+import '../repo/Appcart_repository.dart';
 import 'cart_event.dart';
 import 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  final CartRepository cartRepository;
+  final AppCartRepository cartRepository;
 
   CartBloc({required this.cartRepository}) : super(CartInitial()) {
     on<FetchCartList>(_onFetchCartList);

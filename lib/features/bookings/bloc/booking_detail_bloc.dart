@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kleanitapp/features/bookings/repo/booking_repository.dart';
+import 'package:kleanitapp/features/bookings/repo/Appbooking_repository.dart';
 
 import 'booking_detail_event.dart';
 import 'booking_detail_state.dart';
 
 class BookingDetailBloc extends Bloc<BookingDetailEvent, BookingDetailState> {
-  final BookingRepository repository;
+  final AppBookingRepository repository;
 
   BookingDetailBloc(this.repository) : super(BookingDetailInitial()) {
     on<FetchBookingDetail>((event, emit) async {

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../model/weekly_schedule.dart';
+import '../model/Appweekly_schedule.dart';
 
 abstract class WeeklyScheduleState extends Equatable {
   @override
@@ -12,7 +12,7 @@ class WeeklyScheduleInitial extends WeeklyScheduleState {}
 class WeeklyScheduleLoading extends WeeklyScheduleState {}
 
 class WeeklyScheduleLoaded extends WeeklyScheduleState {
-  final List<WeeklySchedule> schedule;
+  final List<AppWeeklySchedule> schedule;
 
   WeeklyScheduleLoaded({required this.schedule});
 

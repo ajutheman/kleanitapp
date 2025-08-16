@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class Constant {
+class AppConstant {
   static String assetImagePath = "assets/images/";
   static bool isDriverApp = false;
   static const String fontsFamily = "Lato";

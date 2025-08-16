@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:kleanitapp/features/Referral/referal_advertisement.dart';
+import 'package:kleanitapp/features/Referral/Appreferal_advertisement.dart';
 
 abstract class ReferalAdvertisementState extends Equatable {
   const ReferalAdvertisementState();
@@ -13,7 +13,7 @@ class ReferalAdvertisementInitial extends ReferalAdvertisementState {}
 class ReferalAdvertisementLoading extends ReferalAdvertisementState {}
 
 class ReferalAdvertisementLoaded extends ReferalAdvertisementState {
-  final List<ReferalAdvertisement> referalAdvertisements;
+  final List<AppReferalAdvertisement> referalAdvertisements;
 
   const ReferalAdvertisementLoaded(this.referalAdvertisements);
 

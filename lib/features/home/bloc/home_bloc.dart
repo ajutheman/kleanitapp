@@ -5,16 +5,16 @@ import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../customer_model.dart';
-import '../home_repository.dart';
-import '../repo/exceptions.dart';
-import '../service_response_model.dart';
+import '../Appcustomer_model.dart';
+import '../Apphome_repository.dart';
+import '../repo/Appexceptions.dart';
+import '../Appservice_response_model.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final HomeRepository repository;
+  final AppHomeRepository repository;
 
   HomeBloc({required this.repository}) : super(HomeInitial()) {
     on<LoadHomeData>(_onLoadHomeData);
@@ -31,10 +31,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         return;
       }
       final customerDataStr = prefs.getString("customer_data");
-      Customer? customer;
+      AppCustomer? customer;
       if (customerDataStr != null) {
         final data = jsonDecode(customerDataStr);
-        customer = Customer.fromJson(data);
+        customer = AppCustomer.fromJson(data);
       }
 
       // Get real-time device location.
@@ -59,20 +59,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       print("longitude:$longitude");
       print("token:$token");
       // Call the repository to update the location with real-time coordinates.
-      ServiceAvailabilityResponse response = await repository.setLocation(latitude, longitude, token);
+      AppServiceAvailabilityResponse response = await repository.setLocation(latitude, longitude, token);
 
       if (response.serviceAvailable == "yes") {
         emit(HomeServiceAvailable(response.message, customer: customer));
       } else {
         emit(HomeServiceNotAvailable(response.message, customer: customer));
       }
-    } on UnauthorizedException catch (e) {
+    } on AppUnauthorizedException catch (e) {
       // ✅ Token expired or invalid
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove("user_access_token");
       await prefs.remove("customer_data");
       emit(HomeTokenExpired(e.message));
-    } on BadRequestException catch (e) {
+    } on AppBadRequestException catch (e) {
       emit(HomeError(e.message));
     } catch (e) {
       emit(HomeError(e.toString()));

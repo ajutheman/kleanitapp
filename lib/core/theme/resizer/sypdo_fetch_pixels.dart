@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../device_util.dart';
+import '../sypdo_device_util.dart';
 
 class FetchPixels {
   static double mockupWidth = 414;
@@ -35,7 +35,7 @@ class FetchPixels {
 
   static double getTextScale() {
     double textScaleFactor = (width > height) ? width / mockupWidth : height / mockupHeight;
-    if (DeviceUtil.isTablet) {
+    if (AppDeviceUtil.isTablet) {
       textScaleFactor = height / mockupHeight;
     }
 
@@ -45,7 +45,7 @@ class FetchPixels {
   static double getScale() {
     double scale = (width > height) ? mockupWidth / width : mockupHeight / height;
 
-    if (DeviceUtil.isTablet) {
+    if (AppDeviceUtil.isTablet) {
       scale = height / mockupHeight;
     }
 

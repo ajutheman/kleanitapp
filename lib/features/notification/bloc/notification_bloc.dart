@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../repo/notification_repository.dart';
+import '../repo/Appnotification_repository.dart';
 import 'notification_event.dart';
 import 'notification_state.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
-  final NotificationRepository repository;
+  final AppNotificationRepository repository;
 
   NotificationBloc({required this.repository}) : super(NotificationInitial()) {
     on<FetchNotificationList>(_onFetchNotifications);

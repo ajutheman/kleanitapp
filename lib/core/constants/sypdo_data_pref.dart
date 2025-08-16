@@ -1,4 +1,4 @@
-// lib/core/constants/pref_data.dart
+// lib/core/constants/sypdo_data_pref.dart
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefData {
