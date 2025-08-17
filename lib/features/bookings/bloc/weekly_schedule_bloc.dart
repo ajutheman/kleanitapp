@@ -16,7 +16,7 @@ class WeeklyScheduleBloc extends Bloc<WeeklyScheduleEvent, WeeklyScheduleState> 
     emit(WeeklyScheduleLoading());
     try {
       final schedule = await bookingRepository.fetchScheduleDays(event.orderId);
-      emit(WeeklyScheduleLoaded(schedule: schedule));
+      emit(WeeklyScheduleLoaded(schedule:schedule ));
     } catch (e) {
       emit(WeeklyScheduleError(message: e.toString()));
     }

@@ -1,5 +1,107 @@
+//
+//
+// class AppBookingModel {
+//   final String id;
+//   final String orderNumber;
+//   final double total;
+//   final String paymentStatus;
+//   final String orderStatus;
+//   final bool hasSubscription;
+//   final String schedule;
+//
+//   // final TimeSchedule schedule;
+//   final String bookingDate; // 👈 NEW
+//   final int itemsCount; // 👈 NEW
+//   final List<BookingItem> items;
+//   final DateTime createdAt;
+//
+//   AppBookingModel({
+//     required this.id,
+//     required this.orderNumber,
+//     required this.total,
+//     required this.paymentStatus,
+//     required this.orderStatus,
+//     required this.hasSubscription,
+//     required this.schedule,
+//     required this.bookingDate,
+//     required this.itemsCount,
+//     required this.items,
+//     required this.createdAt,
+//   });
+//
+//   factory AppBookingModel.fromJson(Map<String, dynamic> json) {
+//     return AppBookingModel(
+//       id: json['id'],
+//       orderNumber: json['order_number'],
+//       createdAt: DateTime.parse(json['created_at']),
+//       total: (json['total'] as num).toDouble(),
+//       paymentStatus: json['payment_status'],
+//       orderStatus: json['order_status'],
+//       hasSubscription: json['has_subscription'],
+//       // schedule: TimeSchedule.fromJson(json['scheduled_time']),
+//       // schedule: json['scheduled_time']?['schedule_time'] ?? '',  // ✅ FIXED
+//       bookingDate: json['booking_date'] ?? '',
+//       itemsCount: json['items_count'] ?? 0,
+//       schedule: json['scheduled_time']?.toString() ?? '',
+//
+//       items: (json['items'] as List).map((e) => BookingItem.fromJson(e)).toList(),
+//     );
+//   }
+// }
+//
+// class BookingItem {
+//   final String thirdCategoryName;
+//   final String type;
+//
+//   BookingItem({required this.thirdCategoryName, required this.type});
+//
+//   factory BookingItem.fromJson(Map<String, dynamic> json) {
+//     return BookingItem(thirdCategoryName: json['third_category_name'], type: json['type']);
+//   }
+// }
 
+// ---------- Top-level response ----------
+class OrdersResponse {
+  final List<AppBookingModel> orders;
+  final Pagination pagination;
 
+  OrdersResponse({required this.orders, required this.pagination});
+
+  factory OrdersResponse.fromJson(Map<String, dynamic> json) {
+    final ordersJson = (json['orders'] as List? ?? []);
+    return OrdersResponse(
+      orders: ordersJson
+          .map((e) => AppBookingModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pagination: Pagination.fromJson(json['pagination'] as Map<String, dynamic>),
+    );
+  }
+}
+
+class Pagination {
+  final int total;
+  final int perPage;
+  final int currentPage;
+  final int lastPage;
+
+  Pagination({
+    required this.total,
+    required this.perPage,
+    required this.currentPage,
+    required this.lastPage,
+  });
+
+  factory Pagination.fromJson(Map<String, dynamic> json) {
+    return Pagination(
+      total: (json['total'] ?? 0) as int,
+      perPage: (json['per_page'] ?? 0) as int,
+      currentPage: (json['current_page'] ?? 1) as int,
+      lastPage: (json['last_page'] ?? 1) as int,
+    );
+  }
+}
+
+// ---------- Order ----------
 class AppBookingModel {
   final String id;
   final String orderNumber;
@@ -7,13 +109,20 @@ class AppBookingModel {
   final String paymentStatus;
   final String orderStatus;
   final bool hasSubscription;
-  final String schedule;
 
-  // final TimeSchedule schedule;
-  final String bookingDate; // 👈 NEW
-  final int itemsCount; // 👈 NEW
+  /// Use this for time (id + "time" string)
+  final TimeSchedule scheduledTime;
+
+  /// Kept as String to match your current code pattern (e.g. "2025-11-30")
+  final String bookingDate;
+
+  final int itemsCount;
   final List<BookingItem> items;
   final DateTime createdAt;
+
+  /// New: weekly schedules + order schedules from API
+  final List<WeeklySchedule> weeklySchedules;
+  final List<OrderSchedule> orderSchedules;
 
   AppBookingModel({
     required this.id,
@@ -22,40 +131,157 @@ class AppBookingModel {
     required this.paymentStatus,
     required this.orderStatus,
     required this.hasSubscription,
-    required this.schedule,
+    required this.scheduledTime,
     required this.bookingDate,
     required this.itemsCount,
     required this.items,
     required this.createdAt,
+    required this.weeklySchedules,
+    required this.orderSchedules,
   });
 
+  /// Back-compat convenience: `model.schedule` still works
+  // String get schedule => scheduledTime.time;
+  String get schedule => scheduledTime.time ?? '';
   factory AppBookingModel.fromJson(Map<String, dynamic> json) {
     return AppBookingModel(
-      id: json['id'],
-      orderNumber: json['order_number'],
-      createdAt: DateTime.parse(json['created_at']),
+      id: json['id'] as String,
+      orderNumber: json['order_number'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      bookingDate: (json['booking_date'] ?? '') as String,
       total: (json['total'] as num).toDouble(),
-      paymentStatus: json['payment_status'],
-      orderStatus: json['order_status'],
-      hasSubscription: json['has_subscription'],
-      // schedule: TimeSchedule.fromJson(json['scheduled_time']),
-      // schedule: json['scheduled_time']?['schedule_time'] ?? '',  // ✅ FIXED
-      bookingDate: json['booking_date'] ?? '',
-      itemsCount: json['items_count'] ?? 0,
-      schedule: json['scheduled_time']?.toString() ?? '',
-
-      items: (json['items'] as List).map((e) => BookingItem.fromJson(e)).toList(),
+      paymentStatus: json['payment_status'] as String,
+      orderStatus: json['order_status'] as String,
+      hasSubscription: json['has_subscription'] as bool,
+      scheduledTime: TimeSchedule.fromJson(json['scheduled_time'] as Map<String, dynamic>?),
+      itemsCount: (json['items_count'] ?? 0) as int,
+      items: ((json['items'] as List?) ?? [])
+          .map((e) => BookingItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      weeklySchedules: ((json['weekly_schedules'] as List?) ?? [])
+          .map((e) => WeeklySchedule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      orderSchedules: ((json['order_schedules'] as List?) ?? [])
+          .map((e) => OrderSchedule.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
 
+// ---------- Nested: schedule ----------
+class TimeSchedule {
+  final int? id;      // nullable to support places where id can be null
+  final String? time; // nullable to support places where time can be null
+
+  const TimeSchedule({this.id, this.time});
+
+  factory TimeSchedule.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return const TimeSchedule();
+    return TimeSchedule(
+      id: (json['id'] is int) ? json['id'] as int : (json['id'] as num?)?.toInt(),
+      time: json['time'] as String?,
+    );
+  }
+}
+
+// ---------- Nested: items ----------
 class BookingItem {
   final String thirdCategoryName;
   final String type;
+  final int? employeeCount;
+  final int? subscriptionFrequency;
+  final int subscriptionCount;
 
-  BookingItem({required this.thirdCategoryName, required this.type});
+  BookingItem({
+    required this.thirdCategoryName,
+    required this.type,
+    this.employeeCount,
+    this.subscriptionFrequency,
+    required this.subscriptionCount,
+  });
 
   factory BookingItem.fromJson(Map<String, dynamic> json) {
-    return BookingItem(thirdCategoryName: json['third_category_name'], type: json['type']);
+    return BookingItem(
+      thirdCategoryName: (json['third_category_name'] ?? '') as String,
+      type: (json['type'] ?? '') as String,
+      employeeCount: (json['employee_count'] as num?)?.toInt(),
+      subscriptionFrequency: (json['subscription_frequency'] as num?)?.toInt(),
+      subscriptionCount: (json['subscription_count'] as num? ?? 0).toInt(),
+    );
+  }
+}
+
+// ---------- Nested: weekly schedules ----------
+class WeeklySchedule {
+  final int weekNumber;
+  final String startDate; // keep as String (e.g. "2025-08-16")
+  final String endDate;   // keep as String (e.g. "2025-08-22")
+  final WeekDays days;
+  final TimeSchedule timeSchedule;
+  final String? status;   // null in sample
+  final bool isBooked;
+
+  WeeklySchedule({
+    required this.weekNumber,
+    required this.startDate,
+    required this.endDate,
+    required this.days,
+    required this.timeSchedule,
+    required this.status,
+    required this.isBooked,
+  });
+
+  factory WeeklySchedule.fromJson(Map<String, dynamic> json) {
+    return WeeklySchedule(
+      weekNumber: (json['week_number'] ?? 0) as int,
+      startDate: (json['start_date'] ?? '') as String,
+      endDate: (json['end_date'] ?? '') as String,
+      days: WeekDays.fromJson(json['days'] as Map<String, dynamic>?),
+      timeSchedule: TimeSchedule.fromJson(json['time_schedule'] as Map<String, dynamic>?),
+      status: json['status'] as String?,
+      isBooked: (json['is_booked'] ?? false) as bool,
+    );
+  }
+}
+
+class WeekDays {
+  final String? mon;
+  final String? tue;
+  final String? wed;
+  final String? thu;
+  final String? fri;
+  final String? sat;
+  final String? sun;
+
+  WeekDays({this.mon, this.tue, this.wed, this.thu, this.fri, this.sat, this.sun});
+
+  factory WeekDays.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return WeekDays();
+    return WeekDays(
+      mon: json['mon'] as String?,
+      tue: json['tue'] as String?,
+      wed: json['wed'] as String?,
+      thu: json['thu'] as String?,
+      fri: json['fri'] as String?,
+      sat: json['sat'] as String?,
+      sun: json['sun'] as String?,
+    );
+  }
+}
+
+// ---------- Nested: order schedules ----------
+class OrderSchedule {
+  final String? scheduleDate;          // null in sample
+  final TimeSchedule? timeSchedule;    // id/time may be null
+
+  OrderSchedule({this.scheduleDate, this.timeSchedule});
+
+  factory OrderSchedule.fromJson(Map<String, dynamic> json) {
+    return OrderSchedule(
+      scheduleDate: json['schedule_date'] as String?,
+      timeSchedule: json['time_schedule'] != null
+          ? TimeSchedule.fromJson(json['time_schedule'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }

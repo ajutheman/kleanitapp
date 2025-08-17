@@ -1,7 +1,7 @@
 // tab_booking.dart
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/sypd_color.dart';
+import '../../../core/theme/sypd_color.dart';
 import '../../notification/screen/Appnotification_screen.dart';
 import 'Appbooking_list_screen.dart';
 
