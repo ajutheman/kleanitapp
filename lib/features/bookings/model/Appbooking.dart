@@ -185,12 +185,23 @@ class TimeSchedule {
 }
 
 // ---------- Nested: items ----------
+// REPLACE your BookingItem with this version
 class BookingItem {
   final String thirdCategoryName;
   final String type;
   final int? employeeCount;
+
+  /// how many total occurrences (weeks or months) the plan spans
   final int? subscriptionFrequency;
+
+  /// total occurrences purchased
   final int subscriptionCount;
+
+  /// NEW:
+  final String? subscriptionMode;   // "weekly" | "monthly" | null
+  final int? timesPerWeek;          // if weekly
+  final int? timesPerMonth;         // if monthly
+  final int? months;                // number of months if monthly
 
   BookingItem({
     required this.thirdCategoryName,
@@ -198,6 +209,10 @@ class BookingItem {
     this.employeeCount,
     this.subscriptionFrequency,
     required this.subscriptionCount,
+    this.subscriptionMode,
+    this.timesPerWeek,
+    this.timesPerMonth,
+    this.months,
   });
 
   factory BookingItem.fromJson(Map<String, dynamic> json) {
@@ -207,21 +222,28 @@ class BookingItem {
       employeeCount: (json['employee_count'] as num?)?.toInt(),
       subscriptionFrequency: (json['subscription_frequency'] as num?)?.toInt(),
       subscriptionCount: (json['subscription_count'] as num? ?? 0).toInt(),
+      subscriptionMode: json['subscription_mode'] as String?,
+      timesPerWeek: (json['times_per_week'] as num?)?.toInt(),
+      timesPerMonth: (json['times_per_month'] as num?)?.toInt(),
+      months: (json['months'] as num?)?.toInt(),
     );
   }
 }
 
 // ---------- Nested: weekly schedules ----------
+// REPLACE your WeeklySchedule with this version
 class WeeklySchedule {
+  final int id;                     // <- add this!
   final int weekNumber;
-  final String startDate; // keep as String (e.g. "2025-08-16")
-  final String endDate;   // keep as String (e.g. "2025-08-22")
+  final String startDate;
+  final String endDate;
   final WeekDays days;
   final TimeSchedule timeSchedule;
-  final String? status;   // null in sample
+  final String? status;
   final bool isBooked;
 
   WeeklySchedule({
+    required this.id,
     required this.weekNumber,
     required this.startDate,
     required this.endDate,
@@ -233,6 +255,7 @@ class WeeklySchedule {
 
   factory WeeklySchedule.fromJson(Map<String, dynamic> json) {
     return WeeklySchedule(
+      id: (json['id'] ?? 0) as int,
       weekNumber: (json['week_number'] ?? 0) as int,
       startDate: (json['start_date'] ?? '') as String,
       endDate: (json['end_date'] ?? '') as String,
@@ -244,30 +267,19 @@ class WeeklySchedule {
   }
 }
 
+// Replaces the old WeekDays(mon/tue/...) with a map-backed model
 class WeekDays {
-  final String? mon;
-  final String? tue;
-  final String? wed;
-  final String? thu;
-  final String? fri;
-  final String? sat;
-  final String? sun;
-
-  WeekDays({this.mon, this.tue, this.wed, this.thu, this.fri, this.sat, this.sun});
-
+  final Map<String, dynamic> raw;
+  WeekDays({Map<String, dynamic>? raw}) : raw = raw ?? {};
   factory WeekDays.fromJson(Map<String, dynamic>? json) {
-    if (json == null) return WeekDays();
-    return WeekDays(
-      mon: json['mon'] as String?,
-      tue: json['tue'] as String?,
-      wed: json['wed'] as String?,
-      thu: json['thu'] as String?,
-      fri: json['fri'] as String?,
-      sat: json['sat'] as String?,
-      sun: json['sun'] as String?,
-    );
+    final m = <String, dynamic>{};
+    (json ?? {}).forEach((k, v) => m[k.toString()] = v);
+    return WeekDays(raw: m);
   }
+  Iterable<String> get keys => raw.keys;
 }
+
+
 
 // ---------- Nested: order schedules ----------
 class OrderSchedule {
@@ -285,3 +297,4 @@ class OrderSchedule {
     );
   }
 }
+

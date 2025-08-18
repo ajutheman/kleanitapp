@@ -202,6 +202,7 @@
 //     }
 //   }
 // }
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -502,42 +503,231 @@ class AppBookingRepository {
 // add this import
 
 // inside class AppBookingRepository { ... add:
-  Future<List<TimeSlotOption>> fetchTimeSlotsForDate(DateTime date) async {
-    try {
-      final token = await _getAccessToken();
-      if (token == null) {
-        await handleUnauthorized();
-        throw Exception("Unauthorized");
-      }
 
-      // API example shows day without leading zero (e.g. 2025-07-2)
-      final y = date.year;
-      final m = date.month.toString().padLeft(2, '0');
-      final d = date.day.toString(); // no pad
-      final ymd = "$y-$m-$d";
-
-      final url = "https://backend.kleanit.ae/api/customer/cart/list-time-schedules";
-      final response = await dio.get(
-        url,
-        queryParameters: {"date": ymd},
-        options: Options(headers: _authHeaders(token)),
-      );
-
-      if (response.statusCode == 401) {
-        await handleUnauthorized();
-        throw Exception("Session expired");
-      }
-      if (response.statusCode != 200 || response.data == null) {
-        throw Exception("Failed to load time slots");
-      }
-
-      final map = Map<String, dynamic>.from(response.data as Map);
-      final list = (map['time_schedules'] as List?) ?? const [];
-      return list.map((e) => TimeSlotOption.fromJson(Map<String, dynamic>.from(e as Map))).toList();
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 401) await handleUnauthorized();
-      throw Exception(e.response?.data?['message'] ?? "Error fetching time slots");
+Future<List<TimeSlotOption>> fetchTimeSlotsForDate(
+  DateTime date, {
+  required String orderId,
+}) async {
+  try {
+    final token = await _getAccessToken();
+    if (token == null) {
+      await handleUnauthorized();
+      throw Exception("Unauthorized");
     }
+
+    final ymd =
+        "${date.year.toString().padLeft(4,'0')}-${date.month.toString().padLeft(2,'0')}-${date.day.toString().padLeft(2,'0')}";
+
+    final url = "https://backend.kleanit.ae/api/customer/cart/list-time-schedules";
+    final response = await dio.get(
+      url,
+      queryParameters: {"date": ymd, "order_id": orderId},
+      options: Options(headers: _authHeaders(token)),
+    );
+
+    if (response.statusCode == 401) {
+      await handleUnauthorized();
+      throw Exception("Session expired");
+    }
+    if (response.statusCode != 200 || response.data == null) {
+      throw Exception("Failed to load time slots");
+    }
+
+    final map = Map<String, dynamic>.from(response.data as Map);
+    final list = (map['time_schedules'] as List?) ?? const [];
+    return list.map((e) => TimeSlotOption.fromJson(Map<String, dynamic>.from(e as Map))).toList();
+  } on DioException catch (e) {
+    if (e.response?.statusCode == 401) await handleUnauthorized();
+    throw Exception(e.response?.data?['message'] ?? "Error fetching time slots");
   }
+}
+
+// // inside class AppBookingRepository
+//   Future<List<TimeSlotOption>> fetchTimeSlotsForDate(
+//       DateTime date, {
+//         required String orderId,
+//       }) async {
+//     try {
+//       final token = await _getAccessToken();
+//       if (token == null) {
+//         await handleUnauthorized();
+//         throw Exception("Unauthorized");
+//       }
+
+//       final ymd = DateFormat('yyyy-MM-dd').format(date);
+//       final url = "https://backend.kleanit.ae/api/customer/cart/list-time-schedules";
+
+//       final response = await dio.get(
+//         url,
+//         queryParameters: {
+//           "date": ymd,
+//           "order_id": orderId, // ⬅️ required by backend
+//         },
+//         options: Options(headers: _authHeaders(token)),
+//       );
+
+//       if (response.statusCode == 401) {
+//         await handleUnauthorized();
+//         throw Exception("Session expired");
+//       }
+//       if (response.statusCode != 200 || response.data == null) {
+//         throw Exception("Failed to load time slots");
+//       }
+
+//       final map = Map<String, dynamic>.from(response.data as Map);
+//       final list = (map['time_schedules'] as List?) ?? const [];
+//       return list.map((e) => TimeSlotOption.fromJson(Map<String, dynamic>.from(e as Map))).toList();
+//     } on DioException catch (e) {
+//       if (e.response?.statusCode == 401) await handleUnauthorized();
+//       throw Exception(e.response?.data?['message'] ?? "Error fetching time slots");
+//     }
+//   }
+/// POST /customer/weekly-schedule/update/{scheduleId}
+/// Payload:
+/// {
+///   "order_id": "<encrypted order id>",
+///   "customer_id": "<optional>",
+///   "start_date": "YYYY-MM-DD",
+///   "end_date": "YYYY-MM-DD",
+///   "days":[{"date":"YYYY-MM-DD","time_schedule_id":44}, ...]
+/// }
+/// PUT https://backend.kleanit.ae/api/customer/weekly-schedule/update/{scheduleId}
+/// Body:
+/// {
+///   "order_id": "<encrypted order id>",
+///   "start_date": "YYYY-MM-DD",
+///   "end_date": "YYYY-MM-DD",
+///   "days":[{"date":"YYYY-MM-DD","time_schedule_id":44}, ...]
+/// }
+// Future<void> updateWeeklySchedule({
+//   required int scheduleId,
+//   required String orderId,
+//   required String startDate,
+//   required String endDate,
+//   required List<Map<String, dynamic>> days,
+// }) async {
+//   final token = await _getAccessToken();
+//   if (token == null) {
+//     await handleUnauthorized();
+//     throw Exception("Unauthorized");
+//   }
+
+//   final url =
+//       "https://backend.kleanit.ae/api/customer/weekly-schedule/update/$scheduleId";
+
+//   final payload = {
+//     "order_id": orderId,
+//     "start_date": startDate,
+//     "end_date": endDate,
+//     "days": days, // [{"date":"2025-08-19","time_schedule_id":41}, ...]
+//   };
+
+//   if (kDebugMode) {
+//     debugPrint("🟦 [PUT] $url");
+//     debugPrint("Body: ${jsonEncode(payload)}");
+//   }
+
+//   final res = await dio.put(
+//     url,
+//     data: payload, // let Dio JSON-encode the map
+//     options: Options(headers: _authHeaders(token, json: true)),
+//   );
+
+//   if (kDebugMode) {
+//     debugPrint("⬅️ ${res.statusCode} ${res.statusMessage} • ${res.realUri}");
+//     try {
+//       debugPrint("Response body: ${res.data}");
+//     } catch (_) {}
+//   }
+
+//   if (res.statusCode == 401) {
+//     await handleUnauthorized();
+//     throw Exception("Session expired");
+//   }
+
+//   // accept 200 or 204 as success
+//   if (res.statusCode == 200 || res.statusCode == 204) return;
+
+//   // backend may send validation errors (422) or other messages
+//   final msg = (res.data is Map && (res.data['message'] != null))
+//       ? res.data['message'].toString()
+//       : "Failed to update weekly schedule";
+//   throw Exception("$msg (${res.statusCode})");
+// }
+Future<AppWeeklySchedule> updateWeeklySchedule({
+  required int scheduleId,
+  required String orderId,
+  required String startDate,
+  required String endDate,
+  required List<Map<String, dynamic>> days,
+}) async {
+  final token = await _getAccessToken();
+  if (token == null) {
+    await handleUnauthorized();
+    throw Exception("Unauthorized");
+  }
+
+  final url = "https://backend.kleanit.ae/api/customer/weekly-schedule/update/$scheduleId";
+  final payload = {
+    "order_id": orderId,
+    "start_date": startDate,
+    "end_date": endDate,
+    "days": days, // [{"date":"YYYY-MM-DD","time_schedule_id":44}, ...]
+  };
+
+  if (kDebugMode) {
+    debugPrint("🟦 [PUT] $url");
+    debugPrint("Body: ${jsonEncode(payload)}");
+  }
+
+  final res = await dio.put(
+    url,
+    data: payload,
+    options: Options(headers: _authHeaders(token, json: true)),
+  );
+
+  if (kDebugMode) {
+    debugPrint("⬅️ ${res.statusCode} ${res.statusMessage} • ${res.realUri}");
+    debugPrint("Response body: ${res.data}");
+  }
+
+  if (res.statusCode == 401) {
+    await handleUnauthorized();
+    throw Exception("Session expired");
+  }
+
+  // success: 200/201/204
+  if (res.statusCode == 204) {
+    // no body—just refetch later if needed
+    // return a shallow model so caller can continue
+    return AppWeeklySchedule(
+      id: scheduleId,
+      startDate: startDate,
+      endDate: endDate,
+      weekNumber: 0,
+      isBooked: true,
+      // fill the rest as your model requires
+    );
+  }
+
+  if (res.statusCode == 200 || res.statusCode == 201) {
+    final map = Map<String, dynamic>.from(res.data as Map);
+    final ws = Map<String, dynamic>.from(map['weekly_schedule'] as Map);
+    return AppWeeklySchedule.fromJson(ws);
+  }
+
+  // surface 422 field errors nicely
+  if (res.statusCode == 422 && res.data is Map && (res.data['errors'] is Map)) {
+    final errors = (res.data['errors'] as Map).entries
+        .map((e) => "${e.key}: ${(e.value as List).join(', ')}")
+        .join("\n");
+    throw Exception("Validation failed:\n$errors");
+  }
+
+  final msg = (res.data is Map && res.data['message'] != null)
+      ? res.data['message'].toString()
+      : "Failed to update weekly schedule";
+  throw Exception("$msg (${res.statusCode})");
+}
 
 }
