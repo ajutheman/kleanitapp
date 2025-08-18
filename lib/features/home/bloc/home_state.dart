@@ -14,7 +14,7 @@ class HomeLoading extends HomeState {}
 
 class HomeServiceAvailable extends HomeState {
   final String message;
-  final Customer? customer;
+  final AppCustomer? customer;
 
   const HomeServiceAvailable(this.message, {this.customer});
 
@@ -24,7 +24,7 @@ class HomeServiceAvailable extends HomeState {
 
 class HomeServiceNotAvailable extends HomeState {
   final String message;
-  final Customer? customer;
+  final AppCustomer? customer;
 
   const HomeServiceNotAvailable(this.message, {this.customer});
 

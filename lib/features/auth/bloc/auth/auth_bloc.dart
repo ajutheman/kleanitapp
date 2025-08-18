@@ -184,15 +184,15 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:kleanitapp/core/constants/pref_resources.dart';
-import 'package:kleanitapp/features/auth/respository/auth_repository.dart';
+import 'package:kleanitapp/core/constants/Spydo_pref_resources.dart';
+import 'package:kleanitapp/features/auth/respository/Appauth_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth_event.dart';
 import 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthRepository authRepository;
+  final AppAuthRepository authRepository;
 
   AuthBloc({required this.authRepository}) : super(AuthInitial()) {
     on<GoogleLoginRequested>(_onGoogleLoginRequested);
@@ -209,7 +209,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       log("🧩 Raw customer data: ${jsonEncode(authResponse.customer.toJson())}");
 
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(PrefResources.USER_ACCESS_TOCKEN, token);
+      await prefs.setString(AppPrefResources.USER_ACCESS_TOCKEN, token);
       await prefs.setString("customer_data", jsonEncode(customer.toJson()));
 
       log("✅ Google Login Success. Token: $token");
@@ -244,7 +244,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final verifyResponse = await authRepository.verifyOtp(event.mobile, event.otp);
 
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(PrefResources.USER_ACCESS_TOCKEN, verifyResponse.token);
+      await prefs.setString(AppPrefResources.USER_ACCESS_TOCKEN, verifyResponse.token);
 
       log("✅ OTP Verified. Token: ${verifyResponse.token}, Customer ID: ${verifyResponse.customerId}");
 

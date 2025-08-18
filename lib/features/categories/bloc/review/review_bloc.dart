@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:kleanitapp/features/categories/respository/review_repository.dart' show ReviewRepository;
+import 'package:kleanitapp/features/categories/respository/Appreview_repository.dart' show AppReviewRepository;
 
-import '../../modle/review_model.dart';
+import '../../modle/Appreview_model.dart';
 
 part 'review_event.dart';
 part 'review_state.dart';
 
 class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
-  final ReviewRepository repository;
+  final AppReviewRepository repository;
 
   ReviewBloc({required this.repository}) : super(ReviewInitial()) {
     on<LoadReviews>((event, emit) async {

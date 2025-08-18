@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../repo/wallet_repository.dart';
+import '../../repo/Appwallet_repository.dart';
 
 part 'wallet_event.dart';
 part 'wallet_state.dart';
 
 class WalletBloc extends Bloc<WalletEvent, WalletState> {
-  final WalletRepository repository;
+  final AppWalletRepository repository;
 
   WalletBloc(this.repository) : super(WalletInitial()) {
     on<LoadWalletBalance>((event, emit) async {

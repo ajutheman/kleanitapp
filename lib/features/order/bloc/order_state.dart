@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-import '../model/order_calculation.dart';
-import '../model/order_response.dart';
-import '../model/time_schedule.dart';
+import '../model/Apporder_calculation.dart';
+import '../model/Apporder_response.dart';
+import '../model/Apptime_schedule.dart';
 
 abstract class OrderState extends Equatable {
   @override
@@ -14,7 +14,7 @@ class OrderInitial extends OrderState {}
 class OrderLoading extends OrderState {}
 
 class OrderLoaded extends OrderState {
-  final OrderCalculation orderCalculation;
+  final AppOrderCalculation orderCalculation;
 
   OrderLoaded({required this.orderCalculation});
 
@@ -32,7 +32,7 @@ class OrderError extends OrderState {
 }
 
 class OrderPlaced extends OrderState {
-  final OrderResponse orderResponse;
+  final AppOrderResponse orderResponse;
 
   OrderPlaced({required this.orderResponse});
 
@@ -41,7 +41,7 @@ class OrderPlaced extends OrderState {
 }
 
 class ScheduleLoaded extends OrderState {
-  final List<TimeSchedule> schedules;
+  final List<AppTimeSchedule> schedules;
 
   ScheduleLoaded(this.schedules);
 

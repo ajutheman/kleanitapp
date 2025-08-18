@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../modle/category_model.dart';
-import '../respository/category_repository.dart';
+import '../modle/Appcategory_model.dart';
+import '../respository/Appcategory_repository.dart';
 
 // import 'main_category_model.dart';
 
@@ -10,7 +10,7 @@ part 'categories_event.dart';
 part 'categories_state.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
-  final CategoryRepository categoryRepository;
+  final AppCategoryRepository categoryRepository;
 
   CategoriesBloc({required this.categoryRepository}) : super(CategoriesInitial()) {
     on<LoadCategories>(_onLoadCategories);

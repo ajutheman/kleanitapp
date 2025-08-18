@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../repo/booking_repository.dart';
+import '../repo/Appbooking_repository.dart';
 import 'weekly_schedule_event.dart';
 import 'weekly_schedule_state.dart';
 
 class WeeklyScheduleBloc extends Bloc<WeeklyScheduleEvent, WeeklyScheduleState> {
-  final BookingRepository bookingRepository;
+  final AppBookingRepository bookingRepository;
 
   WeeklyScheduleBloc({required this.bookingRepository}) : super(WeeklyScheduleInitial()) {
     on<FetchWeeklySchedule>(_onFetchSchedule);
@@ -16,7 +16,7 @@ class WeeklyScheduleBloc extends Bloc<WeeklyScheduleEvent, WeeklyScheduleState> 
     emit(WeeklyScheduleLoading());
     try {
       final schedule = await bookingRepository.fetchScheduleDays(event.orderId);
-      emit(WeeklyScheduleLoaded(schedule: schedule));
+      emit(WeeklyScheduleLoaded(schedule:schedule ));
     } catch (e) {
       emit(WeeklyScheduleError(message: e.toString()));
     }

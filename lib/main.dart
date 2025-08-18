@@ -5,38 +5,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:kleanitapp/core/constants/stripe_key.dart';
-import 'package:kleanitapp/core/utils/hepler.dart';
+import 'package:kleanitapp/core/constants/Sypdo_stripe_key.dart';
+import 'package:kleanitapp/core/utils/Spydo_hepler.dart';
 import 'package:kleanitapp/features/address/bloc/address_bloc.dart';
-import 'package:kleanitapp/features/address/repo/address_repository.dart';
+import 'package:kleanitapp/features/address/repo/Appaddress_repository.dart';
 import 'package:kleanitapp/features/auth/bloc/token/token_bloc.dart';
-import 'package:kleanitapp/features/auth/respository/token_repository.dart';
-import 'package:kleanitapp/features/bookings/repo/booking_repository.dart';
+import 'package:kleanitapp/features/auth/respository/Apptoken_repository.dart';
+import 'package:kleanitapp/features/bookings/repo/Appbooking_repository.dart';
 import 'package:kleanitapp/features/home/bloc/wallet/wallet_bloc.dart';
-import 'package:kleanitapp/features/home/repo/wallet_repository.dart';
+import 'package:kleanitapp/features/home/repo/Appwallet_repository.dart';
 import 'package:kleanitapp/features/notification/bloc/notification_bloc.dart';
-import 'package:kleanitapp/features/notification/repo/notification_repository.dart';
+import 'package:kleanitapp/features/notification/repo/Appnotification_repository.dart';
 import 'package:kleanitapp/features/order/bloc/coupon/coupon_bloc.dart';
 import 'package:kleanitapp/features/profile/bloc/profile_bloc.dart';
-import 'package:kleanitapp/features/profile/repo/profile_repository.dart';
-import 'package:kleanitapp/services/NetworkService.dart';
+import 'package:kleanitapp/features/profile/repo/Appprofile_repository.dart';
+import 'package:kleanitapp/services/AppNetworkService.dart';
 
 import 'features/auth/bloc/auth/auth_bloc.dart';
-import 'features/auth/respository/auth_repository.dart';
+import 'features/auth/respository/Appauth_repository.dart';
 import 'features/bookings/bloc/booking_bloc.dart';
 import 'features/bookings/bloc/booking_detail_bloc.dart';
 import 'features/bookings/bloc/weekly_schedule_bloc.dart';
 import 'features/cart/bloc/cart_bloc.dart';
 import 'features/cart/bloc/cart_event.dart';
-import 'features/cart/repo/cart_repository.dart';
+import 'features/cart/repo/Appcart_repository.dart';
 import 'features/categories/bloc/categories_bloc.dart';
 import 'features/categories/bloc/review/review_bloc.dart';
-import 'features/categories/respository/category_repository.dart';
-import 'features/categories/respository/review_repository.dart';
+import 'features/categories/respository/Appcategory_repository.dart';
+import 'features/categories/respository/Appreview_repository.dart';
 import 'features/order/bloc/order_bloc.dart';
-import 'features/order/repo/order_repository.dart';
+import 'features/order/repo/Apporder_repository.dart';
 import 'firebase_options.dart';
-import 'routes/route_builder.dart';
+import 'routes/Approute_builder.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -71,21 +71,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AuthBloc>(create: (_) => AuthBloc(authRepository: AuthRepository(networkService: NetworkService()))),
+        BlocProvider<AuthBloc>(create: (_) => AuthBloc(authRepository: AppAuthRepository(networkService: AppNetworkService()))),
         BlocProvider<TokenBloc>(create: (_) => TokenBloc(repository: TokenRepository())),
 
-        BlocProvider(create: (context) => CartBloc(cartRepository: CartRepository())..add(FetchCartList())),
-        BlocProvider(create: (context) => AddressBloc(AddressRepository())),
-        BlocProvider(create: (context) => OrderBloc(orderRepository: OrderRepository())),
-        BlocProvider(create: (context) => BookingBloc(repository: BookingRepository())),
-        BlocProvider(create: (context) => ProfileBloc(repository: ProfileRepository())),
-        BlocProvider(create: (_) => WeeklyScheduleBloc(bookingRepository: BookingRepository())),
-        BlocProvider(create: (_) => ReviewBloc(repository: ReviewRepository())),
-        BlocProvider(create: (ctx) => BookingDetailBloc(BookingRepository())),
-        BlocProvider(create: (ctx) => WalletBloc(WalletRepository())),
-        BlocProvider(create: (ctx) => NotificationBloc(repository: NotificationRepository())),
-        BlocProvider<CategoriesBloc>(create: (context) => CategoriesBloc(categoryRepository: CategoryRepository())),
-        BlocProvider<CouponBloc>(create: (context) => CouponBloc(orderRepository: OrderRepository())),
+        BlocProvider(create: (context) => CartBloc(cartRepository: AppCartRepository())..add(FetchCartList())),
+        BlocProvider(create: (context) => AddressBloc(AppAddressRepository())),
+        BlocProvider(create: (context) => OrderBloc(orderRepository: AppOrderRepository())),
+        BlocProvider(create: (context) => BookingBloc(repository: AppBookingRepository())),
+        BlocProvider(create: (context) => ProfileBloc(repository: AppProfileRepository())),
+        BlocProvider(create: (_) => WeeklyScheduleBloc(bookingRepository: AppBookingRepository())),
+        BlocProvider(create: (_) => ReviewBloc(repository: AppReviewRepository())),
+        BlocProvider(create: (ctx) => BookingDetailBloc(AppBookingRepository())),
+        BlocProvider(create: (ctx) => WalletBloc(AppWalletRepository())),
+        BlocProvider(create: (ctx) => NotificationBloc(repository: AppNotificationRepository())),
+        BlocProvider<CategoriesBloc>(create: (context) => CategoriesBloc(categoryRepository: AppCategoryRepository())),
+        BlocProvider<CouponBloc>(create: (context) => CouponBloc(orderRepository: AppOrderRepository())),
         // Provide additional blocs here.
       ],
       child: MaterialApp(
@@ -94,7 +94,7 @@ class MyApp extends StatelessWidget {
         title: 'Kleanit App',
         theme: ThemeData(primarySwatch: Colors.green),
         initialRoute: '/',
-        onGenerateRoute: RouteBuilder.generateRoute,
+        onGenerateRoute: AppRouteBuilder.generateRoute,
       ),
     );
   }

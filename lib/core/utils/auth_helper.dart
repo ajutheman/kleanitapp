@@ -7,12 +7,12 @@ import 'package:kleanitapp/main.dart' show navigatorKey;
 // import 'package:kleanitapp/presentation/screens/splash/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../presentation/screens/SplashScreen.dart';
-import '../constants/pref_resources.dart';
+import '../../presentation/screens/AppSplashScreen.dart';
+import '../constants/Spydo_pref_resources.dart';
 
 Future<void> handleUnauthorized() async {
   final prefs = await SharedPreferences.getInstance();
-  await prefs.remove(PrefResources.USER_ACCESS_TOCKEN);
+  await prefs.remove(AppPrefResources.USER_ACCESS_TOCKEN);
 
   try {
     await GoogleSignIn().signOut();
@@ -20,5 +20,5 @@ Future<void> handleUnauthorized() async {
 
   await FirebaseAuth.instance.signOut();
 
-  navigatorKey.currentState?.pushAndRemoveUntil(MaterialPageRoute(builder: (_) => SplashScreen()), (route) => false);
+  navigatorKey.currentState?.pushAndRemoveUntil(MaterialPageRoute(builder: (_) => AppSplashScreen()), (route) => false);
 }

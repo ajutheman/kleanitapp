@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../repo/order_repository.dart';
+import '../../repo/Apporder_repository.dart';
 import 'coupon_event.dart';
 import 'coupon_state.dart';
 
 class CouponBloc extends Bloc<CouponEvent, CouponState> {
-  final OrderRepository orderRepository;
+  final AppOrderRepository orderRepository;
 
   CouponBloc({required this.orderRepository}) : super(CouponInitial()) {
     on<ValidateCoupon>(_onValidateCoupon);

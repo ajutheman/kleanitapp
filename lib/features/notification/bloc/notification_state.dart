@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../model/notification_model.dart';
+import '../model/Appnotification_model.dart';
 
 abstract class NotificationState extends Equatable {
   @override
@@ -12,7 +12,7 @@ class NotificationInitial extends NotificationState {}
 class NotificationLoading extends NotificationState {}
 
 class NotificationLoaded extends NotificationState {
-  final List<NotificationModel> notifications;
+  final List<AppNotificationModel> notifications;
 
   NotificationLoaded({required this.notifications});
 

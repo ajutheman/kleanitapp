@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../model/booking.dart';
+import '../model/Appbooking.dart';
 
 abstract class BookingState extends Equatable {
   @override
@@ -12,7 +12,7 @@ class BookingInitial extends BookingState {}
 class BookingLoading extends BookingState {}
 
 class BookingLoaded extends BookingState {
-  final List<BookingModel> bookings;
+  final List<AppBookingModel> bookings;
   final int currentPage;
   final int totalPages;
 

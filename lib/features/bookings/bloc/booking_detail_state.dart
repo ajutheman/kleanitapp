@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:kleanitapp/features/bookings/model/book_detail.dart';
+import 'package:kleanitapp/features/bookings/model/Appbook_detail.dart';
 
 abstract class BookingDetailState extends Equatable {
   @override
@@ -11,7 +11,7 @@ class BookingDetailInitial extends BookingDetailState {}
 class BookingDetailLoading extends BookingDetailState {}
 
 class BookingDetailLoaded extends BookingDetailState {
-  final BookingDetails booking;
+  final AppBookingDetails booking;
 
   BookingDetailLoaded(this.booking);
 }

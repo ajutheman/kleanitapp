@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../repo/address_repository.dart';
+import '../repo/Appaddress_repository.dart';
 import 'address_event.dart';
 import 'address_state.dart';
 
 class AddressBloc extends Bloc<AddressEvent, AddressState> {
-  final AddressRepository addressRepository;
+  final AppAddressRepository addressRepository;
 
   AddressBloc(this.addressRepository) : super(AddressInitial()) {
     on<FetchAddresses>(_onFetchAddresses);

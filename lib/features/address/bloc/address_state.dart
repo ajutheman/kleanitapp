@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../model/address.dart';
+import '../model/Appaddress.dart';
 
 abstract class AddressState extends Equatable {
   @override
@@ -12,7 +12,7 @@ class AddressInitial extends AddressState {}
 class AddressLoading extends AddressState {}
 
 class AddressLoaded extends AddressState {
-  final List<CustomerAddress> addresses;
+  final List<AppCustomerAddress> addresses;
 
   AddressLoaded(this.addresses);
 

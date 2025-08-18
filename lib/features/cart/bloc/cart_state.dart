@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../model/cart.dart';
+import '../model/Appcart.dart';
 
 abstract class CartState extends Equatable {
   @override
@@ -14,7 +14,7 @@ class CartLoading extends CartState {}
 class CartActionLoading extends CartState {}
 
 class CartLoaded extends CartState {
-  final List<Cart> cartItems;
+  final List<AppCart> cartItems;
 
   CartLoaded({required this.cartItems});
 

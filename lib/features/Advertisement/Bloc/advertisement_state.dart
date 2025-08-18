@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../model/advertisement_model.dart';
+import '../model/Appadvertisement_model.dart';
 
 // import 'advertisement_model.dart';
 
@@ -16,7 +16,7 @@ class AdvertisementInitial extends AdvertisementState {}
 class AdvertisementLoading extends AdvertisementState {}
 
 class AdvertisementLoaded extends AdvertisementState {
-  final List<Advertisement> advertisements;
+  final List<AppAdvertisement> advertisements;
 
   const AdvertisementLoaded(this.advertisements);
 

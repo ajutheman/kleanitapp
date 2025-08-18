@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../repo/booking_repository.dart';
+import '../repo/Appbooking_repository.dart';
 import 'booking_event.dart';
 import 'booking_state.dart';
 
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
-  final BookingRepository repository;
+  final AppBookingRepository repository;
 
   BookingBloc({required this.repository}) : super(BookingInitial()) {
     on<FetchBookings>((event, emit) async {
