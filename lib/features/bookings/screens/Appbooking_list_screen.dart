@@ -52,9 +52,7 @@ class _AppBookingListState extends State<AppBookingList> {
       "Completed": "completed",
       "Cancelled": "cancelled",
     };
-    context.read<BookingBloc>().add(
-          FetchBookings(page: currentPage, status: statusMap[widget.filterTag] ?? ""),
-        );
+    context.read<BookingBloc>().add(FetchBookings(page: currentPage, status: statusMap[widget.filterTag] ?? ""));
   }
 
   @override
@@ -68,11 +66,7 @@ class _AppBookingListState extends State<AppBookingList> {
         } else if (state is BookingLoaded) {
           final bookings = state.bookings;
           if (bookings.isEmpty) return _buildEmptyState(context);
-          return ListView.builder(
-            padding: const EdgeInsets.all(20),
-            itemCount: bookings.length,
-            itemBuilder: (context, index) => buildBookingCard(context, bookings[index]),
-          );
+          return ListView.builder(padding: const EdgeInsets.all(20), itemCount: bookings.length, itemBuilder: (context, index) => buildBookingCard(context, bookings[index]));
         }
         return _buildEmptyState(context);
       },
@@ -140,10 +134,7 @@ class _AppBookingListState extends State<AppBookingList> {
           children: [
             Image.asset("assets/icon/aed_symbol.png", width: 16, height: 16, fit: BoxFit.contain),
             const SizedBox(width: 4),
-            Text(
-              booking.total.toStringAsFixed(2),
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: primaryColor),
-            ),
+            Text(booking.total.toStringAsFixed(2), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: primaryColor)),
           ],
         ),
       ],
@@ -157,24 +148,14 @@ class _AppBookingListState extends State<AppBookingList> {
           children: [
             Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
             const SizedBox(width: 4),
-            Expanded(
-              child: Text(
-                DateFormat("d MMMM, y").format(booking.createdAt.toLocal()),
-                style: TextStyle(color: Colors.grey[600], fontSize: 14),
-              ),
-            ),
+            Expanded(child: Text(DateFormat("d MMMM, y").format(booking.createdAt.toLocal()), style: TextStyle(color: Colors.grey[600], fontSize: 14))),
           ],
         ),
         Row(
           children: [
             Icon(Icons.calendar_today, size: 16, color: primaryColor),
             const SizedBox(width: 4),
-            Expanded(
-              child: Text(
-                "Booked For: ${booking.bookingDate}",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: primaryColor),
-              ),
-            ),
+            Expanded(child: Text("Booked For: ${booking.bookingDate}", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: primaryColor))),
           ],
         ),
       ],
@@ -186,12 +167,7 @@ class _AppBookingListState extends State<AppBookingList> {
       children: [
         Icon(Icons.access_time, size: 16, color: Colors.grey[600]),
         const SizedBox(width: 4),
-        Expanded(
-          child: Text(
-            booking.schedule,
-            style: TextStyle(color: Colors.grey[600], fontSize: 14),
-          ),
-        ),
+        Expanded(child: Text(booking.schedule, style: TextStyle(color: Colors.grey[600], fontSize: 14))),
       ],
     );
   }
@@ -199,9 +175,7 @@ class _AppBookingListState extends State<AppBookingList> {
   Widget _buildItemsSummary(AppBookingModel booking) {
     if (booking.items.isEmpty) return const SizedBox.shrink();
     final itemCount = booking.items.length;
-    final summary = itemCount == 1
-        ? booking.items[0].thirdCategoryName
-        : "${booking.items[0].thirdCategoryName} +${itemCount - 1} more";
+    final summary = itemCount == 1 ? booking.items[0].thirdCategoryName : "${booking.items[0].thirdCategoryName} +${itemCount - 1} more";
     return Text(summary, style: const TextStyle(fontSize: 14), maxLines: 1, overflow: TextOverflow.ellipsis);
   }
 
@@ -220,10 +194,7 @@ class _AppBookingListState extends State<AppBookingList> {
                 children: [
                   Icon(Icons.repeat, size: 14, color: Colors.blue[600]),
                   const SizedBox(width: 4),
-                  Text(
-                    booking.hasSubscription ? "Subscription" : 'Single',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.blue[600]),
-                  ),
+                  Text(booking.hasSubscription ? "Subscription" : 'Single', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.blue[600])),
                 ],
               ),
             ),
@@ -239,7 +210,7 @@ class _AppBookingListState extends State<AppBookingList> {
               TextButton.icon(
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
-                  backgroundColor: Colors.red.shade600,
+                  backgroundColor: primaryColor,
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
@@ -380,6 +351,11 @@ class _AppBookingListState extends State<AppBookingList> {
   }
 
   void _showSubscriptionDateSheet(BuildContext context, AppBookingModel booking) {
+    //  // CLear data
+    //  _pickedDatesByWeek.clear();
+    // _timeIdByYmd .clear();
+    // _timeLabelByYmd.clear();
+
     bool saving = false;
 
     // Subscription rules
@@ -398,292 +374,251 @@ class _AppBookingListState extends State<AppBookingList> {
         return SafeArea(
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.85,
-            child: weeks.isEmpty
-                ? const Center(child: Text("No subscription weeks available."))
-                : StatefulBuilder(
-                    builder: (context, setSheetState) {
-                      return Column(
-                        children: [
-                          // Header
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    mode == 'monthly'
-                                        ? "Pick up to $timesPerMonth dates per month"
-                                        : "Pick up to $timesPerWeek date(s) each week",
-                                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: saving ? null : () => Navigator.pop(context),
-                                  child: const Text("Close"),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Divider(height: 1),
-
-                          // Weeks list
-                          Expanded(
-                            child: ListView.separated(
-                              padding: const EdgeInsets.all(16),
-                              itemCount: weeks.length,
-                              separatorBuilder: (_, __) => const SizedBox(height: 12),
-                              itemBuilder: (context, i) {
-                                final w = weeks[i];
-                                final start = _tryParseYmd(w.startDate);
-                                final end = _tryParseYmd(w.endDate) ?? start;
-                                final booked = w.isBooked;
-
-                                // Build week dates from API map keys
-                                final List<DateTime> weekDates = w.days.keys
-                                    .map((k) => _tryParseYmd(k))
-                                    .whereType<DateTime>()
-                                    .toList()
-                                  ..sort();
-
-                                // Selected set for this week
-                                final selectedSet = _pickedDatesByWeek[w.weekNumber] ??= <DateTime>{};
-
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.05),
-                                        blurRadius: 10,
-                                        offset: const Offset(0, 4),
-                                      ),
-                                    ],
-                                    border: Border.all(
-                                      color: booked ? Colors.green.shade100 : Colors.red.shade100,
+            child:
+                weeks.isEmpty
+                    ? const Center(child: Text("No subscription weeks available."))
+                    : StatefulBuilder(
+                      builder: (context, setSheetState) {
+                        return Column(
+                          children: [
+                            // Header
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      mode == 'monthly' ? "Pick up to $timesPerMonth dates per month" : "Pick up to $timesPerWeek date(s) each week",
+                                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                                     ),
                                   ),
-                                  padding: const EdgeInsets.all(12),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      // Week header
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              "Week ${w.weekNumber}: "
-                                              "${start != null ? DateFormat('d MMM').format(start) : '--'} – "
-                                              "${end != null ? DateFormat('d MMM').format(end) : '--'}",
-                                              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                            decoration: BoxDecoration(
-                                              color: booked ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
-                                              borderRadius: BorderRadius.circular(8),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(
-                                                  booked ? Icons.check_circle : Icons.error_outline,
-                                                  size: 14,
-                                                  color: booked ? Colors.green : Colors.red,
-                                                ),
-                                                const SizedBox(width: 4),
-                                                Text(
-                                                  booked ? "Booked" : "Not booked",
-                                                  style: TextStyle(
-                                                    color: booked ? Colors.green : Colors.red,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                  TextButton(onPressed: saving ? null : () => Navigator.pop(context), child: const Text("Close")),
+                                ],
+                              ),
+                            ),
+                            const Divider(height: 1),
 
-                                      const SizedBox(height: 10),
+                            // Weeks list
+                            Expanded(
+                              child: ListView.separated(
+                                padding: const EdgeInsets.all(16),
+                                itemCount: weeks.length,
+                                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                                itemBuilder: (context, i) {
+                                  final w = weeks[i];
+                                  final start = _tryParseYmd(w.startDate);
+                                  final end = _tryParseYmd(w.endDate) ?? start;
+                                  final booked = w.isBooked;
 
-                                      // Date chips for the week
-                                      Wrap(
-                                        spacing: 8,
-                                        runSpacing: 8,
-                                        children: [
-                                          for (final d in weekDates)
-                                            FilterChip(
-                                              label: Text(DateFormat('EEE d').format(d)),
-                                              selected: selectedSet.contains(d),
-                                              onSelected: (val) {
-                                                if (booked || saving) return;
-                                                if (val) {
-                                                  // enforce rules
-                                                  if (mode == 'monthly') {
-                                                    final monthKey = DateFormat('yyyy-MM').format(d);
-                                                    final monthCount = _countSelectedInMonth(booking, monthKey);
-                                                    if (monthCount >= timesPerMonth) {
-                                                      ScaffoldMessenger.of(context).showSnackBar(
-                                                        SnackBar(content: Text("Max $timesPerMonth selections in $monthKey")),
-                                                      );
-                                                      return;
-                                                    }
-                                                  } else {
-                                                    if (selectedSet.length >= timesPerWeek) {
-                                                      ScaffoldMessenger.of(context).showSnackBar(
-                                                        SnackBar(content: Text("Max $timesPerWeek selection(s) this week")),
-                                                      );
-                                                      return;
-                                                    }
-                                                  }
-                                                  setSheetState(() {
-                                                    selectedSet.add(d);
-                                                  });
-                                                } else {
-                                                  setSheetState(() {
-                                                    selectedSet.remove(d);
-                                                    // clear any time picked for this date
-                                                    final key = _ymd(d);
-                                                    _timeIdByYmd.remove(key);
-                                                    _timeLabelByYmd.remove(key);
-                                                  });
-                                                }
-                                              },
+                                  // Build week dates from API map keys
+                                  final List<DateTime> weekDates = w.days.keys.map((k) => _tryParseYmd(k)).whereType<DateTime>().toList()..sort();
+
+                                  // Selected set for this week
+                                  final selectedSet = _pickedDatesByWeek[w.weekNumber] ??= <DateTime>{};
+
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(12),
+                                      boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
+                                      border: Border.all(color: booked ? Colors.green.shade100 : Colors.red.shade100),
+                                    ),
+                                    padding: const EdgeInsets.all(12),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        // Week header
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                "Week ${w.weekNumber}: "
+                                                "${start != null ? DateFormat('d MMM').format(start) : '--'} – "
+                                                "${end != null ? DateFormat('d MMM').format(end) : '--'}",
+                                                style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                                              ),
                                             ),
-                                        ],
-                                      ),
-
-                                      // For each selected date, render time slots + chosen label
-                                      if (selectedSet.isNotEmpty) ...[
-                                        const SizedBox(height: 10),
-                                        ...(() {
-                                          final list = selectedSet.toList()..sort();
-                                          return list.map((d) {
-                                            final tId = _selectedTimeIdFor(d);
-                                            final tLabel = _selectedTimeLabelFor(d);
-                                            return Padding(
-                                              padding: const EdgeInsets.only(top: 10),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                            Container(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                              decoration: BoxDecoration(
+                                                color: booked ? Colors.red.withOpacity(0.1) : Colors.green.withOpacity(0.1),
+                                                borderRadius: BorderRadius.circular(8),
+                                              ),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
                                                 children: [
+                                                  if (booked) Icon(Icons.check_circle, size: 14, color: booked ? Colors.red : Colors.green),
+                                                  const SizedBox(width: 4),
                                                   Text(
-                                                    DateFormat('EEE, d MMM y').format(d),
-                                                    style: const TextStyle(fontWeight: FontWeight.w700),
+                                                    booked ? "Booked" : "Available",
+                                                    style: TextStyle(color: booked ? Colors.red : Colors.green, fontWeight: FontWeight.w600, fontSize: 12),
                                                   ),
-                                                  _TimeSlotsForDate(
-                                                    repo: _repo,
-                                                    orderId: booking.id,
-                                                    weekNumber: w.weekNumber,
-                                                    date: d,
-                                                    selectedTimeId: tId,
-                                                    onPick: (timeId) => setSheetState(() {
-                                                      _setTimeFor(d, timeId, tLabel ?? '');
-                                                    }),
-                                                    onLabel: (label) => setSheetState(() {
-                                                      final id = _selectedTimeIdFor(d);
-                                                      if (id != null) _setTimeFor(d, id, label);
-                                                    }),
-                                                  ),
-                                                  if (tId != null && (tLabel ?? '').isNotEmpty)
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(top: 6),
-                                                      child: Text(
-                                                        "Chosen: $tLabel",
-                                                        style: const TextStyle(fontWeight: FontWeight.w600),
-                                                      ),
-                                                    ),
                                                 ],
                                               ),
-                                            );
-                                          }).toList();
-                                        })(),
-                                      ],
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
+                                            ),
+                                          ],
+                                        ),
 
-                          // Save
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: ElevatedButton.icon(
-                                    style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12)),
-                                    onPressed: saving
-                                        ? null
-                                        : () async {
-                                            setSheetState(() => saving = true);
-                                            int sentWeeks = 0;
-                                            try {
-                                              for (final w in weeks) {
-                                                final selectedSet = _pickedDatesByWeek[w.weekNumber];
-                                                if (selectedSet == null || selectedSet.isEmpty) continue;
+                                        const SizedBox(height: 10),
 
-                                                // Gather only dates that have a picked time id
-                                                final daysPayload = <Map<String, dynamic>>[];
-                                                final sorted = selectedSet.toList()..sort();
-                                                for (final d in sorted) {
-                                                  final key = _ymd(d);
-                                                  final tId = _timeIdByYmd[key];
-                                                  if (tId != null) {
-                                                    daysPayload.add({
-                                                      "date": key,
-                                                      "time_schedule_id": tId,
+                                        // Date chips for the week
+                                        Wrap(
+                                          spacing: 8,
+                                          runSpacing: 8,
+                                          children: [
+                                            for (final d in weekDates)
+                                              FilterChip(
+                                                label: Text(DateFormat('EEE d').format(d)),
+                                                selected: selectedSet.contains(d),
+                                                onSelected: (val) {
+                                                  if (booked || saving) return;
+                                                  if (val) {
+                                                    // enforce rules
+                                                    if (mode == 'monthly') {
+                                                      final monthKey = DateFormat('yyyy-MM').format(d);
+                                                      final monthCount = _countSelectedInMonth(booking, monthKey);
+                                                      if (monthCount >= timesPerMonth) {
+                                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Max $timesPerMonth selections in $monthKey")));
+                                                        return;
+                                                      }
+                                                    } else {
+                                                      if (selectedSet.length >= timesPerWeek) {
+                                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Max $timesPerWeek selection(s) this week")));
+                                                        return;
+                                                      }
+                                                    }
+                                                    setSheetState(() {
+                                                      selectedSet.add(d);
+                                                    });
+                                                  } else {
+                                                    setSheetState(() {
+                                                      selectedSet.remove(d);
+                                                      // clear any time picked for this date
+                                                      final key = _ymd(d);
+                                                      _timeIdByYmd.remove(key);
+                                                      _timeLabelByYmd.remove(key);
                                                     });
                                                   }
-                                                }
-                                                if (daysPayload.isEmpty) continue;
+                                                },
+                                              ),
+                                          ],
+                                        ),
 
-                                                await _repo.updateWeeklySchedule(
-                                                  scheduleId: w.id,
-                                                  orderId: booking.id,
-                                                  startDate: w.startDate,
-                                                  endDate: w.endDate,
-                                                  days: daysPayload,
-                                                );
-                                                sentWeeks++;
-                                              }
-
-                                              if (context.mounted) {
-                                                Navigator.pop(context);
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text("Saved $sentWeeks week${sentWeeks == 1 ? '' : 's'}.")),
-                                                );
-                                              }
-                                            } catch (e) {
-                                              setSheetState(() => saving = false);
-                                              if (context.mounted) {
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text("Failed to save: $e")),
-                                                );
-                                              }
-                                            }
-                                          },
-                                    icon: saving
-                                        ? const SizedBox(
-                                            width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
-                                        : const Icon(Icons.save),
-                                    label: Text(saving ? "Saving..." : "Save selections"),
-                                  ),
-                                ),
-                              ],
+                                        // For each selected date, render time slots + chosen label
+                                        if (selectedSet.isNotEmpty) ...[
+                                          const SizedBox(height: 10),
+                                          ...(() {
+                                            final list = selectedSet.toList()..sort();
+                                            return list.map((d) {
+                                              final tId = _selectedTimeIdFor(d);
+                                              final tLabel = _selectedTimeLabelFor(d);
+                                              return Padding(
+                                                padding: const EdgeInsets.only(top: 10),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(DateFormat('EEE, d MMM y').format(d), style: const TextStyle(fontWeight: FontWeight.w700)),
+                                                    _TimeSlotsForDate(
+                                                      repo: _repo,
+                                                      orderId: booking.id,
+                                                      weekNumber: w.weekNumber,
+                                                      date: d,
+                                                      selectedTimeId: tId,
+                                                      onPick:
+                                                          (timeId) => setSheetState(() {
+                                                            _setTimeFor(d, timeId, tLabel ?? '');
+                                                          }),
+                                                      onLabel:
+                                                          (label) => setSheetState(() {
+                                                            final id = _selectedTimeIdFor(d);
+                                                            if (id != null) _setTimeFor(d, id, label);
+                                                          }),
+                                                    ),
+                                                    if (tId != null && (tLabel ?? '').isNotEmpty)
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(top: 6),
+                                                        child: Text("Chosen: $tLabel", style: const TextStyle(fontWeight: FontWeight.w600)),
+                                                      ),
+                                                  ],
+                                                ),
+                                              );
+                                            }).toList();
+                                          })(),
+                                        ],
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: ElevatedButton.icon(
+                                                  style: ElevatedButton.styleFrom(
+                                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                                    backgroundColor: primaryColor,
+                                                    foregroundColor: Colors.white,
+                                                  ),
+                                                  onPressed: saving ? null : () => _saveSelections(w.id,booking, selectedSet, start!, end!),
+                                                  icon: saving ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.save),
+                                                  label: Text(saving ? "Saving..." : "Save selections"),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                          ],
+                        );
+                      },
+                    ),
           ),
         );
       },
     );
+  }
+
+  void _saveSelections(int scheduleId,AppBookingModel booking, Set<DateTime> selectedSet, DateTime start, DateTime end) async {
+    final payload = _buildSelectionPayload(selectedSet, _timeIdByYmd);
+    final formatter = DateFormat('yyyy-MM-dd');
+    // setSheetState(() => saving = true);
+    try {
+     await _repo.updateWeeklySchedule(scheduleId: scheduleId,orderId: booking.id, startDate: formatter.format(start), endDate:formatter.format( end), days: payload);
+      if (context.mounted) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Updated")));
+      }
+    } catch (e) {
+      // setSheetState(() => saving = false);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to save: $e")));
+      }
+    }
+  }
+
+  List<Map<String, dynamic>> _buildSelectionPayload(Set<DateTime> selectedSet, Map<String, int> timeIdByYmd) {
+    // Sort for stable order in the payload (optional)
+    final sortedDays = selectedSet.toList()..sort();
+
+    final payload = <Map<String, dynamic>>[];
+
+    for (final day in sortedDays) {
+      final key = _ymd(day);
+      final timeId = timeIdByYmd[key];
+
+      // Only add if there is a matching time id for the selected date.
+      // This naturally ignores any "extra" time entries not in selectedSet.
+      if (timeId != null) {
+        payload.add({'date': key, 'time_schedule_id': timeId});
+      } else {
+        // If you want to see mismatches during dev:
+        // debugPrint('No time_schedule_id for selected date: $key');
+      }
+    }
+
+    return payload;
   }
 }
 
@@ -713,23 +648,14 @@ class _TimeSlotsForDate extends StatelessWidget {
       future: repo.fetchTimeSlotsForDate(date, orderId: orderId),
       builder: (context, snap) {
         if (snap.connectionState == ConnectionState.waiting) {
-          return const Padding(
-            padding: EdgeInsets.only(top: 8.0),
-            child: LinearProgressIndicator(minHeight: 2),
-          );
+          return const Padding(padding: EdgeInsets.only(top: 8.0), child: LinearProgressIndicator(minHeight: 2));
         }
         if (snap.hasError) {
-          return Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text("Failed to load time slots", style: TextStyle(color: Colors.red[700])),
-          );
+          return Padding(padding: const EdgeInsets.only(top: 8.0), child: Text("Failed to load time slots", style: TextStyle(color: Colors.red[700])));
         }
         final slots = snap.data ?? const [];
         if (slots.isEmpty) {
-          return const Padding(
-            padding: EdgeInsets.only(top: 8.0),
-            child: Text("No time slots on this date."),
-          );
+          return const Padding(padding: EdgeInsets.only(top: 8.0), child: Text("No time slots on this date."));
         }
 
         return Padding(
@@ -742,19 +668,17 @@ class _TimeSlotsForDate extends StatelessWidget {
                 ChoiceChip(
                   label: Text(s.scheduleTime),
                   selected: selectedTimeId != null && s.ids.isNotEmpty && s.ids.first == selectedTimeId,
-                  onSelected: s.available
-                      ? (val) {
-                          if (val && s.ids.isNotEmpty) {
-                            onPick(s.ids.first);
-                            onLabel(s.scheduleTime);
+                  onSelected:
+                      s.available
+                          ? (val) {
+                            if (val && s.ids.isNotEmpty) {
+                              onPick(s.ids.first);
+                              onLabel(s.scheduleTime);
+                            }
                           }
-                        }
-                      : null,
+                          : null,
                   disabledColor: Colors.grey.shade200,
-                  labelStyle: TextStyle(
-                    color: s.available ? null : Colors.grey,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  labelStyle: TextStyle(color: s.available ? null : Colors.grey, fontWeight: FontWeight.w600),
                 ),
             ],
           ),
@@ -763,8 +687,6 @@ class _TimeSlotsForDate extends StatelessWidget {
     );
   }
 }
-
-
 
 // // import 'package:flutter/material.dart';
 // // import 'package:flutter_bloc/flutter_bloc.dart';

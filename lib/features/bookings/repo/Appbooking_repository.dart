@@ -599,62 +599,7 @@ Future<List<TimeSlotOption>> fetchTimeSlotsForDate(
 ///   "end_date": "YYYY-MM-DD",
 ///   "days":[{"date":"YYYY-MM-DD","time_schedule_id":44}, ...]
 /// }
-// Future<void> updateWeeklySchedule({
-//   required int scheduleId,
-//   required String orderId,
-//   required String startDate,
-//   required String endDate,
-//   required List<Map<String, dynamic>> days,
-// }) async {
-//   final token = await _getAccessToken();
-//   if (token == null) {
-//     await handleUnauthorized();
-//     throw Exception("Unauthorized");
-//   }
-
-//   final url =
-//       "https://backend.kleanit.ae/api/customer/weekly-schedule/update/$scheduleId";
-
-//   final payload = {
-//     "order_id": orderId,
-//     "start_date": startDate,
-//     "end_date": endDate,
-//     "days": days, // [{"date":"2025-08-19","time_schedule_id":41}, ...]
-//   };
-
-//   if (kDebugMode) {
-//     debugPrint("🟦 [PUT] $url");
-//     debugPrint("Body: ${jsonEncode(payload)}");
-//   }
-
-//   final res = await dio.put(
-//     url,
-//     data: payload, // let Dio JSON-encode the map
-//     options: Options(headers: _authHeaders(token, json: true)),
-//   );
-
-//   if (kDebugMode) {
-//     debugPrint("⬅️ ${res.statusCode} ${res.statusMessage} • ${res.realUri}");
-//     try {
-//       debugPrint("Response body: ${res.data}");
-//     } catch (_) {}
-//   }
-
-//   if (res.statusCode == 401) {
-//     await handleUnauthorized();
-//     throw Exception("Session expired");
-//   }
-
-//   // accept 200 or 204 as success
-//   if (res.statusCode == 200 || res.statusCode == 204) return;
-
-//   // backend may send validation errors (422) or other messages
-//   final msg = (res.data is Map && (res.data['message'] != null))
-//       ? res.data['message'].toString()
-//       : "Failed to update weekly schedule";
-//   throw Exception("$msg (${res.statusCode})");
-// }
-Future<AppWeeklySchedule> updateWeeklySchedule({
+Future<void> updateWeeklySchedule({
   required int scheduleId,
   required String orderId,
   required String startDate,
@@ -667,12 +612,14 @@ Future<AppWeeklySchedule> updateWeeklySchedule({
     throw Exception("Unauthorized");
   }
 
-  final url = "https://backend.kleanit.ae/api/customer/weekly-schedule/update/$scheduleId";
+  final url =
+      "https://backend.kleanit.ae/api/customer/weekly-schedule/update/$scheduleId";
+
   final payload = {
     "order_id": orderId,
     "start_date": startDate,
     "end_date": endDate,
-    "days": days, // [{"date":"YYYY-MM-DD","time_schedule_id":44}, ...]
+    "days": days, // [{"date":"2025-08-19","time_schedule_id":41}, ...]
   };
 
   if (kDebugMode) {
@@ -682,13 +629,15 @@ Future<AppWeeklySchedule> updateWeeklySchedule({
 
   final res = await dio.put(
     url,
-    data: payload,
+    data: payload, // let Dio JSON-encode the map
     options: Options(headers: _authHeaders(token, json: true)),
   );
 
   if (kDebugMode) {
     debugPrint("⬅️ ${res.statusCode} ${res.statusMessage} • ${res.realUri}");
-    debugPrint("Response body: ${res.data}");
+    try {
+      debugPrint("Response body: ${res.data}");
+    } catch (_) {}
   }
 
   if (res.statusCode == 401) {
@@ -696,38 +645,90 @@ Future<AppWeeklySchedule> updateWeeklySchedule({
     throw Exception("Session expired");
   }
 
-  // success: 200/201/204
-  if (res.statusCode == 204) {
-    // no body—just refetch later if needed
-    // return a shallow model so caller can continue
-    return AppWeeklySchedule(
-      id: scheduleId,
-      startDate: startDate,
-      endDate: endDate,
-      weekNumber: 0,
-      isBooked: true,
-      // fill the rest as your model requires
-    );
-  }
+  // accept 200 or 204 as success
+  if (res.statusCode == 200 || res.statusCode == 204) return;
 
-  if (res.statusCode == 200 || res.statusCode == 201) {
-    final map = Map<String, dynamic>.from(res.data as Map);
-    final ws = Map<String, dynamic>.from(map['weekly_schedule'] as Map);
-    return AppWeeklySchedule.fromJson(ws);
-  }
-
-  // surface 422 field errors nicely
-  if (res.statusCode == 422 && res.data is Map && (res.data['errors'] is Map)) {
-    final errors = (res.data['errors'] as Map).entries
-        .map((e) => "${e.key}: ${(e.value as List).join(', ')}")
-        .join("\n");
-    throw Exception("Validation failed:\n$errors");
-  }
-
-  final msg = (res.data is Map && res.data['message'] != null)
+  // backend may send validation errors (422) or other messages
+  final msg = (res.data is Map && (res.data['message'] != null))
       ? res.data['message'].toString()
       : "Failed to update weekly schedule";
   throw Exception("$msg (${res.statusCode})");
 }
+
+// Future<AppWeeklySchedule> updateWeeklySchedule({
+//   required int scheduleId,
+//   required String orderId,
+//   required String startDate,
+//   required String endDate,
+//   required List<Map<String, dynamic>> days,
+// }) async {
+//   final token = await _getAccessToken();
+//   if (token == null) {
+//     await handleUnauthorized();
+//     throw Exception("Unauthorized");
+//   }
+//
+//   final url = "https://backend.kleanit.ae/api/customer/weekly-schedule/update/$scheduleId";
+//   final payload = {
+//     "order_id": orderId,
+//     "start_date": startDate,
+//     "end_date": endDate,
+//     "days": days, // [{"date":"YYYY-MM-DD","time_schedule_id":44}, ...]
+//   };
+//
+//   if (kDebugMode) {
+//     debugPrint("🟦 [PUT] $url");
+//     debugPrint("Body: ${jsonEncode(payload)}");
+//   }
+//
+//   final res = await dio.put(
+//     url,
+//     data: payload,
+//     options: Options(headers: _authHeaders(token, json: true)),
+//   );
+//
+//   if (kDebugMode) {
+//     debugPrint("⬅️ ${res.statusCode} ${res.statusMessage} • ${res.realUri}");
+//     debugPrint("Response body: ${res.data}");
+//   }
+//
+//   if (res.statusCode == 401) {
+//     await handleUnauthorized();
+//     throw Exception("Session expired");
+//   }
+//
+//   // success: 200/201/204
+//   // if (res.statusCode == 204) {
+//   //   // no body—just refetch later if needed
+//   //   // return a shallow model so caller can continue
+//   //   return AppWeeklySchedule(
+//   //     id: scheduleId,
+//   //     startDate: startDate,
+//   //     endDate: endDate,
+//   //     weekNumber: 0,
+//   //     isBooked: true,
+//   //     // fill the rest as your model requires
+//   //   );
+//   // }
+//
+//   if (res.statusCode == 200 || res.statusCode == 201) {
+//     final map = Map<String, dynamic>.from(res.data as Map);
+//     final ws = Map<String, dynamic>.from(map['weekly_schedule'] as Map);
+//     return AppWeeklySchedule.fromJson(ws);
+//   }
+//
+//   // surface 422 field errors nicely
+//   if (res.statusCode == 422 && res.data is Map && (res.data['errors'] is Map)) {
+//     final errors = (res.data['errors'] as Map).entries
+//         .map((e) => "${e.key}: ${(e.value as List).join(', ')}")
+//         .join("\n");
+//     throw Exception("Validation failed:\n$errors");
+//   }
+//
+//   final msg = (res.data is Map && res.data['message'] != null)
+//       ? res.data['message'].toString()
+//       : "Failed to update weekly schedule";
+//   throw Exception("$msg (${res.statusCode})");
+// }
 
 }
