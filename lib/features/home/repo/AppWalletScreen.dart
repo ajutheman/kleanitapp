@@ -105,7 +105,7 @@ class _AppWalletScreenState extends State<AppWalletScreen> {
                                         ),
                                         Text(
                                           "${txn.type == "credit" ? "+ coins " : "- coins "}${txn.amount}",
-                                          style: TextStyle(fontWeight: FontWeight.bold, color: txn.type == "credit" ? accentColor : Colors.red),
+                                          style: TextStyle(fontWeight: FontWeight.bold, color: txn.type == "credit" ? Colors.greenAccent : Colors.red),
                                         ),
                                       ],
                                     ),
@@ -170,13 +170,13 @@ class _AppWalletScreenState extends State<AppWalletScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("My Wallet", style: TextStyle(color: Colors.black87, fontSize: 15, fontWeight: FontWeight.w600)),
+                  const Text("My Wallet", style: TextStyle(color: Colors.yellow, fontSize: 15, fontWeight: FontWeight.w600)),
                   const SizedBox(height: 6),
                   Text("Coins  : ${walletDetails?.walletAmount.toStringAsFixed(2) ?? '0.00'}", style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold)),
                   Row(
                     children: [
                       Text(
-                        '* Note: ',
+                        '*  Note: ',
                         // '${walletDetails != null ? _getAedFromCoins(walletDetails!.walletAmount) : '0.00'} AED available',
                         style: const TextStyle(color: Colors.white, fontSize: 12, letterSpacing: 2),
                       ),
@@ -204,7 +204,7 @@ class _AppWalletScreenState extends State<AppWalletScreen> {
             ),
             Row(
               children: [
-                const Text('* Note : 50 Coins = ', style: TextStyle(color: Colors.black, fontSize: 12, letterSpacing: 2)),
+                const Text('* !Note : 50 Coins =  1 ', style: TextStyle(color: Colors.white, fontSize: 12, letterSpacing: 2)),
                 Image.asset('assets/icon/aed_symbol.png', width: 14, height: 14, fit: BoxFit.contain),
               ],
             ),

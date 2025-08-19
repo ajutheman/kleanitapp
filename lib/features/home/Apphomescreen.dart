@@ -164,7 +164,7 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Text(
-                            "New offer",
+                            "New offers",
                             // "Advertisements",
                             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
                           ),
@@ -226,7 +226,7 @@ class _AppHomeScreenState extends State<AppHomeScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Text(
-                            "Special Promotion",
+                            "Special Promotions",
                             // "More Offers",
                             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
                           ),
