@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -181,6 +182,9 @@ class _AppBookingListState extends State<AppBookingList> {
 
   Widget _buildFooterRow(AppBookingModel booking) {
     final showSelectDates = _hasAnyUnbooked(booking);
+        final anyBooked = booking.weeklySchedules.any((w) => w.isBooked);
+
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -742,7 +746,7 @@ class _AppBookingListState extends State<AppBookingList> {
                                   final tLabel = _selectedTimeLabelFor(d);
 
                                   return Container(
-                                    margin: const EdgeInsets.only(bottom: 16),                                                                    
+                                    margin: const EdgeInsets.only(bottom: 16),
                                     padding: const EdgeInsets.all(16),
                                     decoration: BoxDecoration(
                                       color: Colors.white,

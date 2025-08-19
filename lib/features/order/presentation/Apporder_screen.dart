@@ -330,6 +330,8 @@ class _AppOrderConfirmationScreenState extends State<AppOrderConfirmationScreen>
             children: [
               buildServiceList(order),
               const SizedBox(height: 16),
+              buildPriceSlipCard(order),
+              const SizedBox(height: 16),
               buildBookingDetailsCard(),
               const SizedBox(height: 16),
               buildPropertyDetailsCard(),
@@ -859,7 +861,7 @@ class _AppOrderConfirmationScreenState extends State<AppOrderConfirmationScreen>
     //   orElse: () => carts.first,
     // );
     final matchingCart = carts.firstWhere((cart) => cart.thirdCategory.name.trim().toLowerCase() == item.thirdCategoryName.trim().toLowerCase(), orElse: () => carts.first);
-
+  
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.all(12),
@@ -923,7 +925,10 @@ class _AppOrderConfirmationScreenState extends State<AppOrderConfirmationScreen>
                     Text(item.itemTotal.toStringAsFixed(2), style: TextStyle(fontSize: 15, color: primaryColor, fontWeight: FontWeight.bold)),
                   ],
                 ),
-
+                // Text(item.perMonthTotal.toString(), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                // Text(item.type.toString(), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                // Text(item.basePrice.toString(), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+  
                 // Text(
                 //   "AED ${item.itemTotal.toStringAsFixed(2)}",
                 //   style: TextStyle(
@@ -940,6 +945,704 @@ class _AppOrderConfirmationScreenState extends State<AppOrderConfirmationScreen>
     );
   }
 
+  // Widget buildServiceCard(OrderCalculationItem item, List<AppCart> carts) {
+  //   // Safely find matching cart (fallback if list is empty)
+  //   final hasCarts = carts.isNotEmpty;
+  //   final matchingCart = hasCarts
+  //       ? carts.firstWhere(
+  //         (cart) =>
+  //     cart.thirdCategory.name.trim().toLowerCase() ==
+  //         item.thirdCategoryName.trim().toLowerCase(),
+  //     orElse: () => carts.first,
+  //   )
+  //       : null;
+
+  //   // ---- Helpers ----
+  //   Widget aedAmount(double amt, {TextStyle? style}) {
+  //     return Row(
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: [
+  //         Image.asset('assets/icon/aed_symbol.png', width: 15, height: 15, fit: BoxFit.contain),
+  //         const SizedBox(width: 4),
+  //         Text(amt.toStringAsFixed(2), style: style),
+  //       ],
+  //     );
+  //   }
+
+  //   Widget miniRow(String label, Widget right, {bool bold = false}) {
+  //     final st = TextStyle(fontSize: 14, fontWeight: bold ? FontWeight.w700 : FontWeight.w500);
+  //     return Padding(
+  //       padding: const EdgeInsets.symmetric(vertical: 4),
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [Expanded(child: Text(label, style: st)), right],
+  //       ),
+  //     );
+  //   }
+
+  //   // ---- Parse values from item (robust to String/num) ----
+  //   final isSubscription = (item.type?.toString().toLowerCase() ?? '') == 'subscription';
+
+  //   final basePrice = double.tryParse(item.basePrice?.toString() ?? '') ??
+  //       (item.basePrice is num ? (item.basePrice as num).toDouble() : 0.0);
+
+  //   final freqPerWeek = int.tryParse(item.subscriptionFrequency?.toString() ?? '') ??
+  //       (item.subscriptionFrequency is num ? (item.subscriptionFrequency as num).toInt() : 0);
+
+  //   final durationMonths = int.tryParse(item.durationMonths?.toString() ?? '') ??
+  //       (item.durationMonths is num ? (item.durationMonths as num).toInt() : 1);
+
+  //   final addEmpCost = double.tryParse(item.additionalEmployeeCost?.toString() ?? '') ??
+  //       (item.additionalEmployeeCost is num ? (item.additionalEmployeeCost as num).toDouble() : 0.0);
+
+  //   final offerDiscount = double.tryParse(item.offerDiscount?.toString() ?? '') ??
+  //       (item.offerDiscount is num ? (item.offerDiscount as num).toDouble() : 0.0);
+
+  //   // Backend logic appears to assume 4 weeks/month (matches your JSON math)
+  //   final visitsPerMonth = isSubscription ? (freqPerWeek * 4) : 0;
+
+  //   // Prefer server-provided perMonthTotal if present; otherwise compute (subs) or fallback (one-time)
+  //   final perMonthTotal = (item.perMonthTotal is num)
+  //       ? (item.perMonthTotal as num).toDouble()
+  //       : double.tryParse(item.perMonthTotal?.toString() ?? '');
+
+  //   final computedSubSubtotal = isSubscription
+  //       ? (perMonthTotal ?? (basePrice * visitsPerMonth))
+  //       : ((item.totalPrice is num)
+  //       ? (item.totalPrice as num).toDouble()
+  //       : (double.tryParse(item.totalPrice?.toString() ?? '') ?? basePrice));
+
+  //   // Final item total: prefer server item_total; else compute
+  //   final itemTotal = (item.itemTotal is num)
+  //       ? (item.itemTotal as num).toDouble()
+  //       : (double.tryParse(item.itemTotal?.toString() ?? '') ??
+  //       (computedSubSubtotal + addEmpCost - offerDiscount));
+
+  //   final adjustedAmount = (computedSubSubtotal + addEmpCost - offerDiscount).clamp(0, double.infinity);
+  //   final showServerBadge = itemTotal != adjustedAmount;
+
+  //   final perPeriodLabel = isSubscription ? 'Per-month subtotal' : 'Subtotal';
+
+  //   return Container(
+  //     margin: const EdgeInsets.symmetric(vertical: 8),
+  //     padding: const EdgeInsets.all(12),
+  //     decoration: BoxDecoration(
+  //       color: Colors.grey[50],
+  //       borderRadius: BorderRadius.circular(16),
+  //       boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 8, offset: const Offset(0, 4))],
+  //     ),
+  //     child: Row(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         // Image
+  //         ClipRRect(
+  //           borderRadius: BorderRadius.circular(14),
+  //           child: (hasCarts && matchingCart?.thirdCategory.image != null && matchingCart!.thirdCategory.image!.isNotEmpty)
+  //               ? Image.network(
+  //             matchingCart.thirdCategory.image!,
+  //             width: 60, height: 60, fit: BoxFit.cover,
+  //             errorBuilder: (context, error, stackTrace) =>
+  //                 Container(width: 60, height: 60, color: Colors.grey[200], child: const Icon(Icons.image_not_supported, color: Colors.grey)),
+  //           )
+  //               : Container(width: 60, height: 60, color: Colors.grey[200], child: const Icon(Icons.image_not_supported, color: Colors.grey)),
+  //         ),
+  //         const SizedBox(width: 16),
+
+  //         // Text & amount
+  //         Expanded(
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Text(item.thirdCategoryName, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+  //               const SizedBox(height: 6),
+
+  //               // Final item total (always shown)
+  //               Row(
+  //                 children: [
+  //                   aedAmount(itemTotal, style: TextStyle(fontSize: 15, color: primaryColor, fontWeight: FontWeight.bold)),
+  //                   if (showServerBadge) ...[
+  //                     const SizedBox(width: 6),
+  //                     Tooltip(
+  //                       message: 'Showing server total; computed differs.',
+  //                       child: Icon(Icons.verified, size: 16, color: Colors.green[600]),
+  //                     ),
+  //                   ],
+  //                 ],
+  //               ),
+  //               const SizedBox(height: 6),
+
+  //               // Small tags
+  //               Wrap(
+  //                 spacing: 8,
+  //                 runSpacing: 4,
+  //                 children: [
+  //                   Container(
+  //                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+  //                     decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(8)),
+  //                     child: Text(item.type.toString(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
+  //                   ),
+  //                   if (isSubscription)
+  //                     Container(
+  //                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+  //                       decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(8)),
+  //                       child: Text('$freqPerWeek day(s)/week', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
+  //                     ),
+  //                   if (isSubscription)
+  //                     Container(
+  //                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+  //                       decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(8)),
+  //                       child: Text('$durationMonths month(s)', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
+  //                     ),
+  //                 ],
+  //               ),
+
+  //               const SizedBox(height: 8),
+
+  //               // ---------- Always-visible breakdown ----------
+  //               Theme(
+  //                 data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+  //                 child: ExpansionTile(
+  //                   tilePadding: EdgeInsets.zero,
+  //                   childrenPadding: EdgeInsets.zero,
+  //                   initiallyExpanded: true, // always show details
+  //                   title: const Text('Price breakdown', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+  //                   children: [
+  //                     miniRow('Base price / visit', aedAmount(basePrice)),
+
+  //                     if (isSubscription) ...[
+  //                       miniRow('Frequency', Text('$freqPerWeek day(s)/week', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500))),
+  //                       miniRow('Duration', Text('$durationMonths month(s)', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500))),
+  //                       miniRow('Visits per month', Text('$freqPerWeek × 4 = $visitsPerMonth', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500))),
+  //                       const SizedBox(height: 4),
+  //                       Row(
+  //                         children: [
+  //                           const SizedBox(width: 0),
+  //                           Expanded(
+  //                             child: Text(
+  //                               'Formula: ${basePrice.toStringAsFixed(2)} × $freqPerWeek × 4 = ${computedSubSubtotal.toStringAsFixed(2)}',
+  //                               style: TextStyle(fontSize: 12, color: Colors.grey[600], fontStyle: FontStyle.italic),
+  //                             ),
+  //                           ),
+  //                         ],
+  //                       ),
+  //                     ],
+
+  //                     if (!isSubscription)
+  //                       miniRow(perPeriodLabel, aedAmount(computedSubSubtotal)),
+
+  //                     const Divider(height: 18),
+
+  //                     // Always show these lines (even if 0)
+  //                     miniRow('Additional staff cost', aedAmount(addEmpCost)),
+  //                     miniRow('Offer discount',
+  //                         Row(
+  //                           mainAxisSize: MainAxisSize.min,
+  //                           children: [
+  //                             if (offerDiscount > 0) const Text('-', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+  //                             const SizedBox(width: 2),
+  //                             aedAmount(offerDiscount),
+  //                           ],
+  //                         )),
+
+  //                     const Divider(height: 18),
+
+  //                     // Subtotal label adapts by type
+  //                     miniRow(perPeriodLabel, aedAmount(computedSubSubtotal)),
+  //                     // miniRow('Adjusted amount', aedAmount(adjustedAmount)),
+  //                     const SizedBox(height: 2),
+  //                     Row(
+  //                       children: [
+  //                         Icon(Icons.check_circle_rounded, size: 20, color: primaryColor),
+  //                         const SizedBox(width: 8),
+  //                         const Expanded(child: Text('Item total', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800))),
+  //                         aedAmount(itemTotal, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+  //                       ],
+  //                     ),
+  //                     const SizedBox(height: 6),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+  Widget buildPriceSlipCard(AppOrderCalculation order) {
+    Widget aedAmount(double amt, {TextStyle? style, bool showMinus = false}) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (showMinus && amt > 0)
+            Text('-', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.red[600])),
+          Image.asset('assets/icon/aed_symbol.png', width: 15, height: 15, fit: BoxFit.contain),
+          const SizedBox(width: 4),
+          Text(
+              amt.toStringAsFixed(2),
+              style: style ?? TextStyle(fontSize: 14, fontWeight: FontWeight.w600)
+          ),
+        ],
+      );
+    }
+
+    Widget miniRow(String label, Widget right, {bool bold = false, Color? valueColor, Color? labelColor}) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+                child: Text(
+                    label,
+                    style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: bold ? FontWeight.w600 : FontWeight.w500,
+                        color: labelColor ?? Colors.grey[700]
+                    )
+                )
+            ),
+            DefaultTextStyle(
+              style: TextStyle(color: valueColor),
+              child: right,
+            ),
+          ],
+        ),
+      );
+    }
+
+    Widget buildServiceChip(String text, {Color? backgroundColor, Color? textColor}) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          color: backgroundColor ?? primaryColor.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: primaryColor.withOpacity(0.2)),
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: textColor ?? primaryColor,
+          ),
+        ),
+      );
+    }
+
+    Widget buildSectionContainer(String title, List<Widget> children, {Color? backgroundColor, IconData? icon}) {
+      return Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: backgroundColor ?? Colors.grey[50],
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+              ),
+              child: Row(
+                children: [
+                  if (icon != null) ...[
+                    Icon(icon, size: 20, color: primaryColor),
+                    const SizedBox(width: 12),
+                  ],
+                  // Text(
+                  //   title,
+                  //   style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  // ),
+                  Expanded( // or Flexible
+                    child: Text(
+                      title,
+                      maxLines: 2,                    // 👈 allow up to 2 lines
+                      overflow: TextOverflow.ellipsis, // 👈 show "..." if longer
+                      softWrap: true,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        height: 1.25,                // nicer multiline spacing
+                      ),
+                    ),
+                  )
+
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(children: children),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Container(
+      margin: const EdgeInsets.all(6),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Enhanced Header
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [primaryColor.withOpacity(0.1), primaryColor.withOpacity(0.05)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: primaryColor.withOpacity(0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Icon(Icons.receipt_long_rounded, color: Colors.white, size: 20),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                            "Detailed Price Breakdown",
+                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                        ),
+                        Text(
+                          "Complete service cost analysis",
+                          style: TextStyle(fontSize: 13, color: Colors.grey[600], fontWeight: FontWeight.w500),
+                        ),
+                        // Grand Total Display in Header
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Grand Total ",
+                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
+                            ),
+                            aedAmount(
+                              order.grandTotal,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: primaryColor,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Service Items Details
+            ...order.items.map((item) {
+              final isSubscription = item.type.toLowerCase() == 'subscription';
+              final basePrice = item.basePrice;
+              final freqPerWeek = item.subscriptionFrequency ?? 0;
+              final durationMonths = item.durationMonths ?? 1;
+
+              final visitsPerMonth = isSubscription ? (freqPerWeek * 4) : 0;
+              final visitsPerWeek = isSubscription ? freqPerWeek : 0;
+
+              final perPeriodSubtotal = isSubscription
+                  ? (item.perMonthTotal ?? (basePrice * visitsPerMonth))
+                  : item.totalPrice;
+
+              final addEmpCost = item.additionalEmployeeCost;
+              final offerDiscount = item.offerDiscount;
+
+              final adjustedAmount = (perPeriodSubtotal + addEmpCost - offerDiscount)
+                  .clamp(0.0, double.infinity)
+                  .toDouble();
+              final itemTotal = item.itemTotal != 0 ? item.itemTotal : adjustedAmount;
+
+              // Calculate weekly cost for subscriptions based on actual frequency
+              final weeklyTotal = isSubscription ? (basePrice * visitsPerWeek).toDouble() : 0.0;
+              final perVisitCost = basePrice.toDouble();
+
+              return buildSectionContainer(
+                item.thirdCategoryName,
+                [
+                  // Service Type and Details
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 6,
+                    children: [
+                      buildServiceChip(item.type.toUpperCase()),
+                      buildServiceChip('${item.employeeCount} Staff'),
+                      if (isSubscription) ...[
+                        buildServiceChip('$freqPerWeek days/week'),
+                        buildServiceChip('$durationMonths months duration'),
+                      ],
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Pricing Structure
+                  if (isSubscription) ...[
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.blue[50],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "📊 Subscription Breakdown",
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.blue[800]),
+                          ),
+                          const SizedBox(height: 12),
+                          miniRow('Base price per visit', aedAmount(basePrice), bold: true),
+                          miniRow('Visits per week', Text('$visitsPerWeek visits')),
+                          miniRow('Visits per month', Text('$visitsPerMonth visits')),
+                          const Divider(height: 20),
+                          miniRow('Cost per visit', aedAmount(perVisitCost), valueColor: primaryColor),
+                          miniRow('Weekly cost', aedAmount(weeklyTotal), bold: true, valueColor: primaryColor),
+                          miniRow('Monthly cost', aedAmount(itemTotal), bold: true, valueColor: primaryColor),
+
+                          const SizedBox(height: 12),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              'Formula: ${basePrice.toStringAsFixed(2)} × $visitsPerMonth visits = ${itemTotal.toStringAsFixed(2)}/month',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: primaryColor,
+                                  fontWeight: FontWeight.w600
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ] else ...[
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.green[50],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "💰 One-time Service",
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green[800]),
+                          ),
+                          const SizedBox(height: 12),
+                          miniRow('Service price', aedAmount(basePrice), bold: true),
+                          miniRow('Total amount', aedAmount(itemTotal), bold: true, valueColor: primaryColor),
+                        ],
+                      ),
+                    ),
+                  ],
+
+                  const SizedBox(height: 12),
+
+                  // Additional Costs and Discounts
+                  if (addEmpCost > 0 || offerDiscount > 0) ...[
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.orange[50],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "🎯 Adjustments",
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.orange[800]),
+                          ),
+                          const SizedBox(height: 12),
+                          if (addEmpCost > 0)
+                            miniRow('Additional staff cost', aedAmount(addEmpCost), valueColor: Colors.orange[700]),
+                          if (offerDiscount > 0)
+                            miniRow('Offer discount', aedAmount(offerDiscount, showMinus: true), valueColor: Colors.green[700]),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                  ],
+
+                  // Final Item Total
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [primaryColor.withOpacity(0.1), primaryColor.withOpacity(0.05)],
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: miniRow(
+                      isSubscription ? 'Monthly Total' : 'Service Total',
+                      aedAmount(itemTotal),
+                      bold: true,
+                      valueColor: primaryColor,
+                      labelColor: primaryColor,
+                    ),
+                  ),
+                ],
+                icon: isSubscription ? Icons.repeat : Icons.cleaning_services,
+              );
+            }).toList(),
+
+            // Order Summary Section
+            buildSectionContainer(
+              "Order Summary",
+              [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    children: [
+                      miniRow('Subtotal', aedAmount(order.subtotal), bold: true),
+                      if (order.couponDiscount > 0) ...[
+                        miniRow('Coupon discount', aedAmount(order.couponDiscount, showMinus: true), valueColor: Colors.green[700]),
+                        const Divider(height: 16),
+                      ],
+                      miniRow('Taxable amount', aedAmount(order.taxableAmount)),
+                      miniRow('Tax (${order.taxRate}%)', aedAmount(order.taxAmount), valueColor: Colors.orange[700]),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [primaryColor.withOpacity(0.15), primaryColor.withOpacity(0.08)],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: miniRow(
+                    'Grand Total',
+                    aedAmount(order.grandTotal),
+                    bold: true,
+                    valueColor: primaryColor,
+                    labelColor: primaryColor,
+                  ),
+                ),
+              ],
+              icon: Icons.summarize,
+            ),
+
+            // Payment Breakdown Section
+            buildSectionContainer(
+              "Payment Information Using coin ",
+              [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.purple[50],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "💳 Payment Breakdown",
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.purple[800]),
+                      ),
+                      const SizedBox(height: 12),
+                      miniRow('Required Coins', aedAmount(order.requiredAmount), bold: true, valueColor: primaryColor),
+                      miniRow('Available wallet Coins', aedAmount(order.walletAmount), valueColor: Colors.green[700]),
+                      // Check if walletCoinsSum exists in your model - remove if not available
+                      // if (order.walletCoinsSum != null && order.walletCoinsSum > 0)
+                      //   miniRow('Wallet coins', Text('${order.walletCoinsSum} coins',
+                      //     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.amber[700]))),
+
+                      const SizedBox(height: 8),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: order.walletAmount >= order.requiredAmount ? Colors.green[100] : Colors.red[100],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              order.walletAmount >= order.requiredAmount ? Icons.check_circle : Icons.warning,
+                              size: 16,
+                              color: order.walletAmount >= order.requiredAmount ? Colors.green[700] : Colors.red[700],
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                order.walletAmount >= order.requiredAmount
+                                    ? 'Sufficient wallet Coins available'
+                                    : 'Additional payment of ${(order.requiredAmount - order.walletAmount).toStringAsFixed(2)} AED required',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: order.walletAmount >= order.requiredAmount ? Colors.green[700] : Colors.red[700],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              icon: Icons.payment,
+              backgroundColor: Colors.purple[50],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
   String getSubscriptionText(AppCart cart) {
     if (cart.type != 'subscription' || cart.subscriptionFrequency.isEmpty) {
       return 'One-time service';
